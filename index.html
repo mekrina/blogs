@@ -314,15 +314,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
-          http请求走私
+        <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+          SSTI模版注入
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
         <div>
-          http请求走私产生的原因是前端服务器将多个报文拼接发送给后端服务器，而前端服务器和后端服务器对请求报文终止线划分不同导致的（content-length和Transfer-Encoding: chunked） 具体见：https://www.freebuf.com/articles/web/243652.html
+          twig模板注入https://xz.aliyun.com/news/9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '' > flag.php")&#125;&#125; 2.x&#
         </div>
       </a>
 
@@ -335,6 +335,81 @@
             </time>
           </div>
         
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/XXE/XXE/" target="_self">
+          XXE
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/XXE/XXE/" target="_self">
+        <div>
+          参考文章 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile=file_get_contents(&#x27;php://input&#x27;)$dom = new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLO
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/XXE/" class="category-chain-item">XXE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
         
         
       </div>
@@ -455,15 +530,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
-          SSTI模版注入
+        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+          jwt伪造
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
         <div>
-          twig模板注入https://xz.aliyun.com/news/9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '' > flag.php")&#125;&#125; 2.x&#
+          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
         </div>
       </a>
 
@@ -487,61 +562,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/XXE/XXE/" target="_self">
-          XXE
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/XXE/XXE/" target="_self">
-        <div>
-          参考文章 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile=file_get_contents(&#x27;php://input&#x27;)$dom = new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLO
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/XXE/" class="category-chain-item">XXE</a>
+  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
   
   
 
@@ -617,15 +638,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
-          jwt伪造
+        <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
+          http请求走私
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
         <div>
-          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
+          http请求走私产生的原因是前端服务器将多个报文拼接发送给后端服务器，而前端服务器和后端服务器对请求报文终止线划分不同导致的（content-length和Transfer-Encoding: chunked） 具体见：https://www.freebuf.com/articles/web/243652.html
         </div>
       </a>
 
@@ -639,27 +660,6 @@
           </div>
         
         
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
         
       </div>
     </article>
@@ -671,15 +671,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          php反序列化
+        <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
+          php伪协议
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
         <div>
-          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
+          php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
         </div>
       </a>
 
