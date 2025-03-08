@@ -19,21 +19,31 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://mekrina.github.io/blogs/archives/page/2/index.html">
+    <meta name="description" content="jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[object Object]">
+<meta property="og:url" content="http://mekrina.github.io/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/index.html">
 <meta property="og:site_name" content="mekrina">
+<meta property="og:description" content="jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-08T03:51:01.376Z">
+<meta property="article:modified_time" content="2025-03-08T04:10:15.481Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>归档 - mekrina</title>
+  <title>[object Object] - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -83,7 +93,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/blogs/">
@@ -189,9 +199,49 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="归档"></span>
+            <span id="subtitle" data-typed-text="[object Object]"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-08 11:51" pubdate>
+          2025年3月8日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          128 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          2 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
 
         
       </div>
@@ -207,100 +257,195 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 25 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2025</p>
-    
-    <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title">[object Object]</div>
-    </a>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">[object Object]</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="jwt的构成"><a href="#jwt的构成" class="headerlink" title="jwt的构成"></a>jwt的构成</h2><p>xxx.xxx.xxx<br>第一部分标示算法等，第二部分是信息，二者均用base64编码<br>第三部分是签名（用第一部分的算法和私钥）</p>
+<h2 id="攻击手法"><a href="#攻击手法" class="headerlink" title="攻击手法"></a>攻击手法</h2><ol>
+<li>未签名</li>
+</ol>
+<p>所有的jwt都合法，任意修改数据</p>
+<ol start="2">
+<li>允许使用none进行签名</li>
+</ol>
+<p>把第一部分的算法改成<code>none</code>, 再丢弃最后的签名，随意篡改第二部分的信息</p>
+<ol start="3">
+<li>弱密钥</li>
+</ol>
+<p><code>python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -d jwt-common.txt</code><br>其中<code>jwt-common.txt</code>是密钥字典</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
   
     
-    <a href="/blogs/uncategorized/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
   
-    
-    <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title">[object Object]</div>
-    </a>
   
+
+      </span>
     
-    <a href="/blogs/uncategorized/php%E7%89%B9%E6%80%A7/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
   
-    
-    <a href="/blogs/uncategorized/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
+</span>
+
+    </div>
   
-    
-    <a href="/blogs/uncategorized/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
-  
-    
-    <a href="/blogs/uncategorized/python%20session%E4%BC%AA%E9%80%A0/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
-  
-    
-    <a href="/blogs/uncategorized/rce%E7%BB%95%E8%BF%87/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
-  
-    
-    <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
-  
-    
-    <a href="/blogs/uncategorized/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" class="list-group-item list-group-item-action">
-      <time>03-08</time>
-      <div class="list-group-item-title"></div>
-    </a>
   
 </div>
 
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/blogs/archives/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/blogs/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/blogs/archives/page/3/#board">3</a><a class="extend next" rel="next" href="/blogs/archives/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
+              
+  
 
-
-
-
-              </div>
-            </div>
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>[object Object]</div>
+      <div>http://mekrina.github.io/blogs/jwt/jwt伪造/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
           </div>
         </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" title="[object Object]">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">[object Object]</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blogs/uncategorized/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
     
@@ -393,6 +538,99 @@
 
 
 
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/blogs/js/local-search.js" ></script>
 

