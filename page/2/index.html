@@ -227,60 +227,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          php反序列化
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-        <div>
-          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/python/python%20session%E4%BC%AA%E9%80%A0/" target="_self">
           python session伪造
         </a>
@@ -335,15 +281,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
-          php文件包含漏洞
+        <a href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
+          php任意文件读
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
         <div>
-          在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )
+          任意文件读取可能可以转化为rce学习文章CVE-2024-2961 题目  1234&lt;?php$data = file_get_contents($_POST[&#x27;file&#x27;]);echo &quot;File contents: $data&quot;; exp 1234567891011121314151617181920212223242526272829303132
         </div>
       </a>
 
@@ -389,15 +335,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
-          php任意文件读
+        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          php反序列化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
         <div>
-          任意文件读取可能可以转化为rce学习文章CVE-2024-2961 题目  1234&lt;?php$data = file_get_contents($_POST[&#x27;file&#x27;]);echo &quot;File contents: $data&quot;; exp 1234567891011121314151617181920212223242526272829303132
+          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
         </div>
       </a>
 
@@ -530,6 +476,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+          php文件包含漏洞
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+        <div>
+          在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" target="_self">
           ssrf
         </a>
@@ -563,60 +563,6 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/ssrf/" class="category-chain-item">ssrf</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
-          sql注入绕过
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
-        <div>
-          转载并修改自 链接 SQL注入针对关键字过滤的绕过技巧在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/sql/" class="category-chain-item">sql</a>
   
   
 
@@ -725,6 +671,60 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/xss/" class="category-chain-item">xss</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
+          sql注入绕过
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
+        <div>
+          转载并修改自 链接 SQL注入针对关键字过滤的绕过技巧在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/sql/" class="category-chain-item">sql</a>
   
   
 
