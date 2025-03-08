@@ -314,60 +314,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
-          SSTI模版注入
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
-        <div>
-          twig模板注入https://xz.aliyun.com/news/9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '' > flag.php")&#125;&#125; 2.x&#
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/XXE/XXE/" target="_self">
           XXE
         </a>
@@ -401,6 +347,114 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/XXE/" class="category-chain-item">XXE</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
+          flask debug模式
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
+        <div>
+          服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得 module name 一般不变就是flask.app getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变 flask库下app.py的绝对路径。通过报错信息就会泄露该值。 mac地址的十进制数。通过文件&#x2F;sys&#x2F;cl
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+          jwt伪造
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+        <div>
+          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
   
   
 
@@ -509,15 +563,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
-          flask debug模式
+        <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+          SSTI模版注入
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
         <div>
-          服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得 module name 一般不变就是flask.app getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变 flask库下app.py的绝对路径。通过报错信息就会泄露该值。 mac地址的十进制数。通过文件&#x2F;sys&#x2F;cl
+          twig模板注入https://xz.aliyun.com/news/9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '' > flag.php")&#125;&#125; 2.x&#
         </div>
       </a>
 
@@ -541,7 +595,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
   
   
 
@@ -596,60 +650,6 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/javascript/" class="category-chain-item">javascript</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
-          jwt伪造
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
-        <div>
-          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
   
   
 

