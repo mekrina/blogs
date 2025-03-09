@@ -314,60 +314,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
-          SSTI模版注入
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
-        <div>
-          twig模板注入https://xz.aliyun.com/news/9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '' > flag.php")&#125;&#125; 2.x&#
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/XXE/XXE/" target="_self">
           XXE
         </a>
@@ -476,15 +422,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/java/java/" target="_self">
-          WEB-INF
+        <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+          SSTI模版注入
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/java/java/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
         <div>
-          WEB-INF 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。  WEB-INF主要包含以下文件或目录：  &#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。 &#x2F;WEB-INF&#x2F;classes&#x2F;：含了站
+          twig模板注入https://xz.aliyun.com/news/9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '' > flag.php")&#125;&#125; 2.x&#
         </div>
       </a>
 
@@ -508,7 +454,94 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/java/" class="category-chain-item">java</a>
+  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
+          http请求走私
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
+        <div>
+          http请求走私产生的原因是前端服务器将多个报文拼接发送给后端服务器，而前端服务器和后端服务器对请求报文终止线划分不同导致的（content-length和Transfer-Encoding: chunked） 具体见：https://www.freebuf.com/articles/web/243652.html
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" target="_self">
+          javascript原型链污染
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" target="_self">
+        <div>
+          文章 常用payload: 1&#123;&quot;__proto__&quot;: &#123;&quot;admin&quot;: 1&#125;&#125; 模块中的漏洞见如上链接.![[Pasted image 20250115112602.png]]一个简单的例子： 12345object1 = &#123;&quot;a&quot;:1, &quot;b&quot;:2&#125;;
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/javascript/" class="category-chain-item">javascript</a>
   
   
 
@@ -584,15 +617,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" target="_self">
-          javascript原型链污染
+        <a href="/blogs/java/java/" target="_self">
+          WEB-INF
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/java/java/" target="_self">
         <div>
-          文章 常用payload: 1&#123;&quot;__proto__&quot;: &#123;&quot;admin&quot;: 1&#125;&#125; 模块中的漏洞见如上链接.![[Pasted image 20250115112602.png]]一个简单的例子： 12345object1 = &#123;&quot;a&quot;:1, &quot;b&quot;:2&#125;;
+          WEB-INF 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。  WEB-INF主要包含以下文件或目录：  &#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。 &#x2F;WEB-INF&#x2F;classes&#x2F;：含了站
         </div>
       </a>
 
@@ -616,7 +649,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/javascript/" class="category-chain-item">javascript</a>
+  <a href="/blogs/categories/java/" class="category-chain-item">java</a>
   
   
 
@@ -638,48 +671,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
-          http请求走私
+        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          php反序列化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
         <div>
-          http请求走私产生的原因是前端服务器将多个报文拼接发送给后端服务器，而前端服务器和后端服务器对请求报文终止线划分不同导致的（content-length和Transfer-Encoding: chunked） 具体见：https://www.freebuf.com/articles/web/243652.html
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
-          php伪协议
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
-        <div>
-          php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
+          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
         </div>
       </a>
 
