@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/tricks/tricks/" target="_self">
-          tricks
+        <a href="/blogs/xss/xss/" target="_self">
+          xss
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/tricks/tricks/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/xss/xss/" target="_self">
         <div>
-          特殊字符‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用 123456789```javascriptfor (var j = &#x27;A&#x27;.charCodeAt(); j &lt;= &#x27;Z&#x27;.charCodeAt(); j++)&#123;	var s = String.fromCodePoint(j
+          fuzz: 1&quot; &#x27; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;   闭合标签之后 onfocus属性 javascript协议 javascript:alert(0), 另外由于href可以自动解码unicode，因
         </div>
       </a>
 
@@ -259,7 +259,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/tricks/" class="category-chain-item">tricks</a>
+  <a href="/blogs/categories/xss/" class="category-chain-item">xss</a>
   
   
 
@@ -281,15 +281,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/" target="_self">
-          拿到题目后的思路
+        <a href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" target="_self">
+          文件上传
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" target="_self">
         <div>
-          目录扫描git源码泄露备份文件没信息的时候记得看一眼bp 。。。看看有没有附件或者提示。。。
+          首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:
         </div>
       </a>
 
@@ -313,7 +313,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/tricks/" class="category-chain-item">tricks</a>
+  <a href="/blogs/categories/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
   
   
 
