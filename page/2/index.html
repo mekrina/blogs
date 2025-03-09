@@ -288,15 +288,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
-          php伪协议
+        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          php反序列化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
         <div>
-          php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
+          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
         </div>
       </a>
 
@@ -504,39 +504,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
-          sql注入
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
-        <div>
-          sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
           sql注入绕过
         </a>
@@ -570,60 +537,6 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/sql/" class="category-chain-item">sql</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/tricks/tricks/" target="_self">
-          tricks
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/tricks/tricks/" target="_self">
-        <div>
-          特殊字符‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用 123456789```javascriptfor (var j = &#x27;A&#x27;.charCodeAt(); j &lt;= &#x27;Z&#x27;.charCodeAt(); j++)&#123;	var s = String.fromCodePoint(j
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/tricks/" class="category-chain-item">tricks</a>
   
   
 
@@ -732,6 +645,93 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/xss/" class="category-chain-item">xss</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
+          sql注入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
+        <div>
+          sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" target="_self">
+          文件上传
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" target="_self">
+        <div>
+          首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
   
   
 
