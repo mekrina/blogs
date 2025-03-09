@@ -227,6 +227,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
+          php任意文件读
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
+        <div>
+          任意文件读取(有回显)可能可以转化为rce学习文章CVE-2024-2961 题目  1234&lt;?php$data = file_get_contents($_POST[&#x27;file&#x27;]);echo &quot;File contents: $data&quot;; exp 12345678910111213141516171819202122232425262728293
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/blogs/tags/php-filter/">#php://filter,</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
           php伪协议
         </a>
@@ -236,114 +297,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
         <div>
           php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          php反序列化
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-        <div>
-          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-          php特性
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-        <div>
-          others $_GET&#123;1&#125;会抛出警告，在vscode中报syntax error，但是也能够运行、使用   参数名被过滤传递参数时，参数前的空格和‘+’会被删除，参数中的特殊字符会被替换成下划线，参数后的null字符会被删除，处理完之后php才会将其保存在数组中。有时需要传递的参数名被过滤，此时可以传递等价参数。![[Pasted image 20250118121401.
         </div>
       </a>
 
@@ -443,6 +396,114 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+          php特性
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+        <div>
+          others $_GET&#123;1&#125;会抛出警告，在vscode中报syntax error，但是也能够运行、使用   参数名被过滤传递参数时，参数前的空格和‘+’会被删除，参数中的特殊字符会被替换成下划线，参数后的null字符会被删除，处理完之后php才会将其保存在数组中。有时需要传递的参数名被过滤，此时可以传递等价参数。![[Pasted image 20250118121401.
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+          php文件包含漏洞
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+        <div>
+          在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
           sql注入
         </a>
@@ -509,60 +570,6 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/ssrf/" class="category-chain-item">ssrf</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
-          php文件包含漏洞
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
-        <div>
-          在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
   
   
 
@@ -692,15 +699,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/" target="_self">
-          拿到题目后的思路
+        <a href="/blogs/xss/xss/" target="_self">
+          xss
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/xss/xss/" target="_self">
         <div>
-          目录扫描git源码泄露备份文件没信息的时候记得看一眼bp 。。。看看有没有附件或者提示。。。
+          fuzz: 1&quot; &#x27; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;   闭合标签之后 onfocus属性 javascript协议 javascript:alert(0), 另外由于href可以自动解码unicode，因
         </div>
       </a>
 
@@ -724,7 +731,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/tricks/" class="category-chain-item">tricks</a>
+  <a href="/blogs/categories/xss/" class="category-chain-item">xss</a>
   
   
 
