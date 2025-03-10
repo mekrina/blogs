@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          php反序列化
+        <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
+          php伪协议
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
         <div>
-          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
+          php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
         </div>
       </a>
 
@@ -281,15 +281,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
-          php任意文件读
+        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          php反序列化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
         <div>
-          任意文件读取(有回显)可能可以转化为rce学习文章CVE-2024-2961 题目  1234&lt;?php$data = file_get_contents($_POST[&#x27;file&#x27;]);echo &quot;File contents: $data&quot;; exp 12345678910111213141516171819202122232425262728293
+          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
         </div>
       </a>
 
@@ -324,13 +324,6 @@
 
           </div>
         
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/blogs/tags/php-filter/">#php://filter,</a>
-            
-          </div>
         
       </div>
     </article>
@@ -504,60 +497,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" target="_self">
-          ssrf
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" target="_self">
-        <div>
-          文章 利用一个可以发起网络请求的服务当作跳板来访问并攻击内部其他服务 可用点：	协议	 file:&#x2F;&#x2F; 、gopher:&#x2F;&#x2F; 、dict 、http		1. 其中file协议用于访问内网文件,比如apache配置文件 &#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;000-default.conf，可以查看哪些端
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/ssrf/" class="category-chain-item">ssrf</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
           sql注入绕过
         </a>
@@ -600,6 +539,39 @@
 </span>
 
           </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
+          sql注入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
+        <div>
+          sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
         
         
       </div>
@@ -666,15 +638,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
-          sql注入
+        <a href="/blogs/xss/xss/" target="_self">
+          xss
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/xss/xss/" target="_self">
         <div>
-          sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:
+          fuzz: 1&quot; &#x27; sRc DaTa OnFocus OnmOuseOver OnMouseDoWn P &lt;sCriPt&gt; &lt;a hReF=javascript:alert()&gt; &amp;#106;   闭合标签之后 onfocus属性 javascript协议 javascript:alert(0), 另外由于href可以自动解码unicode，因
         </div>
       </a>
 
@@ -687,6 +659,27 @@
             </time>
           </div>
         
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/xss/" class="category-chain-item">xss</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
         
         
       </div>
