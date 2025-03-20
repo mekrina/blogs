@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
-          jwt伪造
+        <a href="/blogs/java/java/" target="_self">
+          WEB-INF
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/java/java/" target="_self">
         <div>
-          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
+          WEB-INF 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。  WEB-INF主要包含以下文件或目录：  &#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。 &#x2F;WEB-INF&#x2F;classes&#x2F;：含了站
         </div>
       </a>
 
@@ -259,7 +259,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
+  <a href="/blogs/categories/java/" class="category-chain-item">java</a>
   
   
 
@@ -396,6 +396,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+          php反序列化
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+        <div>
+          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/python/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
           pickle反序列化
         </a>
@@ -446,114 +500,6 @@
               <a href="/blogs/tags/pickle-python/">#pickle,python</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-          php特性
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-        <div>
-          preg_matchphp中preg_match匹配结尾允许有一个换行符，可以理解为$会匹配一个换行符,但是不会放到$matches里面 1234&lt;?php$subject = &quot;a\n&quot;;preg_match(&#x27;/^a$/&#x27;, $subject, $matches);var_dump($matches); 这里的preg_match会匹配成功，结果是
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          php反序列化
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-        <div>
-          知识回顾：https://www.cnblogs.com/superwinner/p/17260940.html __construct 函数只有在 new的时候会被调用,反序列化不会自动调用. protected的变量名前会有null*null的标志，所以不能直接复制（null不会被复制下来）![[Pasted image 20250120104527.png]]private同理，会有null
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
         
       </div>
     </article>
@@ -619,15 +565,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
-          sql注入绕过
+        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+          php特性
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
         <div>
-          转载并修改自 链接 SQL注入针对关键字过滤的绕过技巧在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
+          mb_strpos和mb_substr行为不一致%9f, mb_strpos会忽略, 而mb_substr不会%f0abc，mb_strpos认为是4个字节，mb_substr认为是1个字节%f0%9fab,mb_strpos认为是3个字节，mb_substr认为是1个字节，相差2个字节%f0%9f%9fa,mb_strpos认为是2个字节，mb_substr认为是1个字节，相差1个字节 preg
         </div>
       </a>
 
@@ -651,7 +597,61 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/sql/" class="category-chain-item">sql</a>
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" target="_self">
+          flask session伪造
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" target="_self">
+        <div>
+          flask框架中的session由三部分组成 12# session示例eyJhZG1pbiI6MH0.Z4TvGQ.6pZj4EsHiALdBjTc_STIl9XRU5Q 第一部分是base64编码的结果, 这里解码后就是 1&#123;&quot;admin&quot;:0&#125; 第二部分 时间戳，说明session时间长会过期第三部分对数据和时间戳hmac session工作流程  用
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
   
   
 
@@ -706,15 +706,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" target="_self">
-          flask session伪造
+        <a href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" target="_self">
+          ssrf
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/ssrf/ssrf%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/" target="_self">
         <div>
-          flask框架中的session由三部分组成 12# session示例eyJhZG1pbiI6MH0.Z4TvGQ.6pZj4EsHiALdBjTc_STIl9XRU5Q 第一部分是base64编码的结果, 这里解码后就是 1&#123;&quot;admin&quot;:0&#125; 第二部分 时间戳，说明session时间长会过期第三部分对数据和时间戳hmac session工作流程  用
+          文章 利用一个可以发起网络请求的服务当作跳板来访问并攻击内部其他服务 可用点：	协议	 file:&#x2F;&#x2F; 、gopher:&#x2F;&#x2F; 、dict 、http		1. 其中file协议用于访问内网文件,比如apache配置文件 &#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;000-default.conf，可以查看哪些端
         </div>
       </a>
 
@@ -738,7 +738,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  <a href="/blogs/categories/ssrf/" class="category-chain-item">ssrf</a>
   
   
 
