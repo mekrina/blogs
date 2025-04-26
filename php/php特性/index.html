@@ -19,17 +19,20 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="mb_strpos和mb_substr行为不一致%9f, mb_strpos会忽略, 而mb_substr不会%f0abc，mb_strpos认为是4个字节，mb_substr认为是1个字节%f0%9fab,mb_strpos认为是3个字节，mb_substr认为是1个字节，相差2个字节%f0%9f%9fa,mb_strpos认为是2个字节，mb_substr认为是1个字节，相差1个字节 preg">
+    <meta name="description" content="mt_rand破解buu 枯燥的抽奖 利用工具php_mt_seed, 可以根据获取的随机数的值反推种子 用法 123456789# 通过第一次运行的精确值获取种子.&#x2F;php_mt_seed first_mt_rand_result #(如1684924762)# 通过第一次运行的值的区间获取符合要求的种子.&#x2F;php_mt_seed min max # .&#x2F;php_mt_seed 16849247">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php特性">
 <meta property="og:url" content="http://mekrina.github.io/blogs/php/php%E7%89%B9%E6%80%A7/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="mb_strpos和mb_substr行为不一致%9f, mb_strpos会忽略, 而mb_substr不会%f0abc，mb_strpos认为是4个字节，mb_substr认为是1个字节%f0%9fab,mb_strpos认为是3个字节，mb_substr认为是1个字节，相差2个字节%f0%9f%9fa,mb_strpos认为是2个字节，mb_substr认为是1个字节，相差1个字节 preg">
+<meta property="og:description" content="mt_rand破解buu 枯燥的抽奖 利用工具php_mt_seed, 可以根据获取的随机数的值反推种子 用法 123456789# 通过第一次运行的精确值获取种子.&#x2F;php_mt_seed first_mt_rand_result #(如1684924762)# 通过第一次运行的值的区间获取符合要求的种子.&#x2F;php_mt_seed min max # .&#x2F;php_mt_seed 16849247">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mekrina.github.io/images/php_mt_seed_test1.png">
+<meta property="og:image" content="http://mekrina.github.io/images/php_mt_seed_test1.png">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-19T15:11:34.606Z">
+<meta property="article:modified_time" content="2025-04-26T09:50:51.270Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://mekrina.github.io/images/php_mt_seed_test1.png">
   
   
   
@@ -222,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.2k 字
         
       </span>
     
@@ -233,7 +236,7 @@
         
         
         
-          17 分钟
+          19 分钟
         
       </span>
     
@@ -275,7 +278,16 @@
             
               <div class="markdown-body">
                 
-                <h2 id="mb-strpos和mb-substr行为不一致"><a href="#mb-strpos和mb-substr行为不一致" class="headerlink" title="mb_strpos和mb_substr行为不一致"></a>mb_strpos和mb_substr行为不一致</h2><p><code>%9f</code>, mb_strpos会忽略, 而mb_substr不会<br><code>%f0abc</code>，mb_strpos认为是4个字节，mb_substr认为是1个字节<br><code>%f0%9fab</code>,mb_strpos认为是3个字节，mb_substr认为是1个字节，相差2个字节<br><code>%f0%9f%9fa</code>,mb_strpos认为是2个字节，mb_substr认为是1个字节，相差1个字节</p>
+                <h2 id="mt-rand破解"><a href="#mt-rand破解" class="headerlink" title="mt_rand破解"></a>mt_rand破解</h2><p><a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#[GWCTF%202019]%E6%9E%AF%E7%87%A5%E7%9A%84%E6%8A%BD%E5%A5%96">buu 枯燥的抽奖</a></p>
+<p>利用工具php_mt_seed, 可以根据获取的随机数的值反推种子</p>
+<p>用法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 通过第一次运行的精确值获取种子</span><br>./php_mt_seed first_mt_rand_result <span class="hljs-comment">#(如1684924762)</span><br><span class="hljs-comment"># 通过第一次运行的值的区间获取符合要求的种子</span><br>./php_mt_seed min max <span class="hljs-comment"># ./php_mt_seed 1684924762 1684924762 相当于 ./php_mt_seed 1684924762</span><br><span class="hljs-comment"># 指定第一次运行的值的区间 (min max)同时指定 mt_rand 的区间(MIN MAX)（如php代码中通过mt_rand(0, 10)获取0-10范围内的随机数）</span><br>./php_mt_seed min max MIN MAX<br><br><span class="hljs-comment"># 指定多次运行的结果</span><br>./php_mt_seed (min max MIN MAX) (min max MIN MAX) (min max MIN MAX) (min max MIN MAX)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">srand</span>(<span class="hljs-number">12328322</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">mt_rand</span>();<br></code></pre></td></tr></table></figure>
+<p>执行.&#x2F;php_mt_seed 1684924762<br>得到结果<img src="/blogs/../images/php_mt_seed_test1.png" srcset="/blogs/img/loading.gif" lazyload alt="php_mt_seed_test1.png"><br>成功破解，不同版本的php结果不一样， 验证时注意版本！！</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">mt_srand</span>(<span class="hljs-number">75930597</span>);<br><span class="hljs-keyword">for</span>(<span class="hljs-variable">$i</span>=<span class="hljs-number">0</span>;<span class="hljs-variable">$i</span>&lt;<span class="hljs-number">10</span>;<span class="hljs-variable">$i</span>++)&#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">mt_rand</span>(<span class="hljs-number">0</span>, <span class="hljs-number">61</span>).<span class="hljs-string">&quot; &quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/blogs/../images/php_mt_seed_test1.png" srcset="/blogs/img/loading.gif" lazyload alt="php_mt_seed_test2.png"></p>
+<h2 id="mb-strpos和mb-substr行为不一致"><a href="#mb-strpos和mb-substr行为不一致" class="headerlink" title="mb_strpos和mb_substr行为不一致"></a>mb_strpos和mb_substr行为不一致</h2><p><code>%9f</code>, mb_strpos会忽略, 而mb_substr不会<br><code>%f0abc</code>，mb_strpos认为是4个字节，mb_substr认为是1个字节<br><code>%f0%9fab</code>,mb_strpos认为是3个字节，mb_substr认为是1个字节，相差2个字节<br><code>%f0%9f%9fa</code>,mb_strpos认为是2个字节，mb_substr认为是1个字节，相差1个字节</p>
 <h2 id="preg-match"><a href="#preg-match" class="headerlink" title="preg_match"></a>preg_match</h2><p>php中preg_match匹配结尾允许有一个换行符，可以理解为$会匹配一个换行符,但是不会放到$matches里面</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$subject</span> = <span class="hljs-string">&quot;a\n&quot;</span>;<br><span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/^a$/&#x27;</span>, <span class="hljs-variable">$subject</span>, <span class="hljs-variable">$matches</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$matches</span>);<br></code></pre></td></tr></table></figure>
 <p>这里的preg_match会匹配成功，结果是<code>string(1) &quot;a&quot;</code></p>
@@ -417,9 +429,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" title="sql注入绕过">
+                      <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="php反序列化">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sql注入绕过</span>
+                        <span class="hidden-mobile">php反序列化</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -427,8 +439,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/tricks/tricks/" title="tricks">
-                        <span class="hidden-mobile">tricks</span>
+                      <a href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" title="flask session伪造">
+                        <span class="hidden-mobile">flask session伪造</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

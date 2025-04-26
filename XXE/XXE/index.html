@@ -19,15 +19,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文章 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLO">
+    <meta name="description" content="参考文章xml、xpath注入 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | L">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XXE">
 <meta property="og:url" content="http://mekrina.github.io/blogs/XXE/XXE/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="参考文章 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLO">
+<meta property="og:description" content="参考文章xml、xpath注入 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | L">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T04:19:22.271Z">
+<meta property="article:modified_time" content="2025-04-26T08:24:24.180Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          222 字
+          225 字
         
       </span>
     
@@ -275,7 +275,7 @@
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6887">参考文章</a></p>
+                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/2994#toc-10">参考文章</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6887">xml、xpath注入</a></p>
 <h2 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h2><p>参考xss注入</p>
 <h2 id="xpath注入"><a href="#xpath注入" class="headerlink" title="xpath注入"></a>xpath注入</h2><p>参考sql注入</p>
 <h2 id="xxe-xml外部实体引用"><a href="#xxe-xml外部实体引用" class="headerlink" title="xxe (xml外部实体引用)"></a>xxe (xml外部实体引用)</h2><h3 id="有回显情况"><a href="#有回显情况" class="headerlink" title="有回显情况"></a>有回显情况</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$xmlfile</span>=<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&#x27;php://input&#x27;</span>)<br><span class="hljs-variable">$dom</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DOMDocument</span>();<br><span class="hljs-variable">$dom</span>-&gt;<span class="hljs-title function_ invoke__">loadXML</span>(<span class="hljs-variable">$xmlfile</span>, LIBXML_NOENT | LIBXML_DTDLOAD);<br><span class="hljs-variable">$creds</span> = <span class="hljs-title function_ invoke__">simplexml_import_dom</span>(<span class="hljs-variable">$dom</span>);<br><br><span class="hljs-variable">$username</span> = <span class="hljs-variable">$creds</span>-&gt;username;<br><span class="hljs-variable">$password</span> = <span class="hljs-variable">$creds</span>-&gt;password;<br><br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$username</span> == <span class="hljs-variable">$USERNAME</span> &amp;&amp; <span class="hljs-variable">$password</span> == <span class="hljs-variable">$PASSWORD</span>)&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-variable">$username</span>);<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="hljs-number">0</span>,<span class="hljs-variable">$username</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -376,8 +376,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" title="flask debug模式">
-                        <span class="hidden-mobile">flask debug模式</span>
+                      <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私">
+                        <span class="hidden-mobile">http请求走私</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

