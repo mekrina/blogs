@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
-          sql注入
+        <a href="/blogs/sql/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87/" target="_self">
+          sql注入绕过
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/sql/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87/" target="_self">
         <div>
-          sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:
+          转载并修改自 链接 SQL注入针对关键字过滤的绕过技巧在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
         </div>
       </a>
 
@@ -248,6 +248,27 @@
             </time>
           </div>
         
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/sql/" class="category-chain-item">sql</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
         
         
       </div>
@@ -422,15 +443,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/ssrf/ssrf/" target="_self">
-          ssrf
+        <a href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" target="_self">
+          文件上传
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/ssrf/ssrf/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" target="_self">
         <div>
-          文章 利用一个可以发起网络请求的服务当作跳板来访问并攻击内部其他服务 SNI inject https://www.youtube.com/watch?v=2MslLrPinm0TLS inject https://www.blackhat.com/us-20/briefings/schedule/#when-tls-hacks-you-19446  或gpt问  介绍TLS poison进行ss
+          首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:
         </div>
       </a>
 
@@ -454,7 +475,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/ssrf/" class="category-chain-item">ssrf</a>
+  <a href="/blogs/categories/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
   
   
 
@@ -530,60 +551,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" target="_self">
-          文件上传
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" target="_self">
-        <div>
-          首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/RCE/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/" target="_self">
           无数字字母RCE
         </a>
@@ -626,6 +593,39 @@
 </span>
 
           </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/uncategorized/%E7%BD%91%E9%A1%B5%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" target="_self">
+          网页权限控制
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/%E7%BD%91%E9%A1%B5%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" target="_self">
+        <div>
+          文章 ![[Pasted image 20250115115548.png]]  通过 &#x2F;..&#x2F; 的方式访问 适合于只对url的开头部分做判断的场景 如: if(uri.startsWith(&quot;/system/login&quot;)) &#123; return true&#125; 或 if(uri.startsWith(&quot;flag.php&quot;)
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
         
         
       </div>
@@ -692,15 +692,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/uncategorized/%E7%BD%91%E9%A1%B5%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" target="_self">
-          网页权限控制
+        <a href="/blogs/windows/anaconda%E6%BF%80%E6%B4%BB%E7%8E%AF%E5%A2%83%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/" target="_self">
+          anaconda激活环境后无法执行命令
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/%E7%BD%91%E9%A1%B5%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/windows/anaconda%E6%BF%80%E6%B4%BB%E7%8E%AF%E5%A2%83%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/" target="_self">
         <div>
-          文章 ![[Pasted image 20250115115548.png]]  通过 &#x2F;..&#x2F; 的方式访问 适合于只对url的开头部分做判断的场景 如: if(uri.startsWith(&quot;/system/login&quot;)) &#123; return true&#125; 或 if(uri.startsWith(&quot;flag.php&quot;)
+          问题正常情况下： 12345conda env list# conda environments:#base                   E:\anaconda3 ……………… 某天激活环境后突然报错&#x2F;System32&gt; conda activate base&#x2F;System32&gt; conda env listusage: conda-script.py [-
         </div>
       </a>
 
@@ -713,6 +713,27 @@
             </time>
           </div>
         
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/windows/" class="category-chain-item">windows</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
         
         
       </div>
