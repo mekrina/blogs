@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/java/web-inf/" target="_self">
-          WEB-INF
+        <a href="/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/" target="_self">
+          LD_PRELOAD劫持
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/java/web-inf/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/" target="_self">
         <div>
-          WEB-INF 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。  WEB-INF主要包含以下文件或目录：  &#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。 &#x2F;WEB-INF&#x2F;classes&#x2F;：含了站
+          学习文章 用命令readelf -Ws /usr/bin/ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s
         </div>
       </a>
 
@@ -248,27 +248,6 @@
             </time>
           </div>
         
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/java/" class="category-chain-item">java</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
         
         
       </div>
@@ -281,15 +260,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
-          jwt伪造
+        <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
+          php伪协议
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
         <div>
-          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
+          php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
         </div>
       </a>
 
@@ -313,7 +292,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
   
   
 
@@ -450,15 +429,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
-          php伪协议
+        <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+          php文件包含漏洞
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
         <div>
-          php伪协议有  php:&#x2F;&#x2F;filter php:&#x2F;&#x2F;input  可用于的场景  配合文件包含读取文件内容   filter协议p神由于包含php文件会直接执行, 而不会显示代码, 因此需要用到filter协议来读取php代码 123http://ip:port/index.php?filename=php://filter/read=convert.b
+          在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )
         </div>
       </a>
 
@@ -504,15 +483,69 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
-          php文件包含漏洞
+        <a href="/blogs/flask/flask-session%E4%BC%AA%E9%80%A0/" target="_self">
+          flask session伪造
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask-session%E4%BC%AA%E9%80%A0/" target="_self">
         <div>
-          在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )
+          flask框架中的session由三部分组成 12# session示例eyJhZG1pbiI6MH0.Z4TvGQ.6pZj4EsHiALdBjTc_STIl9XRU5Q 第一部分是base64编码的结果, 这里解码后就是 1&#123;&quot;admin&quot;:0&#125; 第二部分 时间戳，说明session时间长会过期第三部分对数据和时间戳hmac session工作流程  用
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+          php特性
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+        <div>
+          mt_rand破解buu 枯燥的抽奖 利用工具php_mt_seed, 可以根据获取的随机数的值反推种子 用法 123456789# 通过第一次运行的精确值获取种子./php_mt_seed first_mt_rand_result #(如1684924762)# 通过第一次运行的值的区间获取符合要求的种子./php_mt_seed min max # ./php_mt_seed 16849247
         </div>
       </a>
 
@@ -537,6 +570,114 @@
       <span class="category-chain">
         
   <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/flask/flask-debug%E6%A8%A1%E5%BC%8F/" target="_self">
+          flask debug模式
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask-debug%E6%A8%A1%E5%BC%8F/" target="_self">
+        <div>
+          通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email = &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/sql/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87/" target="_self">
+          sql注入绕过
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/sql/sql%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87/" target="_self">
+        <div>
+          转载并修改自 链接 SQL注入针对关键字过滤的绕过技巧在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/sql/" class="category-chain-item">sql</a>
   
   
 
@@ -608,147 +749,6 @@
               <a href="/blogs/tags/pickle-python/">#pickle,python</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-          php特性
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-        <div>
-          mt_rand破解buu 枯燥的抽奖 利用工具php_mt_seed, 可以根据获取的随机数的值反推种子 用法 123456789# 通过第一次运行的精确值获取种子./php_mt_seed first_mt_rand_result #(如1684924762)# 通过第一次运行的值的区间获取符合要求的种子./php_mt_seed min max # ./php_mt_seed 16849247
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
-          sql注入
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/sql%E6%B3%A8%E5%85%A5/" target="_self">
-        <div>
-          sql包括：mysql、sqlite、MongoDB、Access等等，语法各有不同，在注入时若出现500错误，可能需要换个语言 以下是mysql注入 流程无列名注入时间盲注报错注入 各种注入方式各种绕过方式 流程: 判断闭合方式：  a. 单引号 ‘  b. 单引号加括号 ‘) (比如有in(USER_INPUT)语句)  c. 数字型：输入1&#x2F;1，是否等于输入1  获取数据库名称:
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/flask/flask-session%E4%BC%AA%E9%80%A0/" target="_self">
-          flask session伪造
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask-session%E4%BC%AA%E9%80%A0/" target="_self">
-        <div>
-          flask框架中的session由三部分组成 12# session示例eyJhZG1pbiI6MH0.Z4TvGQ.6pZj4EsHiALdBjTc_STIl9XRU5Q 第一部分是base64编码的结果, 这里解码后就是 1&#123;&quot;admin&quot;:0&#125; 第二部分 时间戳，说明session时间长会过期第三部分对数据和时间戳hmac session工作流程  用
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
         
       </div>
     </article>
