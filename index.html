@@ -434,6 +434,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
+          flask debug模式
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
+        <div>
+          通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email = &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/SSTI/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
           SSTI模版注入
         </a>
@@ -542,93 +596,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
-          flask debug模式
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/flask/flask%20debug%E6%A8%A1%E5%BC%8F/" target="_self">
-        <div>
-          通过报错回显当可以命令执行，但是无回显且机器不出网时，可以通过报错回显。以一个pickle反序列化的题目为例 12345class Email():email = &quot;admin@admin.com&quot;def __reduce__(self):    return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).pop
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/flask/" class="category-chain-item">flask</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
-          http请求走私
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
-        <div>
-          http请求走私产生的原因是前端服务器将多个报文拼接发送给后端服务器，而前端服务器和后端服务器对请求报文终止线划分不同导致的（content-length和Transfer-Encoding: chunked） 具体见： http1.1https://xz.aliyun.com/news/12672https://www.freebuf.com/articles/web/243652.html h
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/blogs/java/java/" target="_self">
           WEB-INF
         </a>
@@ -677,11 +644,44 @@
     </article>
   </div>
 
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/uncategorized/ld_preload%E5%8A%AB%E6%8C%81/" target="_self">
+          LD_PRELOAD劫持
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/ld_preload%E5%8A%AB%E6%8C%81/" target="_self">
+        <div>
+          学习文章 用命令readelf -Ws /usr/bin/ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/blogs/page/2/#board">2</a><a class="page-number" href="/blogs/page/3/#board">3</a><a class="extend next" rel="next" href="/blogs/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/blogs/page/2/#board">2</a><a class="page-number" href="/blogs/page/3/#board">3</a><a class="page-number" href="/blogs/page/4/#board">4</a><a class="extend next" rel="next" href="/blogs/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
