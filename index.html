@@ -434,6 +434,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+          SSTI模版注入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+        <div>
+          另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行, 但无回显，可以反弹shell或者打内存马通过abort可以直接回显 1%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())  bottle文档 bottle模板注入以及
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/flask/flask-debug%E6%A8%A1%E5%BC%8F/" target="_self">
           flask debug模式
         </a>
@@ -542,15 +596,48 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
-          SSTI模版注入
+        <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
+          http请求走私
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" target="_self">
         <div>
-          另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行, 但无回显，可以反弹shell或者打内存马通过abort可以直接回显 1%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())  bottle文档 bottle模板注入以及
+          http请求走私产生的原因是前端服务器将多个报文拼接发送给后端服务器，而前端服务器和后端服务器对请求报文终止线划分不同导致的（content-length和Transfer-Encoding: chunked） 具体见： http1.1https://xz.aliyun.com/news/12672https://www.freebuf.com/articles/web/243652.html h
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+          jwt伪造
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+        <div>
+          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
         </div>
       </a>
 
@@ -574,7 +661,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
+  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
   
   
 
@@ -584,93 +671,6 @@
 </span>
 
           </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/java/web-inf/" target="_self">
-          WEB-INF
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/java/web-inf/" target="_self">
-        <div>
-          WEB-INF 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。  WEB-INF主要包含以下文件或目录：  &#x2F;WEB-INF&#x2F;web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。 &#x2F;WEB-INF&#x2F;classes&#x2F;：含了站
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/java/" class="category-chain-item">java</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/" target="_self">
-          LD_PRELOAD劫持
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/" target="_self">
-        <div>
-          学习文章 用命令readelf -Ws /usr/bin/ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
         
         
       </div>
