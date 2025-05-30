@@ -227,15 +227,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
-          jwt伪造
+        <a href="/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/" target="_self">
+          LD_PRELOAD劫持
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/jwt/jwt%E4%BC%AA%E9%80%A0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/uncategorized/ld-preload%E5%8A%AB%E6%8C%81/" target="_self">
         <div>
-          jwt的构成xxx.xxx.xxx第一部分标示算法等，第二部分是信息，二者均用base64编码第三部分是签名（用第一部分的算法和私钥） 攻击手法 未签名  所有的jwt都合法，任意修改数据  允许使用none进行签名  把第一部分的算法改成none, 再丢弃最后的签名，随意篡改第二部分的信息  弱密钥  python jwt_tool.py &quot;&lt;JWT&gt;&quot; -C -
+          学习文章 用命令readelf -Ws /usr/bin/ls看linux命令中执行了调用了哪些函数,然后再劫持这些函数 可能实现中有,但是执行时没用到, 所以多劫持几个试试 ls –&gt; strncmpwhoami –&gt; puts man 3 strncmp 可以看到函数定义 防止无穷递归12345678int strncmp(const char *s1, const char *s
         </div>
       </a>
 
@@ -248,27 +248,6 @@
             </time>
           </div>
         
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/jwt/" class="category-chain-item">jwt</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
         
         
       </div>
@@ -591,6 +570,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+          php特性
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
+        <div>
+          mt_rand破解buu 枯燥的抽奖 利用工具php_mt_seed, 可以根据获取的随机数的值反推种子 用法 123456789# 通过第一次运行的精确值获取种子./php_mt_seed first_mt_rand_result #(如1684924762)# 通过第一次运行的值的区间获取符合要求的种子./php_mt_seed min max # ./php_mt_seed 16849247
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-01-20 21:06" pubdate>
+              2025-01-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/blogs/python/pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
           pickle反序列化
         </a>
@@ -641,60 +674,6 @@
               <a href="/blogs/tags/pickle-python/">#pickle,python</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-          php特性
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/blogs/php/php%E7%89%B9%E6%80%A7/" target="_self">
-        <div>
-          mt_rand破解buu 枯燥的抽奖 利用工具php_mt_seed, 可以根据获取的随机数的值反推种子 用法 123456789# 通过第一次运行的精确值获取种子./php_mt_seed first_mt_rand_result #(如1684924762)# 通过第一次运行的值的区间获取符合要求的种子./php_mt_seed min max # ./php_mt_seed 16849247
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-01-20 21:06" pubdate>
-              2025-01-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/blogs/categories/php/" class="category-chain-item">php</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
         
       </div>
     </article>
