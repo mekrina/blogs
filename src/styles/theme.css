@@ -7,7 +7,10 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --font-app: var(--font-google-sans-code);
+  /* --font-app: var(--font-google-sans-code); */
+  --font-app:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
 }
 
 /* Light theme values */
@@ -15,7 +18,7 @@
 [data-theme="light"] {
   --background: #fdfdfd;
   --foreground: #282728;
-  --accent: #006cac;
+  --accent: #2bbc8a;
   --accent-foreground: #ffffff;
   --muted: #e6e6e6;
   --muted-foreground: #6b7280;
@@ -24,9 +27,9 @@
 
 /* Dark theme values */
 [data-theme="dark"] {
-  --background: #212737;
+  --background: #000000;
   --foreground: #eaedf3;
-  --accent: #ff6b01;
+  --accent: #2bbc8a;
   --accent-foreground: #ffffff;
   --muted: #343f60;
   --muted-foreground: #afb9ca;

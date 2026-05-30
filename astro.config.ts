@@ -1,7 +1,7 @@
 import {
   defineConfig,
   envField,
-  fontProviders,
+  // fontProviders,
   svgoOptimizer,
 } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
@@ -15,6 +15,10 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import {
+  rehypeWarnMissingImages,
+  remarkWarnMissingImages,
+} from "./src/plugins/remarkWarnMissingImages";
 import config from "./astro-paper.config";
 
 export default defineConfig({
@@ -34,7 +38,12 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    remarkPlugins: [
+      remarkWarnMissingImages,
+      remarkToc,
+      [remarkCollapse, { test: "Table of contents" }],
+    ],
+    rehypePlugins: [rehypeWarnMissingImages],
     shikiConfig: {
       themes: { light: "min-light", dark: "night-owl" },
       defaultColor: false,
@@ -50,17 +59,17 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  fonts: [
-    {
-      name: "Google Sans Code",
-      cssVariable: "--font-google-sans-code",
-      provider: fontProviders.google(),
-      fallbacks: ["monospace"],
-      weights: [300, 400, 500, 600, 700],
-      styles: ["normal", "italic"],
-      formats: ["woff", "ttf"],
-    },
-  ],
+  // fonts: [
+  //   {
+  //     name: "Google Sans Code",
+  //     cssVariable: "--font-google-sans-code",
+  //     provider: fontProviders.google(),
+  //     fallbacks: ["monospace"],
+  //     weights: [300, 400, 500, 600, 700],
+  //     styles: ["normal", "italic"],
+  //     formats: ["woff", "ttf"],
+  //   },
+  // ],
   env: {
     schema: {
       PUBLIC_GOOGLE_SITE_VERIFICATION: envField.string({
