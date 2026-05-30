@@ -1,8 +1,9 @@
 ---
-title: "set phar.readonly = Off in php.ini"
+title: phar反序列化
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "set phar.readonly = Off in php.ini"
-tags: ["php"]
+description: phar反序列化
+tags:
+  - php
 ---
 ## 创建phar
 

@@ -1,8 +1,10 @@
 ---
-title: "ssh"
+title: ssh
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "ssh"
-tags: ["linux"]
+description: ssh
+tags:
+  - linux
+draft: true
 ---
 ## 公私钥登陆
 

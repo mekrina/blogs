@@ -1,8 +1,9 @@
 ---
-title: "1. 定义所有可信的 CDN IP 段（必须准确，防止攻击者绕过 CDN 直连）"
+title: XFF IP伪造
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "1. 定义所有可信的 CDN IP 段（必须准确，防止攻击者绕过 CDN 直连）"
-tags: ["others"]
+description: 多层代理下X_Forwarded_For配置错误导致的请求IP地址伪造
+tags:
+  - others
 ---
 ## tcp连接ip无法伪造
 因为需要三次握手，伪造了ip无法成功建立连接

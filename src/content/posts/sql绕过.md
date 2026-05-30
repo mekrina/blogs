@@ -4,9 +4,6 @@ pubDatetime: 2025-01-20T21:06:41.000+08:00
 description: "sql注入绕过"
 tags: ["sql"]
 ---
-转载并修改自 [链接](https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/#%E4%BD%BF%E7%94%A8%E6%B3%A8%E9%87%8A%E7%AC%A6%E7%BB%95%E8%BF%87-1)
-
-
 # php+mysql
 
 ## 宽字节绕过
@@ -362,3 +359,5 @@ handler user read first;
 
 例如我们上面说的MySQL8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到
 
+## Ref
+参考 [链接](https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/#%E4%BD%BF%E7%94%A8%E6%B3%A8%E9%87%8A%E7%AC%A6%E7%BB%95%E8%BF%87-1)

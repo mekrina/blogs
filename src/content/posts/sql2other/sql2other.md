@@ -1,7 +1,7 @@
 ---
-title: 需要设置CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT，并设置密码
+title: sql2other
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: 需要设置CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT，并设置密码
+description: 从SQL注入到RCE、文件读写等的手段
 tags:
   - sql2other
 ---

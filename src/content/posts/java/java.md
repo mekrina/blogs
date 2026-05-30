@@ -1,8 +1,9 @@
 ---
-title: "WEB-INF"
+title: java基础
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "WEB-INF"
-tags: ["java"]
+description: java基础
+tags:
+  - java
 ---
 **WEB-INF** 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过**web.xml**文件对要访问的文件进行相应映射才能访问。
 

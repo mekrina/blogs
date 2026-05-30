@@ -1,8 +1,9 @@
 ---
-title: "ssrf"
+title: SSRF
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "ssrf"
-tags: ["ssrf"]
+description: ssrf
+tags:
+  - ssrf
 ---
 [文章](https://www.freebuf.com/articles/web/333318.html)
 

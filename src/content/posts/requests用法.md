@@ -1,8 +1,10 @@
 ---
-title: "requests用法"
+title: requests用法
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "requests用法"
-tags: ["others"]
+description: requests用法
+tags:
+  - others
+draft: true
 ---
 ## 发文件
 ```python

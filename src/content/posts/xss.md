@@ -1,8 +1,9 @@
 ---
-title: "xss"
+title: XSS
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "xss"
-tags: ["xss"]
+description: xss
+tags:
+  - xss
 ---
 fuzz:
 ```

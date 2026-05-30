@@ -4,7 +4,7 @@ pubDatetime: 2025-01-20T00:00:00.000+08:00
 description: "nginx"
 tags: ["others"]
 ---
-nginx解析漏洞
+## nginx解析漏洞
 
 访问http://wsl.my/test.phar是文本文件
 

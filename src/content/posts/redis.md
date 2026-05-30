@@ -1,8 +1,9 @@
 ---
-title: "关于漏洞"
+title: 关于漏洞
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "关于漏洞"
-tags: ["others"]
+description: 关于漏洞
+tags:
+  - others
 ---
 ## Redis基础
 
