@@ -10,6 +10,7 @@ import { getSortedPosts } from "@/utils/getSortedPosts";
 import { slugifyStr } from "@/utils/slugify";
 import EditPost from "./_components/EditPost.astro";
 import ShareLinks from "./_components/ShareLinks.astro";
+import TableOfContents from "./_components/TableOfContents.astro";
 import BackButton from "./_components/BackButton.astro";
 import BackToTopButton from "./_components/BackToTopButton.astro";
 import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
@@ -70,7 +71,7 @@ const {
   hideEditPost,
 } = post.data;
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 let ogImageUrl: string | undefined;
 
@@ -107,56 +108,75 @@ const ogImage = ogImageUrl
 
   <main
     id="main-content"
-    class:list={["app-layout", { "mt-8": !config.features.showBackButton }]}
+    class:list={[
+      "mx-auto w-full max-w-6xl px-4",
+      { "mt-8": !config.features.showBackButton },
+    ]}
     data-pagefind-body
   >
-    <h1
-      style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-      class="text-accent inline-block text-2xl font-bold sm:text-3xl"
+    <div
+      class="grid gap-8 lg:grid-cols-[minmax(0,48rem)_16rem] lg:items-start lg:justify-center"
     >
-      {title}
-    </h1>
+      <div class="min-w-0">
+        <h1
+          style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+          class="text-accent inline-block text-2xl font-bold sm:text-3xl"
+        >
+          {title}
+        </h1>
 
-    <div class="my-2 flex items-center gap-2">
-      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-      <span
-        aria-hidden="true"
-        class:list={[
-          "text-muted-foreground max-sm:hidden",
-          { hidden: !config.features.editPost?.enabled || hideEditPost },
-        ]}
+        <div class="my-2 flex items-center gap-2">
+          <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+          <span
+            aria-hidden="true"
+            class:list={[
+              "text-muted-foreground max-sm:hidden",
+              { hidden: !config.features.editPost?.enabled || hideEditPost },
+            ]}
+          >
+            |
+          </span>
+          <EditPost {hideEditPost} {post} class="max-sm:hidden" />
+        </div>
+
+        <article
+          id="article"
+          class:list={[
+            "mt-8 w-full",
+            "app-prose max-w-app",
+            "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+          ]}
+        >
+          <Content />
+        </article>
+
+        <hr class="my-8 border-dashed" />
+
+        <EditPost class="sm:hidden" {hideEditPost} {post} />
+
+        <BackToTopButton />
+
+        <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+          {
+            tags.map(tag => (
+              <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+            ))
+          }
+        </ul>
+
+        <ShareLinks />
+
+        <hr class="my-8 border-dashed" />
+
+        <AdjacentPostNav {prevPost} {nextPost} />
+      </div>
+
+      <aside
+        class="hidden lg:sticky lg:top-24 lg:block lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto"
       >
-        |
-      </span>
-      <EditPost {hideEditPost} {post} class="max-sm:hidden" />
+        <TableOfContents {headings} />
+      </aside>
     </div>
-
-    <article
-      id="article"
-      class:list={[
-        "mt-8 w-full",
-        "app-prose max-w-app",
-        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
-      ]}
-    >
-      <Content />
-    </article>
-
-    <hr class="my-8 border-dashed" />
-
-    <EditPost class="sm:hidden" {hideEditPost} {post} />
-
-    <BackToTopButton />
-
-    <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
-    </ul>
-
-    <ShareLinks />
-
-    <hr class="my-8 border-dashed" />
-
-    <AdjacentPostNav {prevPost} {nextPost} />
   </main>
   <Footer />
 </PostLayout>

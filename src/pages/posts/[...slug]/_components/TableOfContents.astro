@@ -1,0 +1,176 @@
+---
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
+type Props = {
+  headings: Heading[];
+};
+
+const { headings } = Astro.props;
+const headingParents = new Map<number, string>();
+const tocHeadings = headings
+  .filter(({ depth }) => depth >= 2 && depth <= 4)
+  .map(heading => {
+    const parentSlug = headingParents.get(heading.depth - 1) ?? "";
+
+    headingParents.set(heading.depth, heading.slug);
+    for (const depth of [
+      heading.depth + 1,
+      heading.depth + 2,
+      heading.depth + 3,
+    ]) {
+      headingParents.delete(depth);
+    }
+
+    return { ...heading, parentSlug };
+  });
+---
+
+{
+  tocHeadings.length > 0 && (
+    <details
+      open
+      class="border-border bg-background/90 rounded-lg border p-4 text-sm backdrop-blur"
+    >
+      <summary class="text-foreground marker:text-muted-foreground cursor-pointer font-semibold select-none">
+        目录
+      </summary>
+      <nav aria-label="文章目录" class="mt-3">
+        <ol class="space-y-2">
+          {tocHeadings.map(heading => (
+            <li
+              data-toc-item
+              data-depth={heading.depth}
+              data-slug={heading.slug}
+              data-parent-slug={heading.parentSlug}
+              hidden={heading.depth > 2}
+              class:list={[
+                "leading-snug",
+                heading.depth === 3 && "ms-4",
+                heading.depth === 4 && "ms-8",
+              ]}
+            >
+              <a
+                data-toc-link
+                href={`#${heading.slug}`}
+                class="text-muted-foreground hover:text-accent block rounded-sm border-s-2 border-transparent ps-2 no-underline transition-colors"
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </details>
+  )
+}
+
+<script>
+  const tocItems = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-toc-item]")
+  );
+  const tocLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]")
+  );
+  const contentHeadings = tocItems
+    .map(item => document.getElementById(item.dataset.slug ?? ""))
+    .filter(
+      (heading): heading is HTMLElement => heading instanceof HTMLElement
+    );
+  let isTocJumping = false;
+
+  const getSlug = (item: HTMLElement) => item.dataset.slug ?? "";
+  const getParentSlug = (item: HTMLElement) => item.dataset.parentSlug ?? "";
+  const findItem = (slug: string) =>
+    tocItems.find(item => getSlug(item) === slug) ?? null;
+
+  const getVisibleBranchSlugs = (activeSlug: string) => {
+    const slugs = new Set<string>();
+    let item = findItem(activeSlug);
+
+    while (item) {
+      const slug = getSlug(item);
+      const parentSlug = getParentSlug(item);
+
+      if (slug) slugs.add(slug);
+      item = parentSlug ? findItem(parentSlug) : null;
+    }
+
+    return slugs;
+  };
+
+  const setActiveTocItem = (activeSlug: string) => {
+    const visibleBranchSlugs = getVisibleBranchSlugs(activeSlug);
+
+    for (const item of tocItems) {
+      const depth = Number(item.dataset.depth ?? "2");
+      const parentSlug = getParentSlug(item);
+      const itemSlug = getSlug(item);
+      const isTopLevel = depth === 2;
+      const isInOpenBranch = parentSlug && visibleBranchSlugs.has(parentSlug);
+
+      item.hidden = !isTopLevel && !isInOpenBranch;
+
+      const link = item.querySelector<HTMLAnchorElement>("[data-toc-link]");
+      const isActive = itemSlug === activeSlug;
+
+      link?.toggleAttribute("aria-current", isActive);
+      link?.classList.toggle("text-accent", isActive);
+      link?.classList.toggle("border-accent", isActive);
+      link?.classList.toggle("font-medium", isActive);
+      link?.classList.toggle("text-muted-foreground", !isActive);
+      link?.classList.toggle("border-transparent", !isActive);
+    }
+  };
+
+  const getCurrentHeadingSlug = () => {
+    let currentSlug = contentHeadings[0]?.id ?? "";
+
+    for (const heading of contentHeadings) {
+      if (heading.getBoundingClientRect().top > 120) break;
+      currentSlug = heading.id;
+    }
+
+    return currentSlug;
+  };
+
+  const updateActiveTocItem = () => {
+    if (isTocJumping) return;
+    setActiveTocItem(getCurrentHeadingSlug());
+  };
+
+  for (const link of tocLinks) {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+
+      const slug = link.hash.slice(1);
+      if (!slug) return;
+
+      const decodedSlug = decodeURIComponent(slug);
+      const target = document.getElementById(decodedSlug);
+      if (!target) return;
+
+      isTocJumping = true;
+      setActiveTocItem(decodedSlug);
+      window.history.pushState(null, "", `#${slug}`);
+      document.documentElement.classList.remove("scroll-smooth");
+      window.scrollTo(
+        0,
+        target.getBoundingClientRect().top + window.scrollY - 16
+      );
+
+      requestAnimationFrame(() => {
+        setActiveTocItem(decodedSlug);
+        document.documentElement.classList.add("scroll-smooth");
+        isTocJumping = false;
+      });
+    });
+  }
+
+  updateActiveTocItem();
+  document.addEventListener("scroll", updateActiveTocItem, { passive: true });
+  window.addEventListener("resize", updateActiveTocItem);
+</script>
