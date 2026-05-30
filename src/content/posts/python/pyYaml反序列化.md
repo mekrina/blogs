@@ -100,4 +100,4 @@ items是为了后面不报错
 也是通过setState提供extend方法
 
 更多payload见 https://xz.aliyun.com/news/11927
-[本地版](assets/pyYaml反序列化/PyYaml反序列化漏洞详解html.html)
+[本地版](assets/PyYaml反序列化/PyYaml反序列化漏洞详解html.html)

