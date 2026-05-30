@@ -7,16 +7,20 @@ type Heading = {
 
 type Props = {
   headings: Heading[];
+  variant?: "desktop" | "mobile";
 };
 
-const { headings } = Astro.props;
+const { headings, variant = "desktop" } = Astro.props;
 const headingParents = new Map<number, string>();
+const headingIndents = new Map<string, number>();
 const tocHeadings = headings
-  .filter(({ depth }) => depth >= 2 && depth <= 4)
+  .filter(({ depth }) => depth >= 1 && depth <= 4)
   .map(heading => {
     const parentSlug = headingParents.get(heading.depth - 1) ?? "";
+    const indent = parentSlug ? (headingIndents.get(parentSlug) ?? 0) + 1 : 0;
 
     headingParents.set(heading.depth, heading.slug);
+    headingIndents.set(heading.slug, indent);
     for (const depth of [
       heading.depth + 1,
       heading.depth + 2,
@@ -25,13 +29,14 @@ const tocHeadings = headings
       headingParents.delete(depth);
     }
 
-    return { ...heading, parentSlug };
+    return { ...heading, parentSlug, indent };
   });
 ---
 
 {
-  tocHeadings.length > 0 && (
+  tocHeadings.length > 0 && variant === "desktop" && (
     <details
+      data-toc-root
       open
       class="border-border bg-background/90 rounded-lg border p-4 text-sm backdrop-blur"
     >
@@ -46,11 +51,12 @@ const tocHeadings = headings
               data-depth={heading.depth}
               data-slug={heading.slug}
               data-parent-slug={heading.parentSlug}
-              hidden={heading.depth > 2}
+              hidden={heading.indent > 0}
               class:list={[
                 "leading-snug",
-                heading.depth === 3 && "ms-4",
-                heading.depth === 4 && "ms-8",
+                heading.indent === 1 && "ms-4",
+                heading.indent === 2 && "ms-8",
+                heading.indent >= 3 && "ms-12",
               ]}
             >
               <a
@@ -68,109 +74,226 @@ const tocHeadings = headings
   )
 }
 
+{
+  tocHeadings.length > 0 && variant === "mobile" && (
+    <div data-toc-root data-toc-mobile-root class="lg:hidden">
+      <button
+        type="button"
+        data-toc-mobile-open
+        class="bg-accent text-accent-foreground shadow-accent/20 fixed right-4 bottom-24 z-60 rounded-full px-4 py-2 text-sm font-medium shadow-lg"
+        aria-label="打开文章目录"
+      >
+        目录
+      </button>
+
+      <div data-toc-mobile-panel hidden class="fixed inset-0 z-50">
+        <button
+          type="button"
+          data-toc-mobile-close
+          class="absolute inset-0 bg-black/40"
+          aria-label="关闭文章目录"
+        />
+
+        <section
+          class="bg-background border-border absolute right-0 bottom-0 left-0 max-h-[75vh] overflow-y-auto rounded-t-2xl border-t p-4 shadow-2xl"
+          role="dialog"
+          aria-modal="true"
+          aria-label="文章目录"
+        >
+          <div class="mb-3 flex items-center justify-between gap-4">
+            <h2 class="text-foreground font-semibold">目录</h2>
+            <button
+              type="button"
+              data-toc-mobile-close
+              class="text-muted-foreground hover:text-accent rounded-md px-2 py-1 text-sm"
+            >
+              关闭
+            </button>
+          </div>
+
+          <nav aria-label="文章目录">
+            <ol class="space-y-2 pb-2">
+              {tocHeadings.map(heading => (
+                <li
+                  data-toc-item
+                  data-depth={heading.depth}
+                  data-slug={heading.slug}
+                  data-parent-slug={heading.parentSlug}
+                  hidden={heading.indent > 0}
+                  class:list={[
+                    "leading-snug",
+                    heading.indent === 1 && "ms-4",
+                    heading.indent === 2 && "ms-8",
+                    heading.indent >= 3 && "ms-12",
+                  ]}
+                >
+                  <a
+                    data-toc-link
+                    href={`#${heading.slug}`}
+                    class="text-muted-foreground hover:text-accent block rounded-sm border-s-2 border-transparent ps-2 no-underline transition-colors"
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </section>
+      </div>
+    </div>
+  )
+}
+
 <script>
-  const tocItems = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-toc-item]")
-  );
-  const tocLinks = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]")
-  );
-  const contentHeadings = tocItems
-    .map(item => document.getElementById(item.dataset.slug ?? ""))
-    .filter(
-      (heading): heading is HTMLElement => heading instanceof HTMLElement
+  const windowWithToc = window as Window & {
+    __articleTocInitialized?: boolean;
+  };
+
+  if (!windowWithToc.__articleTocInitialized) {
+    windowWithToc.__articleTocInitialized = true;
+
+    const tocRoots = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-toc-root]")
     );
-  let isTocJumping = false;
+    const contentHeadings = Array.from(
+      document.querySelectorAll<HTMLElement>("#article :is(h1, h2, h3, h4)[id]")
+    );
+    let isTocJumping = false;
 
-  const getSlug = (item: HTMLElement) => item.dataset.slug ?? "";
-  const getParentSlug = (item: HTMLElement) => item.dataset.parentSlug ?? "";
-  const findItem = (slug: string) =>
-    tocItems.find(item => getSlug(item) === slug) ?? null;
+    const getSlug = (item: HTMLElement) => item.dataset.slug ?? "";
+    const getParentSlug = (item: HTMLElement) => item.dataset.parentSlug ?? "";
+    const getTocItems = (root: HTMLElement) =>
+      Array.from(root.querySelectorAll<HTMLElement>("[data-toc-item]"));
+    const findItem = (items: HTMLElement[], slug: string) =>
+      items.find(item => getSlug(item) === slug) ?? null;
 
-  const getVisibleBranchSlugs = (activeSlug: string) => {
-    const slugs = new Set<string>();
-    let item = findItem(activeSlug);
+    const getVisibleBranchSlugs = (
+      items: HTMLElement[],
+      activeSlug: string
+    ) => {
+      const slugs = new Set<string>();
+      let item = findItem(items, activeSlug);
 
-    while (item) {
-      const slug = getSlug(item);
-      const parentSlug = getParentSlug(item);
+      while (item) {
+        const slug = getSlug(item);
+        const parentSlug = getParentSlug(item);
 
-      if (slug) slugs.add(slug);
-      item = parentSlug ? findItem(parentSlug) : null;
-    }
+        if (slug) slugs.add(slug);
+        item = parentSlug ? findItem(items, parentSlug) : null;
+      }
 
-    return slugs;
-  };
+      return slugs;
+    };
 
-  const setActiveTocItem = (activeSlug: string) => {
-    const visibleBranchSlugs = getVisibleBranchSlugs(activeSlug);
+    const setActiveTocRootItem = (root: HTMLElement, activeSlug: string) => {
+      const tocItems = getTocItems(root);
+      const visibleBranchSlugs = getVisibleBranchSlugs(tocItems, activeSlug);
 
-    for (const item of tocItems) {
-      const depth = Number(item.dataset.depth ?? "2");
-      const parentSlug = getParentSlug(item);
-      const itemSlug = getSlug(item);
-      const isTopLevel = depth === 2;
-      const isInOpenBranch = parentSlug && visibleBranchSlugs.has(parentSlug);
+      for (const item of tocItems) {
+        const parentSlug = getParentSlug(item);
+        const itemSlug = getSlug(item);
+        const isTopLevel = !parentSlug;
+        const isInOpenBranch = parentSlug && visibleBranchSlugs.has(parentSlug);
 
-      item.hidden = !isTopLevel && !isInOpenBranch;
+        item.hidden = !isTopLevel && !isInOpenBranch;
 
-      const link = item.querySelector<HTMLAnchorElement>("[data-toc-link]");
-      const isActive = itemSlug === activeSlug;
+        const link = item.querySelector<HTMLAnchorElement>("[data-toc-link]");
+        const isActive = itemSlug === activeSlug;
 
-      link?.toggleAttribute("aria-current", isActive);
-      link?.classList.toggle("text-accent", isActive);
-      link?.classList.toggle("border-accent", isActive);
-      link?.classList.toggle("font-medium", isActive);
-      link?.classList.toggle("text-muted-foreground", !isActive);
-      link?.classList.toggle("border-transparent", !isActive);
-    }
-  };
+        link?.toggleAttribute("aria-current", isActive);
+        link?.classList.toggle("text-accent", isActive);
+        link?.classList.toggle("border-accent", isActive);
+        link?.classList.toggle("font-medium", isActive);
+        link?.classList.toggle("text-muted-foreground", !isActive);
+        link?.classList.toggle("border-transparent", !isActive);
+      }
+    };
 
-  const getCurrentHeadingSlug = () => {
-    let currentSlug = contentHeadings[0]?.id ?? "";
+    const setActiveTocItem = (activeSlug: string) => {
+      for (const root of tocRoots) {
+        setActiveTocRootItem(root, activeSlug);
+      }
+    };
 
-    for (const heading of contentHeadings) {
-      if (heading.getBoundingClientRect().top > 120) break;
-      currentSlug = heading.id;
-    }
+    const getCurrentHeadingSlug = () => {
+      let currentSlug = contentHeadings[0]?.id ?? "";
 
-    return currentSlug;
-  };
+      for (const heading of contentHeadings) {
+        if (heading.getBoundingClientRect().top > 120) break;
+        currentSlug = heading.id;
+      }
 
-  const updateActiveTocItem = () => {
-    if (isTocJumping) return;
-    setActiveTocItem(getCurrentHeadingSlug());
-  };
+      return currentSlug;
+    };
 
-  for (const link of tocLinks) {
-    link.addEventListener("click", event => {
-      event.preventDefault();
+    const updateActiveTocItem = () => {
+      if (isTocJumping) return;
+      setActiveTocItem(getCurrentHeadingSlug());
+    };
 
-      const slug = link.hash.slice(1);
-      if (!slug) return;
+    const closeMobileToc = () => {
+      document
+        .querySelectorAll<HTMLElement>("[data-toc-mobile-panel]")
+        .forEach(panel => {
+          panel.hidden = true;
+        });
+    };
 
-      const decodedSlug = decodeURIComponent(slug);
-      const target = document.getElementById(decodedSlug);
-      if (!target) return;
-
-      isTocJumping = true;
-      setActiveTocItem(decodedSlug);
-      window.history.pushState(null, "", `#${slug}`);
-      document.documentElement.classList.remove("scroll-smooth");
-      window.scrollTo(
-        0,
-        target.getBoundingClientRect().top + window.scrollY - 16
+    for (const root of tocRoots) {
+      const openButton = root.querySelector<HTMLButtonElement>(
+        "[data-toc-mobile-open]"
+      );
+      const panel = root.querySelector<HTMLElement>("[data-toc-mobile-panel]");
+      const closeButtons = root.querySelectorAll<HTMLButtonElement>(
+        "[data-toc-mobile-close]"
       );
 
-      requestAnimationFrame(() => {
-        setActiveTocItem(decodedSlug);
-        document.documentElement.classList.add("scroll-smooth");
-        isTocJumping = false;
+      openButton?.addEventListener("click", () => {
+        if (!panel) return;
+        panel.hidden = false;
+        setActiveTocRootItem(root, getCurrentHeadingSlug());
       });
-    });
-  }
 
-  updateActiveTocItem();
-  document.addEventListener("scroll", updateActiveTocItem, { passive: true });
-  window.addEventListener("resize", updateActiveTocItem);
+      closeButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          if (panel) panel.hidden = true;
+        });
+      });
+    }
+
+    for (const link of document.querySelectorAll<HTMLAnchorElement>(
+      "[data-toc-link]"
+    )) {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+
+        const slug = link.hash.slice(1);
+        if (!slug) return;
+
+        const decodedSlug = decodeURIComponent(slug);
+        const target = document.getElementById(decodedSlug);
+        if (!target) return;
+
+        isTocJumping = true;
+        setActiveTocItem(decodedSlug);
+        window.history.pushState(null, "", `#${slug}`);
+        document.documentElement.classList.remove("scroll-smooth");
+        window.scrollTo(
+          0,
+          target.getBoundingClientRect().top + window.scrollY - 16
+        );
+
+        requestAnimationFrame(() => {
+          setActiveTocItem(decodedSlug);
+          document.documentElement.classList.add("scroll-smooth");
+          closeMobileToc();
+          isTocJumping = false;
+        });
+      });
+    }
+
+    updateActiveTocItem();
+    document.addEventListener("scroll", updateActiveTocItem, { passive: true });
+    window.addEventListener("resize", updateActiveTocItem);
+  }
 </script>
