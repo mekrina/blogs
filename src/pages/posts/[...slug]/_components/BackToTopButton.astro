@@ -36,6 +36,10 @@ const t = useTranslations(Astro.currentLocale);
 </div>
 
 <script is:inline data-astro-rerun>
+  window.__backToTopController?.abort();
+  window.__backToTopController = new AbortController();
+  const backToTopSignal = window.__backToTopController.signal;
+
   function backToTop() {
     const rootElement = document.documentElement;
     const btnContainer = document.querySelector("#btt-btn-container");
@@ -45,10 +49,14 @@ const t = useTranslations(Astro.currentLocale);
     if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
       return;
 
-    backToTopBtn.addEventListener("click", () => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    });
+    backToTopBtn.addEventListener(
+      "click",
+      () => {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      },
+      { signal: backToTopSignal }
+    );
 
     let lastVisible = null;
     function handleScroll() {
@@ -73,15 +81,19 @@ const t = useTranslations(Astro.currentLocale);
     }
 
     let ticking = false;
-    document.addEventListener("scroll", () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
+    document.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            handleScroll();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { signal: backToTopSignal }
+    );
   }
   backToTop();
 </script>

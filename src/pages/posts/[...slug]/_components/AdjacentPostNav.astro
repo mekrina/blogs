@@ -26,6 +26,7 @@ const t = useTranslations(locale);
     prevPost && (
       <a
         href={getPostUrl(prevPost.id, prevPost.filePath, locale)}
+        data-astro-reload
         class="flex w-full gap-1 hover:opacity-75"
       >
         <IconArrowLeft class="inline-block flex-none rtl:rotate-180" />
@@ -40,6 +41,7 @@ const t = useTranslations(locale);
     nextPost && (
       <a
         href={getPostUrl(nextPost.id, nextPost.filePath, locale)}
+        data-astro-reload
         class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
       >
         <div>
