@@ -969,6 +969,8 @@ mysql配置文件`secure_file_priv`项设置为空，（如果为NULL或/tmp/等
 可以通过以下命令查看是否有限制
 ```
 show variables like 'secure_file_priv';
+
+SELECT @@secure_file_priv;
 ```
 ![](assets/sql2other/Pasted%20image%2020250509120309.png)
 
