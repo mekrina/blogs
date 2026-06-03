@@ -109,70 +109,61 @@ const ogImage = ogImageUrl
   <main
     id="main-content"
     class:list={[
-      "mx-auto w-full max-w-6xl px-4",
+      "max-w-app relative mx-auto w-full px-4",
       { "mt-8": !config.features.showBackButton },
     ]}
     data-pagefind-body
   >
-    <div
-      class="grid gap-8 lg:grid-cols-[minmax(0,48rem)_16rem] lg:items-start lg:justify-center"
-    >
-      <div class="min-w-0">
-        <h1
-          style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-          class="text-accent inline-block text-2xl font-bold sm:text-3xl"
-        >
-          {title}
-        </h1>
+    <div>
+      <h1
+        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+        class="text-accent inline-block text-2xl font-bold sm:text-3xl"
+      >
+        {title}
+      </h1>
 
-        <div class="my-2 flex items-center gap-2">
-          <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-          <span
-            aria-hidden="true"
-            class:list={[
-              "text-muted-foreground max-sm:hidden",
-              { hidden: !config.features.editPost?.enabled || hideEditPost },
-            ]}
-          >
-            |
-          </span>
-          <EditPost {hideEditPost} {post} class="max-sm:hidden" />
-        </div>
-
-        <article
-          id="article"
+      <div class="my-2 flex items-center gap-2">
+        <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+        <span
+          aria-hidden="true"
           class:list={[
-            "mt-8 w-full",
-            "app-prose max-w-app",
-            "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+            "text-muted-foreground max-sm:hidden",
+            { hidden: !config.features.editPost?.enabled || hideEditPost },
           ]}
         >
-          <Content />
-        </article>
-
-        <hr class="my-8 border-dashed" />
-
-        <EditPost class="sm:hidden" {hideEditPost} {post} />
-
-        <BackToTopButton />
-
-        <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-          {
-            tags.map(tag => (
-              <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
-            ))
-          }
-        </ul>
-
-        <ShareLinks />
-
-        <hr class="my-8 border-dashed" />
-
-        <AdjacentPostNav {prevPost} {nextPost} />
+          |
+        </span>
+        <EditPost {hideEditPost} {post} class="max-sm:hidden" />
       </div>
 
+      <article
+        id="article"
+        class:list={[
+          "mt-8 w-full",
+          "app-prose max-w-app",
+          "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+        ]}
+      >
+        <Content />
+      </article>
+
+      <hr class="my-8 border-dashed" />
+
+      <EditPost class="sm:hidden" {hideEditPost} {post} />
+
+      <BackToTopButton />
+
+      <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+      </ul>
+
+      <ShareLinks />
+
+      <hr class="my-8 border-dashed" />
+
+      <AdjacentPostNav {prevPost} {nextPost} />
       <aside
-        class="hidden lg:sticky lg:top-24 lg:block lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto"
+        class="hidden lg:fixed lg:top-24 lg:left-[calc(50%+26rem)] lg:block lg:max-h-[calc(100vh-7rem)] lg:w-64 lg:overflow-y-auto"
       >
         <TableOfContents {headings} />
       </aside>

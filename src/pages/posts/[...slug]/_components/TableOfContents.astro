@@ -146,11 +146,13 @@ const tocHeadings = headings
 
 <script>
   const windowWithToc = window as Window & {
-    __articleTocInitialized?: boolean;
+    __articleTocController?: AbortController;
   };
 
-  if (!windowWithToc.__articleTocInitialized) {
-    windowWithToc.__articleTocInitialized = true;
+  function initArticleToc() {
+    windowWithToc.__articleTocController?.abort();
+    windowWithToc.__articleTocController = new AbortController();
+    const tocSignal = windowWithToc.__articleTocController.signal;
 
     const tocRoots = Array.from(
       document.querySelectorAll<HTMLElement>("[data-toc-root]")
@@ -158,6 +160,9 @@ const tocHeadings = headings
     const contentHeadings = Array.from(
       document.querySelectorAll<HTMLElement>("#article :is(h1, h2, h3, h4)[id]")
     );
+
+    if (tocRoots.length === 0 || contentHeadings.length === 0) return;
+
     let isTocJumping = false;
 
     const getSlug = (item: HTMLElement) => item.dataset.slug ?? "";
@@ -248,52 +253,72 @@ const tocHeadings = headings
         "[data-toc-mobile-close]"
       );
 
-      openButton?.addEventListener("click", () => {
-        if (!panel) return;
-        panel.hidden = false;
-        setActiveTocRootItem(root, getCurrentHeadingSlug());
-      });
+      openButton?.addEventListener(
+        "click",
+        () => {
+          if (!panel) return;
+          panel.hidden = false;
+          setActiveTocRootItem(root, getCurrentHeadingSlug());
+        },
+        { signal: tocSignal }
+      );
 
       closeButtons.forEach(button => {
-        button.addEventListener("click", () => {
-          if (panel) panel.hidden = true;
-        });
+        button.addEventListener(
+          "click",
+          () => {
+            if (panel) panel.hidden = true;
+          },
+          { signal: tocSignal }
+        );
       });
     }
 
     for (const link of document.querySelectorAll<HTMLAnchorElement>(
       "[data-toc-link]"
     )) {
-      link.addEventListener("click", event => {
-        event.preventDefault();
+      link.addEventListener(
+        "click",
+        event => {
+          event.preventDefault();
 
-        const slug = link.hash.slice(1);
-        if (!slug) return;
+          const slug = link.hash.slice(1);
+          if (!slug) return;
 
-        const decodedSlug = decodeURIComponent(slug);
-        const target = document.getElementById(decodedSlug);
-        if (!target) return;
+          const decodedSlug = decodeURIComponent(slug);
+          const target = document.getElementById(decodedSlug);
+          if (!target) return;
 
-        isTocJumping = true;
-        setActiveTocItem(decodedSlug);
-        window.history.pushState(null, "", `#${slug}`);
-        document.documentElement.classList.remove("scroll-smooth");
-        window.scrollTo(
-          0,
-          target.getBoundingClientRect().top + window.scrollY - 16
-        );
-
-        requestAnimationFrame(() => {
+          isTocJumping = true;
           setActiveTocItem(decodedSlug);
-          document.documentElement.classList.add("scroll-smooth");
-          closeMobileToc();
-          isTocJumping = false;
-        });
-      });
+          window.history.pushState(null, "", `#${slug}`);
+          document.documentElement.classList.remove("scroll-smooth");
+          window.scrollTo(
+            0,
+            target.getBoundingClientRect().top + window.scrollY - 16
+          );
+
+          requestAnimationFrame(() => {
+            setActiveTocItem(decodedSlug);
+            document.documentElement.classList.add("scroll-smooth");
+            closeMobileToc();
+            isTocJumping = false;
+          });
+        },
+        { signal: tocSignal }
+      );
     }
 
     updateActiveTocItem();
-    document.addEventListener("scroll", updateActiveTocItem, { passive: true });
-    window.addEventListener("resize", updateActiveTocItem);
+    document.addEventListener("scroll", updateActiveTocItem, {
+      passive: true,
+      signal: tocSignal,
+    });
+    window.addEventListener("resize", updateActiveTocItem, {
+      signal: tocSignal,
+    });
   }
+
+  initArticleToc();
+  document.addEventListener("astro:page-load", initArticleToc);
 </script>
