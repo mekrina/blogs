@@ -1,7 +1,7 @@
 ---
 title: "flask debug模式"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "flask debug模式"
+description: "Flask debug 模式 PIN 码生成、报错回显与利用记录"
 tags: ["flask"]
 ---
 ## 通过报错回显

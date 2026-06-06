@@ -1,7 +1,7 @@
 ---
 title: XSS
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: xss
+description: XSS 基础、触发场景、payload 与浏览器安全机制记录
 tags:
   - xss
 ---

@@ -1,7 +1,7 @@
 ---
 title: "反向shell"
 pubDatetime: 2025-03-08T12:13:00.000+08:00
-description: "反向shell"
+description: "常见反弹 shell 命令、busybox 与不同环境下的连接方式"
 tags: ["others"]
 ---
 提供一个面向用户的命令接口

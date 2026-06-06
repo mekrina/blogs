@@ -1,7 +1,7 @@
 ---
 title: "XXE"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "XXE"
+description: "XML 外部实体注入原理、利用方式与防护记录"
 tags: ["XXE"]
 ---
 [参考文章](https://xz.aliyun.com/news/2994#toc-10)

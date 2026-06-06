@@ -1,7 +1,7 @@
 ---
 title: "windows基础"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "windows基础"
+description: "Windows 信息收集、权限判断与基础渗透命令记录"
 tags: ["渗透"]
 ---
 ## 系统信息收集

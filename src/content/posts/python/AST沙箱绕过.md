@@ -1,7 +1,7 @@
 ---
-title: "此外，format格式化字符串可以用于绕过"
+title: "Python AST 沙箱绕过"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "此外，format格式化字符串可以用于绕过"
+description: "Python AST 节点限制、format 字符串与沙箱绕过技巧"
 tags: ["python"]
 ---
 学习

@@ -5,7 +5,9 @@ modDatetime:
 title: 利用RDP端口复用内网隧道搭建
 featured: false
 tags:
-  - 内网, 隧道搭建, RDP
+  - 内网
+  - 隧道搭建
+  - RDP
 description: 在只能通过rdp连接目标机器，且目标机器不出完的情况下，利用RDP端口复用搭建内网隧道
 ---
 

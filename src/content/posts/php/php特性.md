@@ -1,7 +1,7 @@
 ---
 title: "php特性"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "php特性"
+description: "PHP 类型转换、随机数、字符串与版本特性安全笔记"
 tags: ["php"]
 ---
 ## mt_rand破解
@@ -233,4 +233,3 @@ php版本8.1.2似乎已经被修复
 ```php
 date(preg_replace('/(.)/', '\\\\$1',  "/flag"));
 ```
-

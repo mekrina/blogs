@@ -1,7 +1,7 @@
 ---
 title: "frp"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "frp"
+description: "frp 服务端、客户端配置与内网穿透使用记录"
 tags: ["内网"]
 ---
 [frp原理图解](frp原理.excalidraw.md)
@@ -40,4 +40,3 @@ type = "socks5"
 ```
 
 如上配置，frpc会请求frps监听6000、10808两个端口，当收到请求时，以相应proxy-name发给frpc。frpc收到请求后会根据proxy-name进行转发。
-

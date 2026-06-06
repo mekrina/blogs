@@ -1,7 +1,7 @@
 ---
 title: "tricks"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "tricks"
+description: "CTF 和渗透测试中常见参数、路径与绕过小技巧"
 tags: ["tricks"]
 ---
 ## 参数名url

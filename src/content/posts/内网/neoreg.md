@@ -1,7 +1,7 @@
 ---
 title: "neoreg"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "neoreg"
+description: "Neo-reGeorg 隧道搭建、连接方式与代理使用记录"
 tags: ["内网"]
 ---
 ```sh

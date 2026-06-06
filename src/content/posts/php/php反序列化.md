@@ -1,7 +1,7 @@
 ---
 title: "php反序列化"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "php反序列化"
+description: "PHP 反序列化魔术方法、POP 链与利用技巧记录"
 tags: ["php"]
 ---
 知识回顾：

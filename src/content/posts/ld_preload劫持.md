@@ -1,7 +1,7 @@
 ---
 title: "LD_PRELOAD劫持"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "LD_PRELOAD劫持"
+description: "LD_PRELOAD 动态链接库劫持触发条件与利用方式"
 tags: ["others"]
 ---
 [学习文章](https://luokuang1.github.io/2024/08/16/%E6%B5%85%E8%B0%88LD-PRELOAD%E5%8A%AB%E6%8C%81/)

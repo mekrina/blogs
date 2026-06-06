@@ -1,7 +1,7 @@
 ---
 title: "pickle反序列化"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "pickle反序列化"
+description: "Python pickle 反序列化 payload 构造与 pker 使用记录"
 tags: ["pickle","python"]
 ---
 [文章](https://xz.aliyun.com/news/7032)

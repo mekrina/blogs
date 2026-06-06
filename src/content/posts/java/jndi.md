@@ -1,7 +1,7 @@
 ---
-title: "jndi"
+title: "JNDI 注入与 RMI 机制"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "jndi"
+description: "JNDI、RMI 工作流程与远程类加载利用记录"
 tags: ["java"]
 ---
 ## RMI工作流程

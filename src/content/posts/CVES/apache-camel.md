@@ -1,7 +1,7 @@
 ---
-title: "camel-coap组件 CVE-2026-33453"
+title: "Apache Camel CoAP 组件漏洞"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "camel-coap组件 CVE-2026-33453"
+description: "Apache Camel camel-coap 组件 CVE-2026-33453 漏洞记录"
 tags: ["CVES"]
 ---
 https://github.com/dinosn/CVE-2026-33453

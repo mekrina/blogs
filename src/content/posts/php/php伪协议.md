@@ -1,7 +1,7 @@
 ---
 title: "php伪协议"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "php伪协议"
+description: "PHP filter、data、phar 等伪协议用法与利用记录"
 tags: ["php"]
 ---
 php伪协议有

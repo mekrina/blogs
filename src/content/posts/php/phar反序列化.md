@@ -1,7 +1,7 @@
 ---
 title: phar反序列化
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: phar反序列化
+description: PHAR 文件构造、反序列化触发点与利用方式记录
 tags:
   - php
 ---
@@ -73,4 +73,3 @@ sig = hashlib.sha1(text).digest()
 with open('phar_new.phar', 'wb+') as f:
     f.write(text + sig + end)
 ```
-

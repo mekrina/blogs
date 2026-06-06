@@ -1,7 +1,7 @@
 ---
 title: "flask session伪造"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "flask session伪造"
+description: "Flask session 签名机制、密钥爆破与伪造方法记录"
 tags: ["flask"]
 ---
 flask框架中的session由三部分组成

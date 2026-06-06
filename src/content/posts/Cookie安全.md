@@ -1,7 +1,7 @@
 ---
 title: "Cookie安全"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "Cookie安全"
+description: "浏览器 Cookie 管理、属性含义与安全配置笔记"
 tags: ["others"]
 ---
 ## 浏览器管理Cookie原理
@@ -52,7 +52,6 @@ SameSite为None时, 必须搭配Secure使用
 1.  使用 ARP poisoning、WiFi sniffing（最常见）
 2. 使用代理劫持（ISP、恶意中间节点）
 如果使用http明文传输， 响应被侦听到，Cookie就泄露了。
-
 
 
 

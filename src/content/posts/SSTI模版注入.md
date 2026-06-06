@@ -1,7 +1,7 @@
 ---
 title: "SSTI模版注入"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "SSTI模版注入"
+description: "常见模板引擎注入方式、payload 与绕过记录"
 tags: ["SSTI"]
 ---
 ![SSTI](assets/SSTI模版注入/SSTI.png)

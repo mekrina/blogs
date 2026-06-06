@@ -1,7 +1,7 @@
 ---
 title: "linux杂项笔记"
 pubDatetime: 2025-07-29T21:06:41.000+08:00
-description: "linux杂项笔记"
+description: "Linux SUID、环境变量与常用系统安全杂项记录"
 tags: ["linux","misc"]
 ---
 ## SUID

@@ -1,7 +1,7 @@
 ---
 title: "JAVA反序列化利用链总结"
 pubDatetime: 2025-08-05T22:56:50.000+08:00
-description: "JAVA反序列化利用链总结"
+description: "Java 反序列化基础、常见利用链与触发点总结"
 tags: ["java","反序列化"]
 ---
 ## CC
@@ -34,5 +34,4 @@ commons-collections <= 3.2.1
 *
 */
 ```
-
 

@@ -1,7 +1,7 @@
 ---
 title: "php文件包含漏洞"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "php文件包含漏洞"
+description: "PHP 文件包含漏洞、伪协议、日志包含与 session 包含利用记录"
 tags: ["php"]
 ---
 ## 包含可控gz文件 + .phar  RCE

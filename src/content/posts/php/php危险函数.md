@@ -1,7 +1,7 @@
 ---
 title: "php命令执行函数"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "php命令执行函数"
+description: "PHP 危险函数、命令执行函数与绕过方式记录"
 tags: ["php"]
 ---
 ## preg_match的/e模式

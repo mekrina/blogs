@@ -1,7 +1,7 @@
 ---
 title: "php任意文件读"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "php任意文件读"
+description: "PHP 任意文件读取常见路径、协议与利用技巧记录"
 tags: ["php-filter","php"]
 ---
 ## 可以尝试读取的文件

@@ -1,7 +1,7 @@
 ---
 title: java基础
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: java基础
+description: Java 基础、RMI 机制与安全相关知识记录
 tags:
   - java
 ---

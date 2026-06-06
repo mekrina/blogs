@@ -1,7 +1,7 @@
 ---
 title: "http请求走私"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "http请求走私"
+description: "HTTP 请求走私原理、HTTP/1.1 解析差异与利用记录"
 tags: ["others"]
 ---
 http请求走私产生的原因是
@@ -15,4 +15,3 @@ https://www.freebuf.com/articles/web/243652.html
 ## http2 
 协议降级情况下的请求走私
 https://xz.aliyun.com/news/12691
-

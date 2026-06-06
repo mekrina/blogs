@@ -1,7 +1,7 @@
 ---
 title: Commons BeanUtils反序列化
 pubDatetime: 2025-11-26T00:00:00.000+08:00
-description: Commons BeanUtils反序列化
+description: Commons BeanUtils 反序列化链 CB1 原理与利用记录
 tags:
   - 反序列化
   - java
@@ -78,4 +78,3 @@ compare和CC2、4中一样，可以由`PriorityQueue`的`readObject`方法进入
 ## 修复方案
 
 暂未被修复
-

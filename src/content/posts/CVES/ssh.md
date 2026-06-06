@@ -1,7 +1,7 @@
 ---
-title: "ssh"
+title: "OpenSSH RegreSSHion 漏洞"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "ssh"
+description: "CVE-2024-6387 RegreSSHion 漏洞影响与利用条件记录"
 tags: ["CVES"]
 ---
 ## CVE-2024-6387

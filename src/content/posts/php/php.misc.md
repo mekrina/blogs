@@ -1,7 +1,7 @@
 ---
-title: "php.misc"
+title: "PHP 杂项笔记"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "php.misc"
+description: "PHP 源码泄露、配置特性与安全相关杂项记录"
 tags: ["php"]
 ---
 ## php源码泄露

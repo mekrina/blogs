@@ -1,7 +1,7 @@
 ---
 title: "无数字字母RCE"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "无数字字母RCE"
+description: "无数字字母限制下的 PHP RCE 构造思路与 payload 记录"
 tags: ["RCE"]
 ---
 ## 题目: [RCE ME](https://buuoj.cn/challenges#[%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98%202019]RCE%20ME)
@@ -57,5 +57,4 @@ highlight_file(__FILE__);
     **A:**
     如果可以使用字母,直接传递`?code=eval($_POST[1]);`,可以达到效果,第一层eval获取了变量,第二层eval执行代码
     但是不能使用字母时,由于**eval不是一个php函数,而是语言构造器,不能采用可变函数的方式调用**,同样的,echo、include...也不行。详情见[php可变函数](https://www.php.net/manual/zh/functions.variable-functions.php)
-
 

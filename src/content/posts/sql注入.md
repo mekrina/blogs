@@ -1,7 +1,7 @@
 ---
 title: "sql注入"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "sql注入"
+description: "SQL 注入流程、信息获取、盲注、报错注入与写文件技巧"
 tags: ["others"]
 ---
 sql包括：

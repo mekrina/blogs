@@ -1,7 +1,7 @@
 ---
 title: "jwt伪造"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "jwt伪造"
+description: "JWT 结构、签名绕过与伪造方式记录"
 tags: ["jwt"]
 ---
 ## jwt的构成
@@ -24,5 +24,4 @@ xxx.xxx.xxx
 
 `python jwt_tool.py "<JWT>" -C -d jwt-common.txt` 
 其中`jwt-common.txt`是密钥字典
-
 

@@ -1,7 +1,7 @@
 ---
 title: "nginx"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "nginx"
+description: "Nginx 解析漏洞、配置风险与常见利用记录"
 tags: ["others"]
 ---
 ## nginx解析漏洞

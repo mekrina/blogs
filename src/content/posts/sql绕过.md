@@ -1,7 +1,7 @@
 ---
 title: "sql注入绕过"
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: "sql注入绕过"
+description: "SQL 注入过滤绕过、关键字绕过与数据库差异技巧"
 tags: ["sql"]
 ---
 # php+mysql

@@ -1,7 +1,7 @@
 ---
 title: PyYaml反序列化
 pubDatetime: 2025-10-03T23:41:50.000+08:00
-description: PyYaml反序列化
+description: PyYAML 不安全反序列化 payload、触发链与版本差异记录
 tags:
   - python
 ---

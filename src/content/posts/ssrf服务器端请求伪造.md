@@ -1,7 +1,7 @@
 ---
 title: SSRF
 pubDatetime: 2025-01-20T21:06:41.000+08:00
-description: ssrf
+description: SSRF 常见协议、DNS rebinding 与内网探测利用记录
 tags:
   - ssrf
 ---

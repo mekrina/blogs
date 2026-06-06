@@ -1,7 +1,7 @@
 ---
-title: "rotten potato"
+title: "Windows 提权笔记"
 pubDatetime: 2025-01-20T00:00:00.000+08:00
-description: "rotten potato"
+description: "Windows Rotten Potato 等本地提权技术与利用条件记录"
 tags: ["渗透"]
 ---
 ![](assets/windows提权/总览.png)
