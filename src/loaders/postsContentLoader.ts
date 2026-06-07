@@ -74,6 +74,19 @@ function getPostFileDates(
   };
 }
 
+function getPostTags(data: Record<string, unknown>) {
+  if (!Array.isArray(data.tags)) return ["others"];
+
+  const tags = data.tags.filter(
+    (tag): tag is string => typeof tag === "string" && tag.trim().length > 0
+  );
+  return tags.length > 0 ? tags : ["others"];
+}
+
+function getPostDescription(data: Record<string, unknown>) {
+  return typeof data.description === "string" ? data.description : "";
+}
+
 function entryTypesWithoutDraftRendering(
   entryTypes: LoaderContextWithEntryTypes["entryTypes"]
 ) {
@@ -127,6 +140,8 @@ export function postsContentLoader(options: GlobOptions): Loader {
             data: {
               ...props.data,
               ...fileDates,
+              tags: getPostTags(props.data),
+              description: getPostDescription(props.data),
             },
           });
         },

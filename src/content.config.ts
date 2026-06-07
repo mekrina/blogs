@@ -18,7 +18,11 @@ const posts = defineCollection({
       title: z.string(),
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),
-      tags: z.array(z.string()).default(["others"]),
+      tags: z.preprocess(
+        value =>
+          Array.isArray(value) && value.length > 0 ? value : ["others"],
+        z.array(z.string())
+      ),
       ogImage: image().or(z.string()).optional(),
       description: z.string().optional().default(""),
       canonicalURL: z.string().optional(),
