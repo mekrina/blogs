@@ -2,19 +2,19 @@ import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 import config from "@/config";
+import { postsContentLoader } from "@/loaders/postsContentLoader";
 
 export const BLOG_PATH = "src/content/posts";
 
 const posts = defineCollection({
-  loader: glob({
+  loader: postsContentLoader({
     pattern: ["**/[^_]*.{md,mdx}", "!**/*.excalidraw.md"],
     base: `./${BLOG_PATH}`,
   }),
   schema: ({ image }) =>
     z.object({
       author: z.string().default(config.site.author),
-      pubDatetime: z.date(),
-      modDatetime: z.date().optional().nullable(),
+      modDatetime: z.date(),
       title: z.string(),
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),

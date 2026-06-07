@@ -1,10 +1,12 @@
 ---
 title: "PHP 杂项笔记"
-pubDatetime: 2025-01-20T00:00:00.000+08:00
+modDatetime: 2025-01-20T00:00:00.000+08:00
 description: "PHP 源码泄露、配置特性与安全相关杂项记录"
 tags: ["php"]
 ---
+
 ## php源码泄露
+
 https://projectdiscovery.io/blog/php-http-server-source-disclosure
 
 已知影响版本 5.4.45nts - 8.0.2nts （windows？）

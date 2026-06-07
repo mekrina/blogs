@@ -7,21 +7,18 @@ type Props = {
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
-  pubDatetime?: Date;
-  modDatetime?: Date | null;
+  modDatetime?: Date;
 };
 
 const { site } = config;
 
-const { title, description, ogImage, canonicalURL, pubDatetime, modDatetime } =
-  Astro.props;
+const { title, description, ogImage, canonicalURL, modDatetime } = Astro.props;
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: title ?? site.title,
   image: ogImage,
-  ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
   ...(modDatetime && { dateModified: modDatetime.toISOString() }),
   author: [
     {
@@ -38,14 +35,6 @@ const structuredData = {
     <!-- Override og:type for article pages -->
     <meta property="og:type" content="article" />
 
-    {
-      pubDatetime && (
-        <meta
-          property="article:published_time"
-          content={pubDatetime.toISOString()}
-        />
-      )
-    }
     {
       modDatetime && (
         <meta

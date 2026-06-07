@@ -1,13 +1,16 @@
 ---
 title: "Apache Camel CoAP 组件漏洞"
-pubDatetime: 2025-01-20T00:00:00.000+08:00
+modDatetime: 2025-01-20T00:00:00.000+08:00
 description: "Apache Camel camel-coap 组件 CVE-2026-33453 漏洞记录"
 tags: ["CVES"]
 ---
+
 https://github.com/dinosn/CVE-2026-33453
 
 # camel-coap组件 CVE-2026-33453
+
 ## 利用条件
+
 Camel < 4.18.1 || Camel<4.14.6
 应用（自己写的）中调用了 to("exec:...") 组件
 
@@ -20,6 +23,7 @@ Camel < 4.18.1 || Camel<4.14.6
 DefaultExecBinding#readInput
 
 ## 修复
+
 CoAPComponent#createEndpoint中加上filterStrategy，过滤掉这两个参数
 CoAPEndpoint改继承于DefaultHeaderFilterStrategyEndpoint
 在sink点再加上判断

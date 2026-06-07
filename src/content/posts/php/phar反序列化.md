@@ -1,10 +1,11 @@
 ---
 title: phar反序列化
-pubDatetime: 2025-01-20T00:00:00.000+08:00
+modDatetime: 2025-01-20T00:00:00.000+08:00
 description: PHAR 文件构造、反序列化触发点与利用方式记录
 tags:
   - php
 ---
+
 ## 创建phar
 
 ```php
@@ -25,6 +26,7 @@ $phar->setMetadata($o);
 $phar->addFromString("test.txt", "test");
 $phar->stopBuffering();
 ```
+
 ## 文件处理函数+phar伪协议触发
 
 ![](assets/phar反序列化/Pasted%20image%2020251217193938.png)
@@ -55,7 +57,6 @@ mysqli_query($m, "LOAD DATA LOCAL INFILE 'phar://a.phar/test.txt' INTO TABLE use
 ```
 
 实际上也是读文件触发
-
 
 # phar文件验证与修复
 

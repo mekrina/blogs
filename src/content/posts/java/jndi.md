@@ -1,10 +1,12 @@
 ---
 title: "JNDI 注入与 RMI 机制"
-pubDatetime: 2025-01-20T00:00:00.000+08:00
+modDatetime: 2025-01-20T00:00:00.000+08:00
 description: "JNDI、RMI 工作流程与远程类加载利用记录"
 tags: ["java"]
 ---
+
 ## RMI工作流程
+
 rmi register是注册表，维护的是：（对象，工厂，远程地址）表
 
 rmi客户端访问注册表，然后在本地检查有没有该对象，如果没有，去远程找（trustURLCodebase）
@@ -41,9 +43,11 @@ at Client.main(Client.java:16)
 客户端反序列化服务端传回的结果. 结束
 
 ## RMI攻击手法
+
 ### RMI Remote Object
 
 调用远程方法并得到结果, 涉及到两次反序列化, 分别是
+
 1. 服务器反序列化参数
 2. 客户端反序列化结果
 
@@ -77,14 +81,15 @@ at Client.main(Client.java:16)
 虽然无法加载远程factory，但是可以从本地加载，也就是说我们可以指定任意的本地factory进行加载、实例化、然后执行`factory.getObjectInstance`
 
 可用的factory:
-1. org.apache.naming.factory.BeanFactory + 
-	(javax.el.ELProcessor#eval | groovy.lang.GroovyShell#evaluate)
-2. 
 
+1. org.apache.naming.factory.BeanFactory +
+   (javax.el.ELProcessor#eval | groovy.lang.GroovyShell#evaluate)
+2.
 
 ## 其他
 
 ### 导致jndi的lookup
+
 LdapCtx.c_lookup()
 ComponentContext.p_lookup()
 PartialCompositeContext.lookup()

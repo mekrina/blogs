@@ -64,7 +64,6 @@ const {
   description,
   ogImage: initOgImage,
   canonicalURL,
-  pubDatetime,
   modDatetime,
   timezone,
   tags,
@@ -99,7 +98,6 @@ const ogImage = ogImageUrl
   description={description}
   ogImage={ogImage}
   canonicalURL={canonicalURL}
-  pubDatetime={pubDatetime}
   modDatetime={modDatetime}
 >
   <Header />
@@ -123,7 +121,7 @@ const ogImage = ogImageUrl
       </h1>
 
       <div class="my-2 flex items-center gap-2">
-        <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+        <Datetime {modDatetime} {timezone} size="lg" />
         <span
           aria-hidden="true"
           class:list={[

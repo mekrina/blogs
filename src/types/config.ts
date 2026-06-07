@@ -27,7 +27,7 @@ interface PostsConfig {
   /** Posts shown on the index/home page */
   perIndex?: number;
   /**
-   * Scheduled posts within this window (ms) of their pubDatetime
+   * Scheduled posts within this window (ms) of their modDatetime
    * are shown as published. Defaults to 15 minutes.
    */
   scheduledPostMargin?: number;

@@ -1,13 +1,15 @@
 ---
 title: java基础
-pubDatetime: 2025-01-20T21:06:41.000+08:00
+modDatetime: 2025-01-20T21:06:41.000+08:00
 description: Java 基础、RMI 机制与安全相关知识记录
 tags:
   - java
 ---
+
 **WEB-INF** 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过**web.xml**文件对要访问的文件进行相应映射才能访问。
 
- WEB-INF主要包含以下文件或目录：
+WEB-INF主要包含以下文件或目录：
+
 1. /WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。
 2. /WEB-INF/classes/：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中
 3. /WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件
@@ -16,6 +18,7 @@ tags:
 
 **classLoader**
 会初始化（执行static代码块）的函数有
+
 1. Class.forName // 显式指定initialize 为 false除外
 2. 实例化 // 也会执行构造函数
 
@@ -88,6 +91,7 @@ JNIEXPORT jstring JNICALL Java_org_example_NativeExec_exec
 ```
 
 ## RMI
+
 类似一个数据库，客户端访问一个网址（名称），服务端查找这个名称是否有对应的对象。有则返回该对象。
 
 返回由于要在网络中传输，故需要在服务端序列化，客户端反序列化

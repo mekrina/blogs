@@ -1,19 +1,15 @@
 ---
-
-  
-
 excalidraw-plugin: parsed
 
 tags: [excalidraw]
-
-  
-
 ---
-==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠== You can decompress Drawing data with the command palette: 'Decompress current Excalidraw file'. For more info check in plugin settings under 'Saving'
 
+==⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠== You can decompress Drawing data with the command palette: 'Decompress current Excalidraw file'. For more info check in plugin settings under 'Saving'
 
 # Excalidraw Data
+
 ## Text Elements
+
 出网的内网机器 ^rcEMJxVQ
 
 主动连接，告诉frps自己的配置
@@ -48,7 +44,9 @@ port 7000 ^Rl0s7tcD
 内网机器 ^zcqQQKag
 
 %%
+
 ## Drawing
+
 ```compressed-json
 N4KAkARALgngDgUwgLgAQQQDwMYEMA2AlgCYBOuA7hADTgQBuCpAzoQPYB2KqATLZMzYBXUtiRoIACyhQ4zZAHoFAc0JRJQgEYA6bGwC2CgF7N6hbEcK4OCtptbErHALRY8RMpWdx8Q1TdIEfARcZgRmBShcZQUebQA2bQB2GjoghH0EDihmbgBtcDBQMBKIEm4IAAkAESNMAEYAUQoAKVJCHnwYJIB9DgBOHpaAYShUkshYRArA7CiOZWDx0sxu
 
@@ -158,4 +156,5 @@ OC4VNBJJTpQB5iUCQF2Up9gRjlvcOEPlgliSAeENgLKjYu4BNAwQYcZ5dUOJDIAlcdkKS2UAigAAFERm
 
 KWRZj6A+LVIRZSIOTVx4AyisPa2tY2tdnJSykbvcEBrDXYmwQAA=
 ```
+
 %%

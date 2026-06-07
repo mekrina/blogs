@@ -36,7 +36,7 @@ const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
     {
       Object.entries(
         getPostsByGroupCondition(filteredPosts, post =>
-          post.data.pubDatetime.getFullYear()
+          post.data.modDatetime.getFullYear()
         )
       )
         .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
@@ -47,7 +47,7 @@ const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
             {Object.entries(
               getPostsByGroupCondition(
                 yearGroup,
-                post => post.data.pubDatetime.getMonth() + 1
+                post => post.data.modDatetime.getMonth() + 1
               )
             )
               .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))
@@ -68,10 +68,10 @@ const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
                       .sort(
                         (a, b) =>
                           Math.floor(
-                            new Date(b.data.pubDatetime).getTime() / 1000
+                            new Date(b.data.modDatetime).getTime() / 1000
                           ) -
                           Math.floor(
-                            new Date(a.data.pubDatetime).getTime() / 1000
+                            new Date(a.data.modDatetime).getTime() / 1000
                           )
                       )
                       .map(data => (

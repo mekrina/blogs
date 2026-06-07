@@ -1,14 +1,16 @@
 ---
 title: "linux杂项笔记"
-pubDatetime: 2025-07-29T21:06:41.000+08:00
+modDatetime: 2025-07-29T21:06:41.000+08:00
 description: "Linux SUID、环境变量与常用系统安全杂项记录"
-tags: ["linux","misc"]
+tags: ["linux", "misc"]
 ---
+
 ## SUID
 
 ```sh
 find / -perm -4000 -type f 2>/dev/null
 ```
+
 只对二进制文件生效，对shell脚本无效
 
 ```c
@@ -50,14 +52,16 @@ c
 !!a
 # cat a -> hello world
 ```
+
 由于历史扩展(!)是最先进行的,所以可以使用变量,重定向符,管道等操作
+
 ```sh
 e
 !!c
 !!h
 !!o
 !!$
-!!{ 
+!!{
 # 这里会判定没有输入完, 需要手动结束
 !!I
 !!F
@@ -77,18 +81,23 @@ e
 ## 可能用于命令执行的环境变量
 
 ### PS1
+
 效果上相当于每次执行命令后被echo
+
 ```sh
 export PS1="${PS1} \$(whoami > /tmp/res)"
 ```
 
 ### PROMPT_COMMAND
+
 每次执行命令后执行
+
 ```sh
 export PROMPT_COMMAND="whoami>/tmp/res"
 ```
 
 ## LD_PRELOAD
+
 指定在命令执行前加载的.so文件，配合.so文件上传。详见[ld_preload](../ld_preload劫持.md)
 
 ## 极简文件传输
@@ -102,13 +111,17 @@ cat myfile | nc -q 0 localhost 12345
 ```
 
 ## find
+
 排除某些路径
+
 ```bash
 find . \( -path './node_modules' -o -path './dist' -o -path './.git' \) -prune -o -type f -print
 ```
 
 ## ssh
+
 从私钥生成公钥
+
 ```bash
 ssh-keygen -y -f ~/.ssh/id_rsa
 ```

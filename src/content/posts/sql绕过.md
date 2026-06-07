@@ -1,9 +1,10 @@
 ---
 title: "sql注入绕过"
-pubDatetime: 2025-01-20T21:06:41.000+08:00
+modDatetime: 2025-01-20T21:06:41.000+08:00
 description: "SQL 注入过滤绕过、关键字绕过与数据库差异技巧"
 tags: ["sql"]
 ---
+
 # php+mysql
 
 ## 宽字节绕过
@@ -26,14 +27,15 @@ mysql_real_escape_string、addslashes会在引号前加上反斜杠`\`，如果m
 
 mysql大小写不敏感，关键字过滤可能可以用大小写绕过，比如SeLeCT
 
---- 
+---
+
 # SQL注入针对关键字过滤的绕过技巧
 
 在SQL注入中经常会遇到服务端针对注入关键字进行过滤，经过查询各种文章，总结了一部分绕过的方法。
+
 <!--more-->
 
 > 2020.08.08更新：增加利用MySQL8.0语法新特性绕过方法，增加SQL注入过滤和检测的几种思路和绕过方法
-
 
 ## 过滤空格
 
@@ -184,6 +186,7 @@ and=`&&`  or=`||`   xor=`|`   not=`!`
 ```
 
 ## 过滤information_schema
+
 过滤or可能会误伤
 使用无列名注入, 见[sql注入](sql注入.md#无列名注入)
 
@@ -360,4 +363,5 @@ handler user read first;
 例如我们上面说的MySQL8的tables和values语句就是比较新的语法，有很多waf还米有覆盖到
 
 ## Ref
+
 参考 [链接](https://zu1k.com/posts/security/web-security/bypass-tech-for-sql-injection-keyword-filtering/#%E4%BD%BF%E7%94%A8%E6%B3%A8%E9%87%8A%E7%AC%A6%E7%BB%95%E8%BF%87-1)

