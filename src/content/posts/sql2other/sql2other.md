@@ -1,7 +1,7 @@
 ---
 title: sql2other
-modDatetime: 2025-01-20T00:00:00.000+08:00
 description: 从SQL注入到RCE、文件读写等的手段
+featured: true
 tags:
   - sql2other
 ---

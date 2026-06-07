@@ -1,7 +1,7 @@
 ---
 title: Redis 利用综合
-modDatetime: 2025-01-20T00:00:00.000+08:00
 description: Redis 未授权访问、任意文件写、主从复制与模块加载利用记录
+featured: true
 tags:
   - others
 ---

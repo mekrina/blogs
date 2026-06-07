@@ -13,14 +13,14 @@ const posts = defineCollection({
   }),
   schema: ({ image }) =>
     z.object({
-      author: z.string().default(config.site.author),
+      author: z.string().optional().default(config.site.author),
       modDatetime: z.date(),
       title: z.string(),
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),
       tags: z.array(z.string()).default(["others"]),
       ogImage: image().or(z.string()).optional(),
-      description: z.string(),
+      description: z.string().optional().default(""),
       canonicalURL: z.string().optional(),
       hideEditPost: z.boolean().optional(),
       timezone: z.string().optional(),

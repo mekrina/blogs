@@ -1,6 +1,6 @@
 ---
 title: thinkphp
-modDatetime: 2025-01-20T00:00:00.000+08:00
+featured: true
 description: thinkphp历史漏洞分析
 tags:
   - php

@@ -1,7 +1,7 @@
 ---
 title: "linux提权指北"
-modDatetime: 2025-01-20T00:00:00.000+08:00
 description: "各类linux提权的方法总结"
+featured: true
 tags: ["渗透"]
 ---
 

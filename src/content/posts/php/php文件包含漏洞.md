@@ -1,6 +1,6 @@
 ---
 title: "php文件包含漏洞"
-modDatetime: 2025-01-20T21:06:41.000+08:00
+featured: true
 description: "PHP 文件包含漏洞、伪协议、日志包含与 session 包含利用记录"
 tags: ["php"]
 ---

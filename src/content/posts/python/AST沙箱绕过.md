@@ -1,6 +1,6 @@
 ---
 title: "Python AST 沙箱绕过"
-modDatetime: 2025-01-20T00:00:00.000+08:00
+featured: true
 description: "Python AST 节点限制、format 字符串与沙箱绕过技巧"
 tags: ["python"]
 ---
