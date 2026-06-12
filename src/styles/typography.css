@@ -18,13 +18,16 @@
     }
 
     p,
-    strong,
     ol,
     ul,
     figcaption,
     table,
     code {
       @apply text-foreground;
+    }
+
+    strong {
+      @apply bg-muted/75 text-foreground rounded p-1 font-semibold;
     }
 
     a {
