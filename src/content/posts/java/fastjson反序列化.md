@@ -3,6 +3,7 @@ title: "fastjson反序列化"
 modDatetime: 2025-07-25T18:47:05.000+08:00
 description: "Fastjson 反序列化常见利用链与 JdbcRowSetImpl 触发方式"
 tags: ["java", "fastjson"]
+draft: true
 ---
 
 \$ref 调用 getter

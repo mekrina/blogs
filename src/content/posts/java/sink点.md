@@ -2,6 +2,7 @@
 title: "sink点"
 modDatetime: 2025-01-20T00:00:00.000+08:00
 description: "Java 安全审计中常见 sink 点与参数可控场景记录"
+draft: true
 tags: ["java"]
 ---
 
@@ -17,5 +18,3 @@ tags: ["java"]
 或者加载字节码后实例化
 
 ![](assets/sink点/getTransletInstance.png)
-
-## abc
