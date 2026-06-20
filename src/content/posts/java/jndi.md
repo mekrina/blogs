@@ -1,6 +1,5 @@
 ---
 title: JNDI注入
-draft: true
 tags:
   - java
   - jndi
