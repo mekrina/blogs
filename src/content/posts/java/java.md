@@ -6,6 +6,48 @@ tags:
   - java
 ---
 
+## In/out Stream
+始终以java程序本身来看
+
+进入java程序的数据叫做InputStream, 包括读文件、读取网络流
+```java
+FileInputStream        // 从文件读
+Socket.getInputStream() // 从网络连接读
+System.in              // 从键盘/标准输入读
+ByteArrayInputStream   // 从字节数组读
+```
+
+从java程序出去的数据叫做OutputStream，比如写文件、发送网络数据
+```java
+FileOutputStream        // 写到文件
+Socket.getOutputStream() // 写到网络连接
+System.out              // 写到控制台
+ByteArrayOutputStream   // 写到字节数组
+```
+
+## marshal概念
+serialize / deserialize
+更偏向：对象 <-> 字节流
+
+marshal / unmarshal
+更偏向：为了跨进程、跨网络、RPC 调用，把参数/对象整理成可传输格式，再还原
+
+serialize是marshal中最重要的一步
+
+## 比较操作
+
+==比较的是对象
+
+"admin" == "admin" => true， 因为都来自常量池
+
+"admin" == new String("admin") => false 不同对象
+
+字符串比较用equals
+```java
+String s = "admin";
+"admin".equals(s);
+```
+
 ## WEB-INF
 是Java的WEB应用的安全目录。如果想在页面中直接访问其中的文件，必须通过**web.xml**文件对要访问的文件进行相应映射才能访问。
 

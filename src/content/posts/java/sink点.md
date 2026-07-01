@@ -6,9 +6,10 @@ draft: true
 tags: ["java"]
 ---
 
-## 实例化任意类，参数可控
+# 实例化任意类，参数可控
+## TrAXFilter
 
-`TrAXFilter`类，这个类存在于JDK中（已知JDK21仍然是这样）
+这个类存在于JDK中（已知JDK21仍然是这样）
 初始化时，调用传入的`templates`的newTransformer()方法
 ![](assets/sink点/TrAXFilter.png)
 这个函数可以触发字节码加载
@@ -18,3 +19,23 @@ tags: ["java"]
 或者加载字节码后实例化
 
 ![](assets/sink点/getTransletInstance.png)
+
+# 函数反射执行
+
+## ELProcessor#eval
+依赖：tomcat-embed-el
+
+javax.el.ELProcessor#eval 执行EL表达式，参数为String类型
+
+# getter
+## TemplatesImpl#getOutputProperties
+```
+com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl#getOutputProperties
+newTransformer->getTransletInstance
+defineTranslateClass
+defineClass(bytecodes)
+```
+
+# setter
+## JdbcRowSetImpl
+setDatasourceName后setAutocommit  --> JNDI
