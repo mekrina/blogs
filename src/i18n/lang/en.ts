@@ -4,6 +4,7 @@ export default {
   nav: {
     home: "Home",
     posts: "Posts",
+    featured: "Featured",
     tags: "Tags",
     about: "About",
     archives: "Archives",
@@ -29,7 +30,6 @@ export default {
   },
   home: {
     socialLinks: "Social Links",
-    featured: "Featured",
     recentPosts: "Recent Posts",
     allPosts: "All Posts",
   },
@@ -46,6 +46,9 @@ export default {
 
     postsTitle: "Posts",
     postsDesc: "All the articles I've posted.",
+
+    featuredTitle: "Featured",
+    featuredDesc: "Selected articles worth revisiting.",
 
     archivesTitle: "Archives",
     archivesDesc: "All the articles I've archived.",

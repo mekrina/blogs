@@ -50,19 +50,19 @@ public class RMIClient {
 
 ## 导致JNDI的lookup
 
+```txt
 LdapCtx.c_lookup()
 ComponentContext.p_lookup()
 PartialCompositeContext.lookup()
 GenericURLContext.lookup()
 ldapURLContext.lookup()
 InitialContext.lookup()
+```
 
 ## 远程类加载
-https://y4er.com/posts/use-local-factory-bypass-jdk-to-jndi/
-
 JNDI可以lookup一个Reference资源，Reference相当于是一个如何创建对象的说明书，包括`目标类名，工厂类，工厂类地址`。客户端lookup，如果得到的是Reference对象, 会获取这个工厂类（本地或远程）并实例化，然后调用`factory.getObjectInstance`创建对象。factory会根据Reference中的目标类名来创建并返回对象。
 
-因此存在任意远程类加载、本地类加载（TODO）的安全问题
+因此存在任意远程类加载、本地类加载的安全问题
 
 ![](assets/RMI三端攻击/对于Reference对象尝试获取factory.png)
 
@@ -236,7 +236,7 @@ public class LDAPRefServer {
 
 ![alt text](../assets/image-6.png)
 
-这时候客户端会判断是否存在objectClass键，对应值是否包含"javaNamingReference"，如果是则根据这些属性构建出一个Reference对象。
+javaClassName必须存在才会视为java对象相关项目做后续操作，然后客户端会判断是否存在objectClass键，以及对应值是否包含"javaNamingReference"，如果是则根据这些属性构建出一个Reference对象。
 
 ![alt text](../assets/image-11.png)
 
