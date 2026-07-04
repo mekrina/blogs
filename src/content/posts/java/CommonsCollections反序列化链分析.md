@@ -1,7 +1,6 @@
 ---
-title: CommonsCollections反序列化链分析
-modDatetime: 2025-11-25T00:00:00.000+08:00
-description: CommonsCollections 反序列化链 CC2 等利用链分析
+title: CC链总结
+description: CommonsCollections 反序列化链总结分析
 tags:
   - 反序列化
   - java
