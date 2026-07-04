@@ -25,7 +25,7 @@ public class EL {
         ELProcessor processor = new ELProcessor();  
         processor.eval("1+1");
         processor.eval("'hello' += ' world'");
-    }  
+    }
 }
 ```
 

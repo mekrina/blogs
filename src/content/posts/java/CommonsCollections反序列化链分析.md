@@ -6,6 +6,123 @@ tags:
   - 反序列化
   - java
 ---
+# 总结
+## 调用链
+sink点都是`transformer#transform`（`InvokerTransformer/InstantiateTransformer`)，区别就是kickoff不同
+
+除了CC2、CC4外都是通过`lazyMap.get()`触发：
+
+CC1/CC3通过AnnotationInvocationHandler#invoke
+CC5通过TiedMapEntry#toString
+CC6通过TiedMapEntry#hashCode
+CC7通过Hashtable#reconstitutionPut -> lazyMap.equals
+
+CC2/CC4通过 `PriorityQueue + transformingComparator`
+
+## 版本依赖
+### CC版本依赖
+由于CC中`InvokerTransformer/InstantiateTransformer`高版本不可序列化，所有利用链要求`CC < 3.2.2 && CC < 4.1`
+
+CC2/CC4只在4.0版本可用，3.x版本`transformingComparator`不可序列化，4.1版本后续的transformer又不可序列化了
+
+其他的限制都是 `CC < 3.2.2 && CC < 4.1`
+
+### JDK版本依赖
+CC1/CC3 < JDK8u72, 后续AnnotationInvocationHandler不保留原始的memberValues，而是新建了一个LinkedHashMap并copy内容，导致内部lazyMap丢失
+
+CC5 `> JDK7u45 && < JDK15 && System.getSecurityManager() == null`  由于BadAttributeValueExpException在高版本中toString之前检查val对象是否是String类型，低版本无readObject。无 SecurityManager才会toString
+
+CC2/CC4/CC6/CC7不依赖JDK版本
+
+像CC4用到`com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl`这些内部类的话，JDK9之后需要开放模块访问才能用
+
+# CC1
+
+## Gadget chain
+```txt
+    AnnotationInvocationHandler.readObject()
+        Map(Proxy).entrySet()
+            AnnotationInvocationHandler.invoke()
+                LazyMap.get()
+                    ChainedTransformer.transform() (sink)
+```
+
+## 原理
+对象图：
+
+![394](assets/CommonsCollections反序列化链分析/Pasted%20image%2020260704185027.png)
+
+这里涉及两个AnnotationInvocationHandler(AIH), 外层AIH反序列化执行 `memberValues.entrySet`，这个memberValues是我们构造的Proxy对象，handler是内层AIH，所以会执行innerAIH.invoke方法，从而执行到内层memberValues(`lazyMap`)的get方法
+
+![](assets/CommonsCollections反序列化链分析/Pasted%20image%2020260704185340.png)
+
+## 修复方案
+低版本，直接重建AIH，memberValues还是我们构造的ProxyMap
+![](assets/CommonsCollections反序列化链分析/Pasted%20image%2020260704185840.png)
+
+高版本readObject时候，会把原来的memberValues(var4)键值对copy到新的LinkedHashMap（var7）。不再是原来的LazyMap
+
+![807](assets/CommonsCollections反序列化链分析/Pasted%20image%2020260704190424.png)
+
+外层AIH执行到entrySet的时候还是原来的ProxyMap，entrySet进入innerAIH.invoke，但是内层的memberValues被替换成了LinkedHashMap
+
+![](assets/CommonsCollections反序列化链分析/Pasted%20image%2020260704190821.png)
+
+# CC3
+cc1变体，把ChainedTransformer换成InstantiateTransformer
+
+```java
+final Transformer[] transformers = new Transformer[] {  
+       new ConstantTransformer(TrAXFilter.class),  
+       new InstantiateTransformer(  
+             new Class[] { Templates.class },  
+             new Object[] { templatesImpl } )};
+```
+
+# CC5
+与CC1一样，同样是触发`lazyMap.get`
+
+kickoff从`annotationInvocationHandler`改成`BadAttributeValueException -> TiedMapEntry#toString`
+
+## 利用条件
+
+## Gadget Chain
+```txt
+ObjectInputStream.readObject()
+    BadAttributeValueExpException.readObject()
+        TiedMapEntry.toString()
+            LazyMap.get()
+                ChainedTransformer.transform()
+                    InvokerTransformer.transform()
+```
+
+# CC6
+
+改成通过`TiedMapEntry#hashCode`触发
+## Gadget Chain
+```txt
+java.util.HashSet.readObject()
+    java.util.HashMap.put()
+    java.util.HashMap.hash()
+        org.apache.commons.collections.keyvalue.TiedMapEntry.hashCode()
+        org.apache.commons.collections.keyvalue.TiedMapEntry.getValue()
+            org.apache.commons.collections.map.LazyMap.get()
+```
+
+# CC7
+
+## Gadget Chain
+```txt
+java.util.Hashtable.readObject  
+java.util.Hashtable.reconstitutionPut  
+org.apache.commons.collections.map.AbstractMapDecorator.equals  (lazyMap.equals）
+java.util.AbstractMap.equals  
+org.apache.commons.collections.map.LazyMap.get
+```
+
+------------
+
+以下是Commons-collections 4.0上的利用
 
 # CC2
 
@@ -64,6 +181,15 @@ public class CC4 {
 ```
 
 ## 堆栈
+
+```txt
+PriorityQueue#readObject
+	PriorityQueue#heapfy
+		PriorityQueue#siftDownUsingComparator
+			TransformingComparator#compare
+				ChainedTransformer#transform
+					InvokerTransformer#transform（sink)
+```
 
 ```txt
 at org.apache.commons.collections4.functors.ChainedTransformer.transform(ChainedTransformer.java:112)
@@ -131,6 +257,17 @@ public class CC4 {
 ```
 
 ## 堆栈
+```
+PriorityQueue#readObject
+	PriorityQueue#heapfy
+		PriorityQueue#siftDownUsingComparator
+			TransformingComparator#compare
+				InstantiateTransformer#transform (初始化任意类，参数可控)
+					TrAXFilter constructor
+						TemplateImpl#newTransformer (sink，加载字节码)
+```
+
+具体调用栈：
 
 ```txt
 at com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl.getTransletInstance(TemplatesImpl.java:455)

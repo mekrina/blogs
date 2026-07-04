@@ -259,7 +259,7 @@ javaClassName必须存在才会视为java对象相关项目做后续操作，然
 
 ### tomcat BeanFactory
 
-依赖：tomcat-catalina
+依赖：tomcat-embed-core
 版本：7.x, <= 8.5.78, <= 9.0.62, <= 10.0.20
 效果：实例化类并执行指定函数（public，限参数为单个String类型）
 

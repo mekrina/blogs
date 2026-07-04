@@ -43,6 +43,8 @@ at Client.main(Client.java:16)
 
 客户端反序列化服务端传回的结果. 结束
 
+Server/Registry实际上是一对特殊的C/S, Server也是先拿到Registry的Stub，然后执行registry.bind(name, obj), 然后转registry执行，ObjID对应的对象就是registryImpl，执行的bind方法，往bindings写入 (name, stub)
+
 ## RMI攻击手法
 https://forum.butian.net/share/541
 
