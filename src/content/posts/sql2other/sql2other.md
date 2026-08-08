@@ -5,12 +5,6 @@ featured: true
 tags:
   - sql2other
 ---
-
-## sink
-
-execute, executemany
-executescript(sqlite)
-
 ## bigquery
 
 https://blog.wjlin0.com/docs/%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/web%E6%BC%8F%E6%B4%9E/sql%E6%B3%A8%E5%85%A5/bigquery/
