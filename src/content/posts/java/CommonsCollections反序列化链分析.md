@@ -79,11 +79,7 @@ final Transformer[] transformers = new Transformer[] {
 ```
 
 # CC5
-与CC1一样，同样是触发`lazyMap.get`
-
 kickoff从`annotationInvocationHandler`改成`BadAttributeValueException -> TiedMapEntry#toString`
-
-## 利用条件
 
 ## Gadget Chain
 ```txt

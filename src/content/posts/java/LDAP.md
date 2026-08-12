@@ -1,6 +1,5 @@
 ---
 title: LDAP
-draft: true
 tags:
   - 
 description: 
@@ -84,5 +83,4 @@ ldap可以通过两种方式保存java对象
 1. 序列化数据 + 某些属性标记（反序列化利用）
 2. Reference（远程or本地类加载）
 
-具体见 [JNDI](./JNDI.md) 这篇 or [wh1t3p1g
-大神这篇](https://www.anquanke.com/post/id/201181)
+具体见 [JNDI](./JNDI.md) 这篇 or [wh1t3p1g大神这篇](https://www.anquanke.com/post/id/201181)

@@ -1,11 +1,9 @@
 ---
 title: Jeg回显
 tags:
-  - 
-description: from readObject to some interesting fucntion
+  - java
+description: 解决RCE中无回显问题
 ---
-
-
 
 ## what is Jeg
 

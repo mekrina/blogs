@@ -3,7 +3,6 @@ title: JNDI注入
 tags:
   - java
   - jndi
-  - todo
 description: JNDI注入
 ---
 
@@ -44,7 +43,7 @@ public class RMIClient {
 }
 ```
 
-可利用版本如下
+## 可利用版本
 
 ![807](assets/JNDI/Pasted%20image%2020260620201128.png)
 
@@ -440,6 +439,12 @@ org.apache.catalina.users.MemoryUserDatabaseFactory
 待学习...
 
 https://y4er.com/posts/use-local-factory-bypass-jdk-to-jndi/
+
+## JRMP反序列化
+
+JRMP是RMI的通信协议，java remote method protocal
+
+具体见：[RMI三端攻击.md](RMI三端攻击.md) 
 
 ## LDAP反序列化
 

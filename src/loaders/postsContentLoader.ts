@@ -1,5 +1,5 @@
 import { statSync } from "node:fs";
-import { relative } from "node:path";
+import { basename, extname, relative } from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { glob, type Loader } from "astro/loaders";
@@ -87,6 +87,17 @@ function getPostDescription(data: Record<string, unknown>) {
   return typeof data.description === "string" ? data.description : "";
 }
 
+function getPostTitle(data: Record<string, unknown>, filePath?: string) {
+  if (typeof data.title === "string" && data.title.trim().length > 0) {
+    return data.title;
+  }
+
+  if (!filePath) return "";
+
+  const fileName = basename(filePath);
+  return fileName.slice(0, fileName.length - extname(fileName).length);
+}
+
 function entryTypesWithoutDraftRendering(
   entryTypes: LoaderContextWithEntryTypes["entryTypes"]
 ) {
@@ -140,6 +151,7 @@ export function postsContentLoader(options: GlobOptions): Loader {
             data: {
               ...props.data,
               ...fileDates,
+              title: getPostTitle(props.data, props.filePath),
               tags: getPostTags(props.data),
               description: getPostDescription(props.data),
             },
