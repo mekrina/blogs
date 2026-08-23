@@ -1,6 +1,7 @@
 ---
-title: "fastjson反序列化"
-description: "Fastjson 反序列化常见利用链与 JdbcRowSetImpl 触发方式"
+title: "fastjson总结"
+featured: true
+description: "Fastjson 各版本利用总结"
 tags: ["java", "fastjson"]
 ---
 
