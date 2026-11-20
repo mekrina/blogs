@@ -1,0 +1,36 @@
+https://xz.aliyun.com/news/16323	fastjson-deser-principle-poc.html	先知社区	Fastjson反序列化漏洞原理+漏洞复现+实战案例+POC收集	Fastjson反序列化从原理到实战讲解，含POC收集与autoType利用
+https://xz.aliyun.com/news/92638	fastjson-all-version-exploit.html	先知社区	Fastjson1全版本漏洞利用总结	整理Fastjson各版本利用链与autoType绕过思路，含1.2.24/1.2.47/1.2.68
+https://xz.aliyun.com/news/15984	fastjson-deser-deep-analyze.html	先知社区	Fastjson反序列化漏洞深度解析与利用和修复	深度解析autoType机制、利用链与修复方案
+https://www.cnblogs.com/CoLo/p/15842880.html	fastjson-1.2.25-1.2.47-bypass.html	博客园	Fastjson 反序列化漏洞分析 1.2.25-1.2.47	逐版本分析1.2.25-1.2.47的checkAutoType绕过与payload构造
+https://xz.aliyun.com/news/15317	log4j2-jndi-principle.html	先知社区	从JNDI到log4j2漏洞	从JNDI注入原理串联到Log4j2 Log4Shell漏洞成因
+https://xz.aliyun.com/news/10102	log4j2-jndi-rce.html	先知社区	Apache Log4j2 JNDI RCE	Log4j2 lookup功能JNDI注入RCE利用分析
+https://www.cnblogs.com/HighnessDragonfly/p/15745134.html	log4shell-research-mining-case.html	博客园	Log4shell漏洞研究及其挖矿案例分析	Log4Shell原理研究并附带真实挖矿攻击案例分析
+https://www.cnblogs.com/loongten/p/15822195.html	log4j2-rce-reproduce.html	博客园	CVE-2021-44228——Log4j2-RCE漏洞复现	vulfocus/vulhub环境下的Log4j2 RCE完整复现与反弹shell
+https://xz.aliyun.com/news/7388	shiro-550-cve-2016-4437-analysis.html	先知社区	CVE-2016-4437:Apache Shiro RememberMe UnSerialized RCE分析	Shiro-550 RememberMe硬编码密钥反序列化RCE原理分析
+https://xz.aliyun.com/news/6097	shiro-1.2.4-rememberme-detail.html	先知社区	Java反序列化入门-Shiro RememberMe 1.2.4远程代码执行漏洞-详细分析	Shiro 1.2.4硬编码AES密钥RememberMe反序列化详细分析
+https://www.cnblogs.com/dhan/p/18421868	shiro-550-cve-2016-4437-cnblogs.html	博客园	Shiro-550—漏洞分析(CVE-2016-4437)	从源码分析Shiro RememberMe加解密流程到密钥爆破与复现
+https://www.cnblogs.com/backlion/p/14077804.html	shiro-550-vuln-reproduce.html	博客园	Apache Shiro 反序列化漏洞（Shiro-550 CVE-2016-4437）	Shiro-550原理讲解与dnslog/密钥爆破复现
+https://xz.aliyun.com/news/15160	snakeyaml-deser-principle-exploit.html	先知社区	SnakeYaml反序列化原理分析和利用总结	SnakeYAML反序列化原理与通用RCE利用链（含CVE-2022-1471）总结
+https://xz.aliyun.com/news/12229	snakeyaml-vuln-analysis.html	先知社区	Java安全之SnakeYaml漏洞分析与利用	SnakeYaml漏洞原理分析与CVE-2022-1471/UniversalRCE利用
+https://xz.aliyun.com/news/11458	snakeyaml-spi-c3p0-fastjson.html	先知社区	Java安全SnakeYaml组件中类的探测到反序列化在SPI/C3P0/FastJson的利用	SnakeYAML类探测到反序列化在SPI/C3P0/FastJson场景的利用
+https://www.cnblogs.com/F12-blog/p/18151239	snakeyaml-deser-analyze.html	博客园	SnakeYaml反序列化分析	SnakeYAML反序列化流程调试与ScriptEngineManager/C3P0利用链
+https://xz.aliyun.com/news/6753	ysoserial-urldns-cc1-7.html	先知社区	ysoserial URLDNS, CommonsCollections1-7 分析+复现	ysoserial URLDNS与CommonsCollections1-7利用链分析与复现
+https://xz.aliyun.com/news/8950	commonscollections1-8.html	先知社区	CommonsCollections1-8	CommonsCollections1-8利用链全面分析
+https://xz.aliyun.com/news/7759	ysoserial-cc1-7-analysis.html	先知社区	ysoserial CommonsCollections1-7分析	ysoserial中CommonsCollections1-7各gadget链原理详解
+https://xz.aliyun.com/news/8916	urldns-chain-analysis.html	先知社区	Java反序列化 — URLDNS利用链分析	URLDNS链原理分析，Java反序列化入门必读
+https://xz.aliyun.com/news/90682	jndi-injection-full-bypass.html	先知社区	JNDI注入攻防全解析：从低版本RCE到高版本绕过分析	JNDI注入从低版本RCE到高版本JDK绕过攻防全解析
+https://xz.aliyun.com/news/12463	jndi-injection-basics.html	先知社区	浅析JNDI注入	JNDI注入基础原理与RMI/LDAP利用方式
+https://xz.aliyun.com/news/17546	jndi-high-version-bypass.html	先知社区	高版本jndi注入探索	高版本JDK下JNDI注入绕过思路探索
+https://xz.aliyun.com/news/14702	jndi-jdk21-bypass.html	先知社区	jdk21下的jndi注入	JDK21最新版本下JNDI注入的利用方式
+https://xz.aliyun.com/news/10336	filter-memshell-analysis.html	先知社区	java Filter内存马分析	Java Filter型内存马原理与注入分析
+https://xz.aliyun.com/news/11493	spring-memshell-controller.html	先知社区	Spring内存马——Controller/Interceptor构造	Spring内存马Controller/Interceptor型构造原理
+https://xz.aliyun.com/news/10229	spring-memshell-intro.html	先知社区	初探Java安全之Spring内存马	Spring内存马入门与实现分析
+https://xz.aliyun.com/news/91594	java-memshell-implement-counter.html	先知社区	一文简单讲解 JAVA 内存马的实现和反制技巧	Java内存马实现原理与查杀反制技巧
+https://xz.aliyun.com/news/90800	spel-expression-injection-detail.html	先知社区	Java安全之SpEL表达式注入详解	SpEL表达式注入原理与利用详解
+https://xz.aliyun.com/news/10452	cve-2022-22947-gateway-spel.html	先知社区	CVE-2022-22947 SpringCloud GateWay SPEL RCE分析	Spring Cloud Gateway SpEL表达式注入RCE(CVE-2022-22947)分析
+https://xz.aliyun.com/news/7472	cve-2020-5410-config-traversal.html	先知社区	CVE-2020-5410 Spring Cloud Config目录穿越漏洞	Spring Cloud Config目录穿越(CVE-2020-5410)分析
+https://xz.aliyun.com/news/7898	cve-2020-5405-config-traversal.html	先知社区	CVE-2020-5405 Spring Cloud Config 路径穿越漏洞浅析	Spring Cloud Config路径穿越(CVE-2020-5405)浅析
+https://xz.aliyun.com/news/15804	jar-decompile-debug-guide.html	先知社区	Java JAR包反编译与动态调试指南	Java JAR包反编译工具使用与动态调试指南（JD-GUI/CFR等）
+https://xz.aliyun.com/news/92733	jar-decompile-audit-case.html	先知社区	一份 Java Web 源码审计实录：179 个 class 反编译后的攻击面全景	大量class反编译后的Java Web源码审计实战
+https://xz.aliyun.com/news/90927	jar-reverse-classfinal.html	先知社区	记一次classfinal保护的jar包逆向	classfinal加固jar包的逆向还原实战
+https://github.com/Vineflower/vineflower	vineflower-decompiler-usage.html	GitHub	Vineflower - Modern Java decompiler（官方仓库/使用说明）	vineflower反编译器的官方仓库与命令行使用说明

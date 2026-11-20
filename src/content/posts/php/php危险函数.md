@@ -33,7 +33,7 @@ function getFlag(){
 }
 ```
 
-```payload
+```plaintext
 url?\S*=${getFlag()}&cmd=system("ls")
 ```
 

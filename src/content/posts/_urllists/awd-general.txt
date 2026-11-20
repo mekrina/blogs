@@ -1,0 +1,31 @@
+https://rivers.chaitin.cn/blog/cqa8cjp0lnechd245sjg	webshell-memory-1.html	长亭百川云	一课玩转内存马及其查杀原理及专杀制作	Java/PHP内存马注入原理到查杀专杀制作思路
+https://www.cnblogs.com/Cl0ud/p/13620537.html	webshell-busima-1.html	博客园	AWD不死马与克制方法	不死马原理+基于条件竞争的同名覆盖克制方法
+https://xz.aliyun.com/news/16168	webshell-java-memshell-1.html	先知社区	Java Web内存马深入分析：从注入原理到检测查杀	Java内存马(Filter/Servlet/Agent)从注入原理到检测查杀全流程
+https://www.cnblogs.com/Hardworking666/p/15866085.html	webshell-basic-1.html	博客园	WebShell基础详解（特点、原理、分类、工具）	WebShell原理、分类与常用工具入门
+https://the0n3.top/pages/disfunc	disable-functions-1.html	the0n3	webshell绕过disable_functions	LD_PRELOAD/FFI/iconv(GCONV_PATH)等多姿势绕过复现
+https://www.cnblogs.com/haidragon/p/16845579.html	disable-functions-2.html	博客园	学习笔记-绕过php禁用函数	LD_PRELOAD与FFI扩展等绕过disable_functions姿势
+https://cloud.tencent.com/developer/article/1944125	disable-functions-3.html	腾讯云开发者社区	突破disable_functions限制执行命令·上	LD_PRELOAD/GCONV_PATH+iconv等绕过原理详解
+https://j0k3r.top/2020/02/13/disable_functions-bypass	disable-functions-4.html	j0k3r	PHP突破disable_functions常用姿势及Fuzz挖掘内部系统调用	常用绕过姿势+通过Fuzz挖掘内部系统调用的新方法
+https://www.cnblogs.com/chm0d/p/17664249.html	traversal-1.html	博客园	Java代码审计之目录穿越(任意文件下载/读取)	目录穿越原理/编码绕过/修复+实战靶场
+https://developer.cloud.tencent.com/article/2148797	traversal-2.html	腾讯云开发者社区	目录遍历漏洞	目录遍历原理、多种绕过技巧与防范修复
+https://www.cnblogs.com/yuzly/p/11212078.html	traversal-3.html	博客园	nginx目录穿越漏洞复现	Nginx别名配置导致的目录穿越复现
+https://www.secrss.com/articles/34890	traversal-4.html	安全内参	Apache HTTP Server路径穿越漏洞(CVE-2021-41773)分析复现	Apache路径穿越CVE-2021-41773源码级分析复现
+https://xz.aliyun.com/news/10443	awd-1.html	先知社区	AWD比赛入门攻略总结	AWD全流程：信息收集/攻击/防守修复/应急响应
+https://xz.aliyun.com/news/14972	awd-2.html	先知社区	【Awdp】赛制详解&应对方法&赛题实践	AWDP赛制针对性打法和实战题解
+https://hello-ctf.com/hc-awd/awd_web.exp	awd-3.html	Hello CTF	【WEB】AWD技巧	AWD-WEB方向：备份/审计/修复/不死马查杀/文件监控命令
+https://bbs.kanxue.com/thread-277225.htm	awd-4.html	看雪	AWD竞赛从0到1	AWD从0到1入门：分工/攻击/防守与脚本化操作
+https://www.cnblogs.com/Mast1n/p/redis.html	middleware-redis-1.html	博客园	redis未授权访问及利用总结	Redis未授权：写WebShell/SSH公钥/主从RCE及修复
+https://cloud.tencent.com/developer/article/1727077	middleware-redis-2.html	腾讯云开发者社区	Redis未授权漏洞复现和修复	Redis未授权访问复现与修复加固方案
+https://www.cnblogs.com/zpchcbd/p/12654984.html	middleware-nginx-1.html	博客园	Nginx不安全配置导致的漏洞	Nginx不安全配置(目录穿越/解析/CRLF等)汇总
+https://xz.aliyun.com/news/9533	middleware-tomcat-1.html	先知社区	tomcat漏洞大杂烩	Tomcat常见漏洞(put写入/AJP/反序列化等)汇总
+https://www.cnblogs.com/yokan/p/16102554.html	codeaudit-php-1.html	博客园	PHP代码审计之基础方法思路流程	PHP代码审计的基础方法、思路与完整流程
+https://xz.aliyun.com/news/14014	codeaudit-php-2.html	先知社区	php代码审计分享	PHP代码审计实战经验分享
+https://evilpan.com/2022/01/22/code-audit	codeaudit-1.html	有价值炮灰	代码安全审计之道	语言无关的代码审计方法论(Source/Sink/工具链)
+https://xz.aliyun.com/news/19196	codeaudit-java-1.html	先知社区	Java代码审计深度分析	Java代码审计深入分析与常见漏洞点
+https://xz.aliyun.com/news/8987	revshell-1.html	先知社区	反弹Shell，看这一篇就够了	各种反弹shell姿势与原理汇总
+https://www.cnblogs.com/LittleHann/p/12038070.html	revshell-2.html	博客园	反弹Shell原理及检测技术研究	反弹shell原理+检测/防御技术研究
+https://cloud.tencent.com/developer/article/2486296	revshell-3.html	腾讯云开发者社区	Linux环境反弹shell原理与姿势	Linux反弹shell原理与多语言姿势
+https://xz.aliyun.com/news/7097	smuggling-1.html	先知社区	浅谈HTTP请求走私	HTTP请求走私基础原理讲解
+https://xz.aliyun.com/news/12672	smuggling-2.html	先知社区	请求走私利用实践一篇通	请求走私从原理到利用实践
+https://xz.aliyun.com/news/6258	smuggling-3.html	先知社区	从一道题到协议层攻击之HTTP请求走私	通过CTF题深入协议层请求走私攻击
+https://xz.aliyun.com/news/15070	smuggling-4.html	先知社区	CVE-2024-21733 tomcat请求走私分析	Tomcat请求走私CVE-2024-21733原理分析

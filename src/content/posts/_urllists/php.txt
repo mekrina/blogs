@@ -1,0 +1,30 @@
+https://xz.aliyun.com/news/13044	xz-sqli-mysql-summary.html	先知社区	MYSQL 注入总结+原理深度分析	MySQL注入全面总结：宽字节、堆叠、报错注入等原理与攻击payload详解
+https://www.jianshu.com/p/51f01046b987	jianshu-sqli-stack-injection.html	简书	sql注入之堆叠注入	堆叠注入原理，多语句执行与union注入区别及利用方法
+https://www.cnblogs.com/diligenceday/p/12324329.html	cnblogs-sqli-wide-byte.html	博客园	sqli-宽字节注入	宽字节注入原理：GBK编码与addslashes转义绕过及攻击手法
+https://developer.aliyun.com/article/692723	aliyun-sqli-error-injection.html	阿里云开发者社区	sql报错注入：extractvalue、updatexml报错原理	报错注入原理与extractvalue/updatexml函数利用payload
+https://www.cnblogs.com/SecIN/p/17055942.html	cnblogs-file-upload-summary.html	博客园	文件上传漏洞总结	文件上传漏洞各类绕过手法(前端/MIME/黑名单/内容检测)与防御总结
+https://www.cnblogs.com/carmi/p/17986435	cnblogs-file-upload-bypass.html	博客园	文件上传漏洞	图片马制作、.htaccess、00截断、竞争条件、二次渲染等绕过详解
+https://www.cnblogs.com/shellr00t/p/6426945.html	cnblogs-upload-typical-vuln.html	博客园	典型漏洞归纳之上传漏洞	上传漏洞典型利用场景与解析漏洞归纳
+https://www.cnblogs.com/Lee-404/p/12821986.html	cnblogs-file-include-summary.html	博客园	文件包含漏洞（总结）+常见的getshell+PHP伪协议	LFI/RFI利用总结、PHP伪协议与文件包含getshell
+https://www.anquanke.com/post/id/248627	anquanke-file-include-getshell.html	安全客	php文件包含漏洞Getshell的不同姿势	文件包含getshell多种姿势：伪协议、日志包含、临时文件等
+https://www.cnblogs.com/iwantflag/p/15602747.html	cnblogs-file-include-pearcmd.html	博客园	文件包含漏洞包含pearcmd.php	利用pearcmd.php配合文件包含getshell的方法
+https://developer.aliyun.com/article/1020956	aliyun-file-include-log-poisoning.html	阿里云开发者社区	【网络安全】文件包含漏洞--通过日志投毒getshell	通过日志投毒配合文件包含实现getshell
+https://www.freebuf.com/articles/web/467325.html	freebuf-php-cmd-code-exec.html	FreeBuf	PHP中的命令执行与代码执行详解——从0开始	PHP命令执行与代码执行原理、危险函数与利用
+https://www.freebuf.com/articles/web/303884.html	freebuf-php-command-exec.html	FreeBuf	PHP 命令执行详解	PHP命令执行漏洞原理与常见攻击方式
+https://www.cnblogs.com/theskyforfly/p/17576881.html	cnblogs-disable-functions-bypass.html	博客园	超级好用的绕过php的disable_functions	disable_functions绕过姿势：LD_PRELOAD、FFI等
+https://www.cnblogs.com/DumpInfou/p/18023278.html	cnblogs-disable-functions-bypass2.html	博客园	绕过disable_functions的限制	disable_functions限制的绕过思路与方法
+https://www.cnblogs.com/fish-pompom/p/11126473.html	cnblogs-php-unserialize.html	博客园	PHP反序列化从初级到高级利用篇	反序列化原理、POP链构造与由浅入深的利用技巧
+https://xz.aliyun.com/news/11953	xz-php-unserialize-summary.html	先知社区	php反序列化完整总结	PHP反序列化漏洞全面总结：原理、POP链、phar等
+https://www.freebuf.com/articles/web/347246.html	freebuf-php-unserialize.html	FreeBuf	PHP反序列化入门手把手详解	反序列化入门详解与CTF实战利用
+https://developer.aliyun.com/article/1228209	aliyun-phar-unserialize.html	阿里云开发者社区	PHP phar反序列化漏洞原理详解与POP链构造实例	phar反序列化原理与POP链构造实例
+https://www.cnblogs.com/anbus/p/10000571.html	cnblogs-php-weak-type-summary.html	博客园	CTF中常见的 PHP 弱类型漏洞总结	PHP弱类型比较、md5/strcmp数组绕过等漏洞总结
+https://www.cnblogs.com/lcxblogs/p/13523710.html	cnblogs-php-var-overwrite.html	博客园	PHP变量覆盖漏洞整理	变量覆盖漏洞：extract/parse_str/$$导致的安全问题
+https://www.cnblogs.com/xhds/p/12587249.html	cnblogs-php-var-overwrite2.html	博客园	PHP中的变量覆盖漏洞	变量覆盖漏洞原理与多种利用场景
+https://www.cnblogs.com/du1ge/p/13812118.html	cnblogs-php-md5-bypass.html	博客园	PHP中md5绕过	MD5弱比较、数组绕过等PHP特性绕过技巧
+https://xz.aliyun.com/t/9361	xz-thinkphp5-rce.html	先知社区	ThinkPHP5.x RCE 复现	ThinkPHP5.x RCE漏洞复现与分析
+https://www.cnblogs.com/MoZiYa/p/16690239.html	cnblogs-thinkphp5-vuln-analysis.html	博客园	Thinkphp5.0.x漏洞原理分析	ThinkPHP5.0.x RCE漏洞原理分析
+https://developer.aliyun.com/article/1220813	aliyun-thinkphp5-rce.html	阿里云开发者社区	ThinkPHP5远程代码执行RCE漏洞原理与利用分析	ThinkPHP5 RCE漏洞原理与利用分析
+https://www.cnblogs.com/yokan/p/16102554.html	cnblogs-php-audit-method.html	博客园	PHP代码审计之基础方法思路流程	PHP代码审计基础方法、思路与流程
+https://www.jianshu.com/p/51bbe8e03ffa	jianshu-php-audit-basic.html	简书	php代码审计入门（一）——基础篇	PHP代码审计入门基础篇：常见漏洞点与审计思路
+https://xz.aliyun.com/t/10452	xz-php-audit-case.html	先知社区	CmsEasy代码审计-PHP	真实CMS(CmsEasy)代码审计案例实战
+https://developer.baidu.com/article/details/3332806	baidu-php-audit-guide.html	百度开发者中心	PHP代码审计：从入门到精通	PHP代码审计从入门到精通的系统指南

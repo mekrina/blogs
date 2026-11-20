@@ -1,0 +1,7 @@
+https://www.cnblogs.com/CoLo/p/15842880.html	fastjson-1.2.25-1.2.47-bypass.html	博客园	Fastjson 反序列化漏洞分析 1.2.25-1.2.47	逐版本分析1.2.25-1.2.47的checkAutoType绕过与payload构造
+https://www.cnblogs.com/HighnessDragonfly/p/15745134.html	log4shell-research-mining-case.html	博客园	Log4shell漏洞研究及其挖矿案例分析	Log4Shell原理研究并附带真实挖矿攻击案例分析
+https://www.cnblogs.com/loongten/p/15822195.html	log4j2-rce-reproduce.html	博客园	CVE-2021-44228——Log4j2-RCE漏洞复现	vulfocus/vulhub环境下的Log4j2 RCE完整复现与反弹shell
+https://www.cnblogs.com/dhan/p/18421868	shiro-550-cve-2016-4437-cnblogs.html	博客园	Shiro-550—漏洞分析(CVE-2016-4437)	从源码分析Shiro RememberMe加解密流程到密钥爆破与复现
+https://www.cnblogs.com/backlion/p/14077804.html	shiro-550-vuln-reproduce.html	博客园	Apache Shiro 反序列化漏洞（Shiro-550 CVE-2016-4437）	Shiro-550原理讲解与dnslog/密钥爆破复现
+https://www.cnblogs.com/F12-blog/p/18151239	snakeyaml-deser-analyze.html	博客园	SnakeYaml反序列化分析	SnakeYAML反序列化流程调试与ScriptEngineManager/C3P0利用链
+https://github.com/Vineflower/vineflower	vineflower-decompiler-usage.html	GitHub	Vineflower - Modern Java decompiler（官方仓库/使用说明）	vineflower反编译器的官方仓库与命令行使用说明

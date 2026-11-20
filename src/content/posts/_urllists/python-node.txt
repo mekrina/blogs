@@ -1,0 +1,32 @@
+https://xz.aliyun.com/t/3679	flask-ssti-from-zero.html	先知社区	flask之ssti模版注入从零到入门	Flask/Jinja2 SSTI从零到入门：原理+内省+命令执行payload
+https://www.cnblogs.com/2ha0yuk7on/p/16648850.html	ssti-principle-exploit-notes.html	博客园	SSTI服务端模板注入漏洞原理详解及利用姿势集锦	原理详解+利用姿势集锦（含绕过）
+https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8	flask-jinja2-ssti-sandbox-escape.html	kingkk博客	Flask/Jinja2 SSTI && python 沙箱逃逸	沙箱逃逸原理与payload构造
+https://www.anquanke.com/post/id/228176	python-ssti-sandbox-escape.html	安全客	浅析Python SSTI/沙盒逃逸	SSTI/沙盒逃逸总结与命令执行方式
+https://xz.aliyun.com/t/7436	pickle-deserialization-basic.html	先知社区	pickle反序列化初探	从opcode/PVM理解pickle反序列化与利用
+https://www.cnblogs.com/resea/p/18438488	python-pickle-reduce-exploit.html	博客园	python中pickle序列化与反序列化漏洞的利用(利用__reduce__)	__reduce__魔术方法RCE原理+CTF利用
+https://www.cnblogs.com/F12-blog/p/17982311	pickle-deserialization-study.html	博客园	Pickle反序列化学习	PVM/opcode、R/i/o字节码与多命令执行
+https://developer.cloud.tencent.com/article/1958060	python-deserialization-vuln-notes.html	腾讯云	Python 反序列化漏洞学习笔记	reduce/RCE原理、利用与安全防护
+https://cloud.tencent.com/developer/article/2288287	nodejs-prototype-pollution-ctf.html	腾讯云	浅析CTF中的Node.js原型链污染	原型链/__proto__/prototype原理+CTF利用
+https://developer.aliyun.com/article/1585204	nodejs-prototype-pollution-to-rce.html	阿里云	Node.js Web安全漏洞实战从原型链污染到RCE	原型链污染到RCE实战利用
+https://www.bilibili.com/read/cv20929156/	prototype-pollution-ejs-rce.html	哔哩哔哩	原型链污染（四）——污染导致的ejs模板rce	ejs模板引擎RCE专题利用
+https://blog.csdn.net/weixin_43610673/article/details/123171227	nodejs-prototype-pollution-vuln.html	CSDN	node.js原型链污染漏洞	原理与利用方法（CSDN需浏览器过验证）
+https://3nd.xyz/post/2019-08-22-ssrf-learning-note	ssrf-learning-note-gopher.html	3nd博客	SSRF 服务端请求伪造漏洞与利用学习	原理+利用+绕过+gopher/dict协议
+https://www.cnblogs.com/Antoniiiia/p/18860617	ssrf-principle-exploit-defense.html	博客园	SSRF漏洞详解（原理、挖掘点、利用方式与防御）	原理/挖掘点/利用/防御
+https://xz.aliyun.com/news/18104	ssrf-vuln-analysis.html	先知社区	SSRF漏洞分析	先知社区SSRF漏洞分析
+https://www.cnblogs.com/miruier/p/13907150.html	ssrf-principle-exploit-fix.html	博客园	SSRF漏洞（原理、挖掘点、漏洞利用、修复建议）	原理+利用+修复建议
+https://www.cnblogs.com/backlion/p/9302528.html	xxe-injection-detail.html	博客园	XML外部实体（XXE）注入详解	XXE原理/利用/防御详解
+https://www.cnblogs.com/zhoujinxuan/p/16299151.html	xxe-injection-vuln.html	博客园	XML外部实体（XXE）注入漏洞	XXE漏洞原理与利用
+https://www.cnblogs.com/HelloCTF/p/15748335.html	xxe-injection-vuln-basics.html	博客园	XML外部实体注入(XXE)漏洞	XXE基础原理+利用
+https://www.cnblogs.com/cui0x01/p/8823690.html	xxe-xml-external-entity.html	博客园	XXE（xml外部实体注入漏洞）	经典XXE文章：原理+利用
+https://xz.aliyun.com/news/12352	jwt-pentest-techniques.html	先知社区	JWT渗透姿势一篇通	JWT渗透姿势大全：算法混淆/弱密钥等
+https://xz.aliyun.com/news/8875	jwt-attack-study.html	先知社区	JWT攻击学习	JWT常见攻击学习（伪造/混淆）
+https://www.cnblogs.com/backlion/p/16699442.html	jwt-auth-attack-summary.html	博客园	JWT认证攻击详解总结	JWT认证攻击原理+利用总结
+https://www.cnblogs.com/DeadBoy/p/11481146.html	jwt-detailed-analysis.html	博客园	JWT 超详细分析	JWT结构+各类攻击超详细分析
+https://www.cnblogs.com/77burger/articles/19323447	auth-bypass-principle-defense.html	博客园	12-越权漏洞—概念、漏洞原理及其防御	越权（水平/垂直）概念/原理/防御
+https://www.freebuf.com/articles/vuls/453769.html	auth-bypass-10cases.html	FreeBuf	越权漏洞实战挖掘与总结：10个案例成为越权高手	越权实战挖掘10案例
+https://www.cnblogs.com/xiaozi/p/13369596.html	unauthorized-access-vulns-summary.html	博客园	常见未授权访问漏洞总结	常见组件未授权访问漏洞总结
+https://developer.aliyun.com/article/1226902	redis-unauthorized-getshell.html	阿里云	利用Redis未授权访问漏洞getshell与SSH登录	Redis未授权访问getshell实战
+https://www.cnblogs.com/ikn0w1T/p/17299303.html	arbitrary-file-read-vuln.html	博客园	任意文件读取漏洞	任意文件读取原理+利用（目录穿越）
+https://www.cnblogs.com/pursue-security/p/15302763.html	arbitrary-file-read-download-vuln.html	博客园	web安全——任意文件读取与下载漏洞	任意文件读取与下载漏洞原理利用
+https://www.cnblogs.com/miaomiaoxia/p/5515619.html	arbitrary-file-download-exploit.html	博客园	浅谈任意文件下载漏洞的利用	任意文件下载漏洞利用思路
+https://www.cnblogs.com/shydow/p/15232991.html	arbitrary-file-read-download-vuln2.html	博客园	任意文件读取与下载漏洞	任意文件读取与下载（目录穿越）

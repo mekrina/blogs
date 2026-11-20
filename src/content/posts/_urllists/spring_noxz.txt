@@ -1,0 +1,7 @@
+https://www.freebuf.com/articles/vuls/414658.html	spring-cve-2024-38816.html	FreeBuf	漏洞分析 | Spring Framework路径遍历漏洞（CVE-2024-38816）	Spring WebMvc/WebFlux 目录穿越漏洞原理、影响版本与利用细节（CVE-2024-38816）
+https://cn-sec.com/archives/3347757.html	spring-security-cve-2024-38821.html	CN-SEC	【PoC】Spring框架爆出严重漏洞CVE-2024-38821详解	Spring Security WebFlux 静态资源授权绕过原理+PoC，含 WebFilterChainProxy 过滤器链分析（CVE-2024-38821）
+https://www.cnblogs.com/9eek/p/16113603.html	spring-cloud-function-spel-cve-2022-22963.html	博客园	SpringCloud Function SpEL注入漏洞分析（CVE-2022-22963）	Spring Cloud Function routing 表达式的 SpEL 表达式注入 RCE 全流程分析（CVE-2022-22963）
+https://www.cnblogs.com/hzhsec/p/19458407	spring4shell-cve-2022-22965.html	博客园	Spring4Shell CVE-2022-22965原理及复现	Spring Core 数据绑定触发的 SpEL 注入 RCE（Spring4Shell）原理与复现（CVE-2022-22965）
+https://www.cnblogs.com/backlion/p/17167757.html	springboot-actuator-rce-summary.html	博客园	SpringBoot Actuator RCE 漏洞总结	Actuator 未授权访问利用汇总：heapdump 敏感信息泄露、env 投毒、SnakeYAML/H2 等 RCE 利用链
+https://cloud.tencent.com/developer/article/1964553	spring-controller-memshell.html	腾讯云开发者社区	Controller内存马详解	Spring MVC Controller/HandlerMapping 型内存马注入原理与实现（RequestMappingHandlerAdapter 相关体系）
+https://tech.meituan.com/2017/09/29/spring-data-rest-cve.html	spring-data-rest-cve-2017-8046.html	美团技术团队	Spring Data REST 远程代码执行漏洞（CVE-2017-8046）分析与复现	Spring Data REST PATCH 请求触发 JSON 反序列化 RCE 的分析与复现（CVE-2017-8046）

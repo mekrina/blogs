@@ -44,7 +44,7 @@ evil.hello("calc")
 可以创造一个实例, 它的abc方法是exec
 然后调用到instance.extend(listitems)
 
-```堆栈
+```plaintext
 instance.extend(listitems)
 construct_python_object_apply, constructor.py:628
 construct_python_object_new, constructor.py:635

@@ -7,11 +7,8 @@ tags: ["渗透"]
 
 ## SUID/SGID
 
-## SUID/SGID
-
 ```sh
 find / -perm -4000 -type f 2>/dev/null
-find / -type f \( -perm -u+s -o -perm -g+s \) -exec ls -l {} + 2> /dev/null
 find / -type f \( -perm -u+s -o -perm -g+s \) -exec ls -l {} + 2> /dev/null
 ```
 
@@ -278,7 +275,7 @@ showmount -e [ip] # 为空列出本机
 gdb -p <pid>
 ```
 
-```gdb
+```plaintext
 call system("sudo id > /tmp/res")
 ```
 

